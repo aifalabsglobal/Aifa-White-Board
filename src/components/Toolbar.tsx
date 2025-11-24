@@ -343,14 +343,14 @@ export default function Toolbar({ boardId }: ToolbarProps) {
 
     return (
         <>
-            <div 
-                className="fixed z-50 max-w-[90vw] overflow-visible"
-                style={{ left: position.x, top: position.y }}
+            <div
+                className="fixed max-w-[90vw] overflow-visible"
+                style={{ left: position.x, top: position.y, zIndex: 'var(--z-toolbar)' }}
             >
                 <div ref={toolbarRef} className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200/60 p-2 flex items-center gap-1 transition-all duration-300 hover:shadow-3xl hover:bg-white">
-                    
+
                     {/* Drag Handle */}
-                    <div 
+                    <div
                         onMouseDown={handleMouseDown}
                         className="cursor-move p-2 text-gray-400 hover:text-gray-600 flex items-center justify-center"
                         title="Drag Toolbar"

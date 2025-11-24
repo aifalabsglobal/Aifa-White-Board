@@ -1,0 +1,28 @@
+'use client';
+
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useStore } from 'zustand';
+import { useWhiteboardStore, type Stroke } from '@/store/whiteboardStore';
+import {
+    MousePointer2,
+    Pencil,
+    Highlighter,
+    Eraser,
+    Square,
+    Circle,
+    Minus,
+    MoveUpRight,
+    Download,
+    Type,
+    Upload,
+    FileJson,
+    FileDown,
+    History,
+    Palette,
+    Undo2,
+    Redo2,
+    Trash2,
+    Feather,
+    Sparkles,
+} from 'lucide-react';
+import { exportAllPagesAsPDF } from '@/utils/exportPDF';

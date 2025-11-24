@@ -1,0 +1,103 @@
+--- a/src/components/WhiteboardCanvas.tsx
++++ b/src/components/WhiteboardCanvas.tsx
+@@ -770,7 +770,6 @@ const WhiteboardCanvas = () => {
+         const compositeOp = (stroke.tool === 'eraser' ? 'destination-out' : 'source-over') as globalThis.GlobalCompositeOperation;
+ 
+         const commonProps = {
+-            key: stroke.id,
+             stroke: stroke.color,
+             strokeWidth: stroke.width,
+             opacity: stroke.opacity,
+@@ -877,6 +876,24 @@ const WhiteboardCanvas = () => {
+                     />
+                 );
++            case 'filled-rectangle':
++                return (
++                    <Rect
++                        key={stroke.id}
++                        {...commonProps}
++                        {...selectionHandlers}
++                        x={Math.min(start.x, end.x)}
++                        y={Math.min(start.y, end.y)}
++                        width={Math.abs(width)}
++                        height={Math.abs(height)}
++                        fill={stroke.color}
++                    />
++                );
+             case 'circle':
+                 return (
+                     <Ellipse
+@@ -888,6 +905,59 @@ const WhiteboardCanvas = () => {
+                     />
+                 );
++            case 'filled-circle':
++                return (
++                    <Ellipse
++                        key={stroke.id}
++                        {...commonProps}
++                        {...selectionHandlers}
++                        x={start.x + width / 2}
++                        y={start.y + height / 2}
++                        radiusX={Math.abs(width) / 2}
++                        radiusY={Math.abs(height) / 2}
++                        fill={stroke.color}
++                    />
++                );
++            case 'triangle':
++                return (
++                    <Line
++                        key={stroke.id}
++                        {...commonProps}
++                        {...selectionHandlers}
++                        points={[
++                            start.x + width / 2, start.y,
++                            start.x + width, end.y,
++                            start.x, end.y,
++                        ]}
++                        closed={true}
++                    />
++                );
++            case 'filled-triangle':
++                return (
++                    <Line
++                        key={stroke.id}
++                        {...commonProps}
++                        {...selectionHandlers}
++                        points={[
++                            start.x + width / 2, start.y,
++                            start.x + width, end.y,
++                            start.x, end.y,
++                        ]}
++                        closed={true}
++                        fill={stroke.color}
++                    />
++                );
+             case 'line':
+                 return (
+                     <Line
+@@ -898,6 +968,27 @@ const WhiteboardCanvas = () => {
+                     />
+                 );
++            case 'curved-line':
++                const midX = (start.x + end.x) / 2;
++                const midY = (start.y + end.y) / 2;
++                const dx = end.x - start.x;
++                const dy = end.y - start.y;
++                const dist = Math.sqrt(dx * dx + dy * dy);
++                const controlX = midX - (dy / dist) * (dist * 0.2);
++                const controlY = midY + (dx / dist) * (dist * 0.2);
++                
++                return (
++                    <Line
++                        key={stroke.id}
++                        {...commonProps}
++                        {...selectionHandlers}
++                        points={[start.x, start.y, controlX, controlY, end.x, end.y]}
++                        tension={0.5}
++                        bezier={true}
++                        lineCap="round"
++                    />
++                );
+             case 'arrow':
+                 return (
+                     <Arrow

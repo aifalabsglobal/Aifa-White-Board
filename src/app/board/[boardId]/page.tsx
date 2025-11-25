@@ -1,78 +1,108 @@
-'use client';
+import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
-import TopBar from '@/components/TopBar';
-import Toolbar from '@/components/Toolbar';
-import PageManager from '@/components/PageManager';
-
-// Dynamically import WhiteboardCanvas to avoid SSR issues with Konva
-const WhiteboardCanvas = dynamic(() => import('@/components/WhiteboardCanvas'), {
-    ssr: false,
-    loading: () => (
-        <div className="flex items-center justify-center h-screen bg-slate-50">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        </div>
-    ),
-});
-
-export default function BoardPage() {
-    const params = useParams();
-    const boardId = params.boardId as string;
-    const [mounted, setMounted] = useState(false);
-    const [boardData, setBoardData] = useState<any>(null);
-
-    useEffect(() => {
-        setMounted(true);
-        // Fetch board with workspace info
-        fetchBoardData();
-    }, [boardId]);
-
-    const fetchBoardData = async () => {
-        try {
-            const res = await fetch(`/api/boards/${boardId}`);
-            if (res.ok) {
-                const data = await res.json();
-                setBoardData(data);
-            }
-        } catch (error) {
-            console.error('Error fetching board:', error);
+export async function GET(
+    request: NextRequest,
+    { params }: { params: Promise<{ boardId: string }> }
+) {
+    try {
+        const session = await auth();
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
-    };
 
-    if (!mounted) return null;
+        const { boardId } = await params;
 
-    return (
-        <main className="h-screen w-screen overflow-hidden flex flex-col bg-slate-50">
-            {/* Top Bar - Fixed header with navigation */}
-            <TopBar
-                currentBoardId={boardId}
-                currentWorkspaceId={boardData?.workspaceId}
-                workspaceName={boardData?.workspace?.name}
-                boardName={boardData?.title}
-            />
+        const board = await prisma.board.findUnique({
+            where: { id: boardId },
+            include: { workspace: { include: { members: true } } },
+        });
 
-            {/* Main Canvas Area */}
-            <div className="flex-1 relative overflow-hidden">
-                {/* Whiteboard Canvas - Base layer */}
-                <div className="absolute inset-0" style={{ zIndex: 'var(--z-canvas)' }}>
-                    <WhiteboardCanvas boardId={boardId} />
-                </div>
+        if (!board) {
+            return NextResponse.json({ error: 'Board not found' }, { status: 404 });
+        }
 
-                {/* Page Manager - Above canvas */}
-                <div
-                    className="absolute top-4 left-1/2 -translate-x-1/2"
-                    style={{ zIndex: 'var(--z-page-controls)' }}
-                >
-                    <PageManager boardId={boardId} />
-                </div>
+        // Check access
+        const isMember = board.workspace?.members.some(
+            (m: { userId: string }) => m.userId === session.user?.id
+        ) ?? false;
+        const isOwner = board.userId === session.user?.id;
 
-                {/* Floating Toolbar - Above page controls */}
-                <div style={{ zIndex: 'var(--z-toolbar)' }}>
-                    <Toolbar boardId={boardId} />
-                </div>
-            </div>
-        </main>
-    );
+        if (!isMember && !isOwner) {
+            return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        }
+
+        const pages = await prisma.page.findMany({
+            where: { boardId },
+            orderBy: { order: 'asc' },
+        });
+
+        return NextResponse.json(pages);
+    } catch (error) {
+        console.error('Error loading pages:', error);
+        return NextResponse.json(
+            { error: 'Failed to load pages' },
+            { status: 500 }
+        );
+    }
+}
+
+export async function POST(
+    request: NextRequest,
+    { params }: { params: Promise<{ boardId: string }> }
+) {
+    try {
+        const session = await auth();
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        }
+
+        const { boardId } = await params;
+
+        const board = await prisma.board.findUnique({
+            where: { id: boardId },
+            include: { workspace: { include: { members: true } } },
+        });
+
+        if (!board) {
+            return NextResponse.json({ error: 'Board not found' }, { status: 404 });
+        }
+
+        // Check access (only members can create pages)
+        const isMember = board.workspace?.members.some(
+            (m: { userId: string }) => m.userId === session.user?.id
+        ) ?? false;
+        const isOwner = board.userId === session.user?.id;
+
+        if (!isMember && !isOwner) {
+            return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        }
+
+        // Get max order
+        const lastPage = await prisma.page.findFirst({
+            where: { boardId },
+            orderBy: { order: 'desc' },
+        });
+
+        const newOrder = (lastPage?.order ?? -1) + 1;
+        const pageCount = await prisma.page.count({ where: { boardId } });
+
+        const page = await prisma.page.create({
+            data: {
+                boardId,
+                title: `Page ${pageCount + 1}`,
+                order: newOrder,
+                content: { strokes: [] }, // Initialize with empty content
+            },
+        });
+
+        return NextResponse.json(page);
+    } catch (error) {
+        console.error('Error creating page:', error);
+        return NextResponse.json(
+            { error: 'Failed to create page' },
+            { status: 500 }
+        );
+    }
 }

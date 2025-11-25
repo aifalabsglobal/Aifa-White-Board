@@ -47,7 +47,7 @@ export default function RecordingButton({ boardId }: RecordingButtonProps) {
         try {
             // Request screen sharing
             const screenStream = await navigator.mediaDevices.getDisplayMedia({
-                video: { mediaSource: 'screen' as any },
+                video: true,
                 audio: true,
             });
 

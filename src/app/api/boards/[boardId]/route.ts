@@ -28,8 +28,8 @@ export async function GET(
 
         // Check access
         const isMember = board.workspace?.members.some(
-            (m) => m.userId === session.user?.id
-        );
+            (m: { userId: string }) => m.userId === session.user?.id
+        ) ?? false;
         const isOwner = board.userId === session.user?.id;
 
         if (!isMember && !isOwner) {

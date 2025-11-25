@@ -26,7 +26,7 @@ export async function GET(
         // Check access
         const isMember = board.workspace?.members.some(
             (m: { userId: string }) => m.userId === session.user?.id
-        );
+        ) ?? false;
         const isOwner = board.userId === session.user?.id;
 
         if (!isMember && !isOwner) {
@@ -72,7 +72,7 @@ export async function POST(
         // Check access (only members can create pages)
         const isMember = board.workspace?.members.some(
             (m: { userId: string }) => m.userId === session.user?.id
-        );
+        ) ?? false;
         const isOwner = board.userId === session.user?.id;
 
         if (!isMember && !isOwner) {

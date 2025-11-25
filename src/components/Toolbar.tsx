@@ -301,12 +301,18 @@ export default function Toolbar({ boardId }: ToolbarProps) {
     ];
 
     const HANDWRITING_FONTS = [
+        { label: 'Great Vibes', value: 'Great Vibes' },
+        { label: 'Dancing Script', value: 'Dancing Script' },
+        { label: 'Allura', value: 'Allura' },
+        { label: 'Alex Brush', value: 'Alex Brush' },
         { label: 'Caveat', value: 'Caveat' },
         { label: 'Pacifico', value: 'Pacifico' },
         { label: 'Satisfy', value: 'Satisfy' },
+        { label: 'Tangerine', value: 'Tangerine' },
+        { label: 'Kaushan Script', value: 'Kaushan Script' },
+        { label: 'Courgette', value: 'Courgette' },
         { label: 'Shadows Into Light', value: 'Shadows Into Light' },
         { label: 'Indie Flower', value: 'Indie Flower' },
-        { label: 'Dancing Script', value: 'Dancing Script' },
     ];
 
     // Handle click outside to close submenus
@@ -343,14 +349,14 @@ export default function Toolbar({ boardId }: ToolbarProps) {
 
     return (
         <>
-            <div 
+            <div
                 className="fixed z-50 max-w-[90vw] overflow-visible"
                 style={{ left: position.x, top: position.y }}
             >
                 <div ref={toolbarRef} className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200/60 p-2 flex items-center gap-1 transition-all duration-300 hover:shadow-3xl hover:bg-white">
-                    
+
                     {/* Drag Handle */}
-                    <div 
+                    <div
                         onMouseDown={handleMouseDown}
                         className="cursor-move p-2 text-gray-400 hover:text-gray-600 flex items-center justify-center"
                         title="Drag Toolbar"

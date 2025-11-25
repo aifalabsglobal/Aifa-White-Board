@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import WorkspaceSelector from '@/components/WorkspaceSelector';
 import Toolbar from '@/components/Toolbar';
 import UserMenu from '@/components/UserMenu';
@@ -36,8 +37,23 @@ export default function BoardPage() {
             {/* Top Navigation Bar */}
             <div className="absolute top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
                 <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-2 md:px-6 md:py-3">
-                    {/* Left Side: Breadcrumb + Board Selector */}
+                    {/* Left Side: Logo + Breadcrumb + Board Selector */}
                     <div className="flex items-center gap-3 flex-shrink-0">
+                        {/* AIFA Logo */}
+                        <div className="flex items-center">
+                            <Image
+                                src="/aifa-logo.png"
+                                alt="AIFA"
+                                width={80}
+                                height={40}
+                                className="object-contain"
+                                priority
+                            />
+                        </div>
+
+                        {/* Separator */}
+                        <div className="h-8 w-px bg-gray-300"></div>
+
                         {/* Dashboard Link */}
                         <a
                             href="/dashboard"

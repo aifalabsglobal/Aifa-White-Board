@@ -13,10 +13,8 @@ export async function POST(
         }
 
         const { boardId } = await params;
-        const body = await request.json();
-        const { content } = body;
+        const { content } = await request.json();
 
-        // Verify board ownership/access
         const board = await prisma.board.findUnique({
             where: { id: boardId },
             include: { workspace: { include: { members: true } } },
@@ -26,17 +24,15 @@ export async function POST(
             return NextResponse.json({ error: 'Board not found' }, { status: 404 });
         }
 
-        // Check if user is member of workspace or owner of board
         const isMember = board.workspace?.members.some(
-            (m) => m.userId === session.user?.id
-        );
+            (m: { userId: string }) => m.userId === session.user?.id
+        ) ?? false;
         const isOwner = board.userId === session.user?.id;
 
         if (!isMember && !isOwner) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
-        // Update board content
         await prisma.board.update({
             where: { id: boardId },
             data: { content },

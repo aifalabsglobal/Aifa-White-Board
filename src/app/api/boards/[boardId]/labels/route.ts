@@ -24,7 +24,7 @@ export async function GET(
         }
 
         const isOwner = board.userId === session.user.id;
-        const isMember = board.workspace?.members.some((m: any) => m.userId === session.user.id);
+        const isMember = board.workspace?.members.some((m: { userId: string }) => m.userId === session.user.id) ?? false;
 
         if (!isOwner && !isMember) {
             return new NextResponse('Unauthorized', { status: 401 });
@@ -71,7 +71,7 @@ export async function POST(
         }
 
         const isOwner = board.userId === session.user.id;
-        const isMember = board.workspace?.members.some((m: any) => m.userId === session.user.id);
+        const isMember = board.workspace?.members.some((m: { userId: string }) => m.userId === session.user.id) ?? false;
 
         if (!isOwner && !isMember) {
             return new NextResponse('Unauthorized', { status: 401 });

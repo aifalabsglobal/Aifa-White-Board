@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
         });
 
         // Transform to include user's role directly
-        const workspacesWithRole = workspaces.map(workspace => ({
+        const workspacesWithRole = workspaces.map((workspace: any) => ({
             ...workspace,
             userRole: workspace.members[0]?.role || 'VIEWER',
             members: undefined, // Remove the members array from response

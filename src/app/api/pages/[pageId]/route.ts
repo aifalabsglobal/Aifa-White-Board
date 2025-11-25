@@ -25,8 +25,8 @@ export async function GET(
 
         // Check access
         const isMember = page.board.workspace?.members.some(
-            (m) => m.userId === session.user?.id
-        );
+            (m: { userId: string }) => m.userId === session.user?.id
+        ) ?? false;
         const isOwner = page.board.userId === session.user?.id;
 
         if (!isMember && !isOwner) {
@@ -67,8 +67,8 @@ export async function PUT(
 
         // Check access
         const isMember = page.board.workspace?.members.some(
-            (m) => m.userId === session.user?.id
-        );
+            (m: { userId: string }) => m.userId === session.user?.id
+        ) ?? false;
         const isOwner = page.board.userId === session.user?.id;
 
         if (!isMember && !isOwner) {
@@ -116,8 +116,8 @@ export async function DELETE(
 
         // Check access
         const isMember = page.board.workspace?.members.some(
-            (m) => m.userId === session.user?.id
-        );
+            (m: { userId: string }) => m.userId === session.user?.id
+        ) ?? false;
         const isOwner = page.board.userId === session.user?.id;
 
         if (!isMember && !isOwner) {

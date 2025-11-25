@@ -115,6 +115,16 @@ export async function POST(request: NextRequest) {
                 },
             });
 
+            // Create exactly ONE default page for the new board
+            await (prisma as any).page.create({
+                data: {
+                    boardId: board.id,
+                    title: 'Page 1',
+                    order: 0,
+                    content: { strokes: [] },
+                },
+            });
+
             return NextResponse.json({ board });
         }
 

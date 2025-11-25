@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useWorkspaceStore } from '@/store/workspaceStore';
 import { ChevronDown, Plus, FileText } from 'lucide-react';
+import { useModal } from '@/components/providers/ModalProvider';
 
 export default function BoardNavigator() {
     const router = useRouter();
@@ -15,6 +16,7 @@ export default function BoardNavigator() {
         addBoard,
         setCurrentBoard,
     } = useWorkspaceStore();
+    const { showPrompt, showAlert } = useModal();
 
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -52,11 +54,11 @@ export default function BoardNavigator() {
 
     const handleCreateBoard = async () => {
         if (!currentTopicId) {
-            alert('Please select a topic first');
+            showAlert('Error', 'Please select a topic first', 'warning');
             return;
         }
 
-        const title = prompt('Enter board name:');
+        const title = await showPrompt('New Board', 'Enter board name:', 'Board Name');
         if (!title) return;
 
         try {
@@ -75,7 +77,7 @@ export default function BoardNavigator() {
             setIsOpen(false);
         } catch (error) {
             console.error('Error creating board:', error);
-            alert('Failed to create board');
+            showAlert('Error', 'Failed to create board', 'danger');
         }
     };
 
@@ -128,8 +130,8 @@ export default function BoardNavigator() {
                                         key={board.id}
                                         onClick={() => handleSelectBoard(board.id)}
                                         className={`w-full text-left px-4 py-2 hover:bg-gray-50 transition-colors ${board.id === currentBoardId
-                                                ? 'bg-blue-50 text-blue-700 font-medium'
-                                                : 'text-gray-700'
+                                            ? 'bg-blue-50 text-blue-700 font-medium'
+                                            : 'text-gray-700'
                                             }`}
                                     >
                                         {board.title}

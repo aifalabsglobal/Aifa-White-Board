@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Folder, Plus, Loader, Clock, ChevronRight, Layout, Trash2 } from 'lucide-react';
 import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { useModal } from '@/components/providers/ModalProvider';
 
 interface Board {
     id: string;
@@ -21,6 +22,7 @@ interface WorkspaceWithBoards {
 
 export default function DashboardPage() {
     const router = useRouter();
+    const { showAlert, showConfirm } = useModal();
     const [workspaces, setWorkspaces] = useState<WorkspaceWithBoards[]>([]);
     const [loading, setLoading] = useState(true);
     const [expandedWorkspace, setExpandedWorkspace] = useState<string | null>(null);
@@ -72,11 +74,11 @@ export default function DashboardPage() {
                 await loadWorkspaces();
             } else {
                 const error = await res.json();
-                alert(error.error || 'Failed to create workspace');
+                showAlert('Error', error.error || 'Failed to create workspace', 'danger');
             }
         } catch (error) {
             console.error('Error creating workspace:', error);
-            alert('Failed to create workspace');
+            showAlert('Error', 'Failed to create workspace', 'danger');
         } finally {
             setCreating(false);
         }
@@ -97,11 +99,11 @@ export default function DashboardPage() {
                 await loadWorkspaces();
             } else {
                 const error = await res.json();
-                alert(error.error || 'Failed to delete workspace');
+                showAlert('Error', error.error || 'Failed to delete workspace', 'danger');
             }
         } catch (error) {
             console.error('Error deleting workspace:', error);
-            alert('Failed to delete workspace');
+            showAlert('Error', 'Failed to delete workspace', 'danger');
         } finally {
             setDeleting(false);
         }
@@ -119,9 +121,7 @@ export default function DashboardPage() {
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         const now = new Date();
-        const
-
-            diffMs = now.getTime() - date.getTime();
+        const diffMs = now.getTime() - date.getTime();
         const diffMins = Math.floor(diffMs / 60000);
         const diffHours = Math.floor(diffMs / 3600000);
         const diffDays = Math.floor(diffMs / 86400000);

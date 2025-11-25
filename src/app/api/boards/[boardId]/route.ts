@@ -41,6 +41,7 @@ export async function GET(
             title: board.title,
             content: board.content,
             workspaceId: board.workspaceId,
+            workspace: board.workspace ? { id: board.workspace.id, name: board.workspace.name } : null,
             pages: board.pages,
         });
     } catch (error) {

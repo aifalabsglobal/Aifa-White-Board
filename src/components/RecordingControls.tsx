@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Circle, Square, Pause, Play, Video, VideoOff, Settings, Download, GripVertical } from 'lucide-react';
+import { useRecordingStore } from '@/store/recordingStore';
 
 interface RecordingControlsProps {
     status: 'idle' | 'recording' | 'paused' | 'stopped';
@@ -31,6 +32,8 @@ export default function RecordingControls({
     onDownload,
 }: RecordingControlsProps) {
     const [audioLevel, setAudioLevel] = useState(0);
+    const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+    const { recordedChunks } = useRecordingStore();
 
     // Format duration as MM:SS
     const formatDuration = (seconds: number): string => {
@@ -52,6 +55,20 @@ export default function RecordingControls({
         }
     }, [status]);
 
+    // Generate download URL when recording stops
+    useEffect(() => {
+        if (status === 'idle' && hasRecording && recordedChunks.length > 0) {
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            setDownloadUrl(url);
+
+            return () => {
+                URL.revokeObjectURL(url);
+                setDownloadUrl(null);
+            };
+        }
+    }, [status, hasRecording, recordedChunks]);
+
     const isRecording = status === 'recording';
     const isPaused = status === 'paused';
     const isIdle = status === 'idle';
@@ -67,7 +84,7 @@ export default function RecordingControls({
                 `}
             >
                 {/* Main Control Button */}
-                {isIdle && (
+                {isIdle && !hasRecording && (
                     <button
                         onClick={onStart}
                         className="flex-1 flex items-center justify-center gap-3 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
@@ -75,6 +92,22 @@ export default function RecordingControls({
                         <Circle size={20} className="fill-current" />
                         <span>Start Recording</span>
                     </button>
+                )}
+
+                {/* Download Button (When recording is ready) */}
+                {isIdle && hasRecording && downloadUrl && (
+                    <a
+                        href={downloadUrl}
+                        download={`aifa-recording-${new Date().toISOString().replace(/[:.]/g, '-')}.webm`}
+                        className="flex-1 flex items-center justify-center gap-3 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+                        onClick={(e) => {
+                            // Optional: Trigger any cleanup or analytics here
+                            // e.preventDefault(); // Don't prevent default, we want the download
+                        }}
+                    >
+                        <Download size={20} />
+                        <span>Save Recording</span>
+                    </a>
                 )}
 
                 {(isRecording || isPaused) && (
@@ -157,7 +190,7 @@ export default function RecordingControls({
                         : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
                         }`}
                     title={showCamera ? 'Hide Camera' : 'Show Camera'}
-                    disabled={isIdle}
+                    disabled={isIdle && !hasRecording}
                 >
                     {showCamera ? <Video size={20} /> : <VideoOff size={20} />}
                 </button>
@@ -172,18 +205,15 @@ export default function RecordingControls({
                     <Settings size={20} />
                 </button>
 
-                {/* Download Button */}
-                {hasRecording && isIdle && (
-                    <>
-                        <div className="w-px h-8 bg-gray-300" />
-                        <button
-                            onClick={onDownload}
-                            className="flex items-center gap-2 px-4 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl"
-                        >
-                            <Download size={18} />
-                            <span>Download</span>
-                        </button>
-                    </>
+                {/* Start New Recording (if has recording) */}
+                {isIdle && hasRecording && (
+                    <button
+                        onClick={onStart}
+                        className="p-3 rounded-xl bg-red-100 hover:bg-red-200 text-red-600 transition-all shadow-md hover:shadow-lg"
+                        title="Start New Recording"
+                    >
+                        <Circle size={20} className="fill-current" />
+                    </button>
                 )}
             </div>
 
@@ -199,6 +229,13 @@ export default function RecordingControls({
                 <div className="mt-2 text-center bg-white/90 backdrop-blur px-3 py-1 rounded-lg shadow-sm border border-gray-100 inline-block ml-auto w-full">
                     <p className="text-xs text-yellow-600 font-medium">
                         Recording paused
+                    </p>
+                </div>
+            )}
+            {isIdle && hasRecording && (
+                <div className="mt-2 text-center bg-white/90 backdrop-blur px-3 py-1 rounded-lg shadow-sm border border-gray-100 inline-block ml-auto w-full">
+                    <p className="text-xs text-green-600 font-medium">
+                        Recording ready to save
                     </p>
                 </div>
             )}

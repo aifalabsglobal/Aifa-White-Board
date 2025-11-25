@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useWorkspaceStore } from '@/store/workspaceStore';
 import { ChevronDown, Plus, Settings } from 'lucide-react';
+import { useModal } from '@/components/providers/ModalProvider';
 
 export default function WorkspaceNavigator() {
     const {
@@ -11,6 +12,7 @@ export default function WorkspaceNavigator() {
         setWorkspaces,
         setCurrentWorkspace,
     } = useWorkspaceStore();
+    const { showPrompt, showAlert } = useModal();
 
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +44,7 @@ export default function WorkspaceNavigator() {
     };
 
     const handleCreateWorkspace = async () => {
-        const name = prompt('Enter workspace name:');
+        const name = await showPrompt('New Workspace', 'Enter workspace name:', 'Workspace Name');
         if (!name) return;
 
         try {
@@ -60,7 +62,7 @@ export default function WorkspaceNavigator() {
             setIsOpen(false);
         } catch (error) {
             console.error('Error creating workspace:', error);
-            alert('Failed to create workspace');
+            showAlert('Error', 'Failed to create workspace', 'danger');
         }
     };
 
@@ -101,8 +103,8 @@ export default function WorkspaceNavigator() {
                                         setIsOpen(false);
                                     }}
                                     className={`w-full text-left px-4 py-2 hover:bg-gray-50 transition-colors ${workspace.id === currentWorkspaceId
-                                            ? 'bg-blue-50 text-blue-700 font-medium'
-                                            : 'text-gray-700'
+                                        ? 'bg-blue-50 text-blue-700 font-medium'
+                                        : 'text-gray-700'
                                         }`}
                                 >
                                     {workspace.name}

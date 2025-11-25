@@ -3,6 +3,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Z-index Scale - Consistent layering across the app */
+  --z-canvas: 0;
+  --z-page-controls: 30;
+  --z-toolbar: 40;
+  --z-topbar: 50;
+  --z-dropdown: 60;
+  --z-modal: 70;
+  --z-tooltip: 80;
 }
 
 @theme inline {

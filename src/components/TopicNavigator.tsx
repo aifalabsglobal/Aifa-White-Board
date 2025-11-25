@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useWorkspaceStore } from '@/store/workspaceStore';
 import { ChevronDown, Plus, Folder } from 'lucide-react';
+import { useModal } from '@/components/providers/ModalProvider';
 
 export default function TopicNavigator() {
     const {
@@ -13,6 +14,7 @@ export default function TopicNavigator() {
         addTopic,
         setCurrentTopic,
     } = useWorkspaceStore();
+    const { showPrompt, showAlert } = useModal();
 
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -49,11 +51,11 @@ export default function TopicNavigator() {
 
     const handleCreateTopic = async () => {
         if (!currentWorkspaceId) {
-            alert('Please select a workspace first');
+            showAlert('Error', 'Please select a workspace first', 'warning');
             return;
         }
 
-        const name = prompt('Enter topic name:');
+        const name = await showPrompt('New Topic', 'Enter topic name:', 'Topic Name');
         if (!name) return;
 
         try {
@@ -71,7 +73,7 @@ export default function TopicNavigator() {
             setIsOpen(false);
         } catch (error) {
             console.error('Error creating topic:', error);
-            alert('Failed to create topic');
+            showAlert('Error', 'Failed to create topic', 'danger');
         }
     };
 
@@ -121,8 +123,8 @@ export default function TopicNavigator() {
                                             setIsOpen(false);
                                         }}
                                         className={`w-full text-left px-4 py-2 hover:bg-gray-50 transition-colors ${topic.id === currentTopicId
-                                                ? 'bg-blue-50 text-blue-700 font-medium'
-                                                : 'text-gray-700'
+                                            ? 'bg-blue-50 text-blue-700 font-medium'
+                                            : 'text-gray-700'
                                             }`}
                                     >
                                         {topic.name}

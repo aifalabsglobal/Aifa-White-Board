@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useWhiteboardStore } from '@/store/whiteboardStore';
 import { Plus, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useModal } from '@/components/providers/ModalProvider';
 
 interface PageManagerProps {
     boardId: string;
@@ -19,6 +20,7 @@ export default function PageManager({ boardId }: PageManagerProps) {
         replaceStrokes,
         setBackgroundColor
     } = useWhiteboardStore();
+    const { showAlert, showConfirm } = useModal();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -29,7 +31,7 @@ export default function PageManager({ boardId }: PageManagerProps) {
     const handleAddPage = async () => {
         if (isLoading) return;
         if (!boardId) {
-            alert('Error: Board ID is missing');
+            showAlert('Error', 'Board ID is missing', 'danger');
             return;
         }
 
@@ -53,7 +55,7 @@ export default function PageManager({ boardId }: PageManagerProps) {
             setBackgroundColor('#3b82f6'); // Default for new page
         } catch (error: any) {
             console.error('Error creating page:', error);
-            alert(`Error creating page: ${error.message}`);
+            showAlert('Error', `Error creating page: ${error.message}`, 'danger');
         } finally {
             setIsLoading(false);
         }
@@ -108,6 +110,7 @@ export default function PageManager({ boardId }: PageManagerProps) {
         if (isLoading || !currentPageId) return;
 
         // No confirmation dialog as requested
+        // But if we wanted one, we'd use showConfirm here
 
         setIsLoading(true);
         try {

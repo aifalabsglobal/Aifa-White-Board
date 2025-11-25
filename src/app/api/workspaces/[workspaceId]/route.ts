@@ -14,30 +14,11 @@ export async function GET(
 
         const { workspaceId } = await params;
 
-        // Verify membership
-        const membership = await prisma.workspaceMember.findUnique({
-            where: {
-                workspaceId_userId: {
-                    workspaceId,
-                    userId: session.user.id,
-                },
-            },
-        });
-
-        if (!membership) {
-            return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-        }
-
         const workspace = await prisma.workspace.findUnique({
             where: { id: workspaceId },
             include: {
-                owner: {
-                    select: {
-                        id: true,
-                        name: true,
-                        email: true,
-                        image: true,
-                    },
+                boards: {
+                    orderBy: { updatedAt: 'desc' },
                 },
                 members: {
                     include: {
@@ -46,16 +27,8 @@ export async function GET(
                                 id: true,
                                 name: true,
                                 email: true,
-                                image: true,
                             },
                         },
-                    },
-                },
-                boards: {
-                    select: {
-                        id: true,
-                        title: true,
-                        updatedAt: true,
                     },
                 },
             },
@@ -65,13 +38,16 @@ export async function GET(
             return NextResponse.json({ error: 'Workspace not found' }, { status: 404 });
         }
 
-        return NextResponse.json({ workspace });
+        // Check if user is a member
+        const isMember = workspace.members.some(m => m.userId === session.user?.id);
+        if (!isMember) {
+            return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        }
+
+        return NextResponse.json(workspace);
     } catch (error) {
-        console.error('Error fetching workspace:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch workspace' },
-            { status: 500 }
-        );
+        console.error('Error loading workspace:', error);
+        return NextResponse.json({ error: 'Failed to load workspace' }, { status: 500 });
     }
 }
 
@@ -89,39 +65,38 @@ export async function PATCH(
         const body = await request.json();
         const { name } = body;
 
-        if (!name || !name.trim()) {
+        if (!name?.trim()) {
             return NextResponse.json({ error: 'Name is required' }, { status: 400 });
         }
 
-        // Verify user is owner or admin
-        const membership = await prisma.workspaceMember.findUnique({
-            where: {
-                workspaceId_userId: {
-                    workspaceId,
-                    userId: session.user.id,
+        // Check if user is owner or admin
+        const workspace = await prisma.workspace.findUnique({
+            where: { id: workspaceId },
+            include: {
+                members: {
+                    where: { userId: session.user.id },
                 },
             },
         });
 
-        if (!membership || (membership.role !== 'OWNER' && membership.role !== 'ADMIN')) {
-            return NextResponse.json(
-                { error: 'Only workspace owners and admins can rename workspaces' },
-                { status: 403 }
-            );
+        if (!workspace) {
+            return NextResponse.json({ error: 'Workspace not found' }, { status: 404 });
         }
 
-        const workspace = await prisma.workspace.update({
+        const userRole = workspace.members[0]?.role;
+        if (userRole !== 'OWNER' && userRole !== 'ADMIN') {
+            return NextResponse.json({ error: 'Only owners and admins can rename workspaces' }, { status: 403 });
+        }
+
+        const updated = await prisma.workspace.update({
             where: { id: workspaceId },
             data: { name: name.trim() },
         });
 
-        return NextResponse.json({ workspace });
+        return NextResponse.json(updated);
     } catch (error) {
         console.error('Error renaming workspace:', error);
-        return NextResponse.json(
-            { error: 'Failed to rename workspace' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to rename workspace' }, { status: 500 });
     }
 }
 
@@ -137,10 +112,14 @@ export async function DELETE(
 
         const { workspaceId } = await params;
 
-        // Verify user is owner
+        // Check if user is owner
         const workspace = await prisma.workspace.findUnique({
             where: { id: workspaceId },
-            select: { ownerId: true },
+            include: {
+                members: {
+                    where: { userId: session.user.id },
+                },
+            },
         });
 
         if (!workspace) {
@@ -148,13 +127,10 @@ export async function DELETE(
         }
 
         if (workspace.ownerId !== session.user.id) {
-            return NextResponse.json(
-                { error: 'Only workspace owners can delete workspaces' },
-                { status: 403 }
-            );
+            return NextResponse.json({ error: 'Only workspace owners can delete workspaces' }, { status: 403 });
         }
 
-        // Delete workspace (cascade will delete boards and members)
+        // Delete workspace (cascades to boards, pages, members)
         await prisma.workspace.delete({
             where: { id: workspaceId },
         });
@@ -162,9 +138,6 @@ export async function DELETE(
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error('Error deleting workspace:', error);
-        return NextResponse.json(
-            { error: 'Failed to delete workspace' },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to delete workspace' }, { status: 500 });
     }
 }

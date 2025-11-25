@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useStore } from 'zustand';
 import { useWhiteboardStore, type Stroke } from '@/store/whiteboardStore';
+import { useModal } from '@/components/providers/ModalProvider';
 import {
     MousePointer2,
     Pencil,
@@ -105,6 +106,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
         })
     );
 
+    const { showAlert, showConfirm } = useModal();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [expandedSection, setExpandedSection] = useState<string | null>(null);
     const [isExportingPDF, setIsExportingPDF] = useState(false);
@@ -176,7 +178,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
 
     const handleExportBoard = useCallback(() => {
         if (!strokes.length) {
-            window.alert('Nothing to export yet.');
+            showAlert('Export Failed', 'Nothing to export yet.', 'warning');
             return;
         }
         const payload = JSON.stringify(strokes, null, 2);
@@ -187,7 +189,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
         link.download = `whiteboard-${new Date().toISOString()}.json`;
         link.click();
         URL.revokeObjectURL(url);
-    }, [strokes]);
+    }, [strokes, showAlert]);
 
     const handleImportBoard = useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -213,7 +215,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
                     replaceStrokes(sanitized);
                 } catch (error) {
                     const message = error instanceof Error ? error.message : 'Unable to import board.';
-                    window.alert(message);
+                    showAlert('Import Failed', message, 'danger');
                 } finally {
                     if (fileInputRef.current) {
                         fileInputRef.current.value = '';
@@ -222,7 +224,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
             };
             reader.readAsText(file);
         },
-        [replaceStrokes]
+        [replaceStrokes, showAlert]
     );
 
     const triggerImportDialog = () => {
@@ -231,12 +233,12 @@ export default function Toolbar({ boardId }: ToolbarProps) {
 
     const handleExportAllPages = useCallback(async () => {
         if (!boardId) {
-            window.alert('Board ID not found');
+            showAlert('Export Failed', 'Board ID not found', 'danger');
             return;
         }
 
         if (pages.length === 0) {
-            window.alert('No pages to export');
+            showAlert('Export Failed', 'No pages to export', 'warning');
             return;
         }
 
@@ -257,13 +259,15 @@ export default function Toolbar({ boardId }: ToolbarProps) {
             }, 1000);
         } catch (error) {
             console.error('PDF export failed:', error);
-            window.alert(
-                `Failed to export PDF: ${error instanceof Error ? error.message : 'Unknown error'}`
+            showAlert(
+                'Export Failed',
+                `Failed to export PDF: ${error instanceof Error ? error.message : 'Unknown error'}`,
+                'danger'
             );
         } finally {
             setIsExportingPDF(false);
         }
-    }, [boardId, pages]);
+    }, [boardId, pages, showAlert]);
 
     type ToolConfig = {
         id: string;
@@ -350,8 +354,8 @@ export default function Toolbar({ boardId }: ToolbarProps) {
     return (
         <>
             <div
-                className="fixed z-50 max-w-[90vw] overflow-visible"
-                style={{ left: position.x, top: position.y }}
+                className="fixed max-w-[90vw] overflow-visible"
+                style={{ left: position.x, top: position.y, zIndex: 'var(--z-toolbar)' }}
             >
                 <div ref={toolbarRef} className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200/60 p-2 flex items-center gap-1 transition-all duration-300 hover:shadow-3xl hover:bg-white">
 
@@ -764,8 +768,8 @@ export default function Toolbar({ boardId }: ToolbarProps) {
 
                     {/* Clear Board */}
                     <button
-                        onClick={() => {
-                            if (window.confirm('Are you sure you want to clear the board? This cannot be undone.')) {
+                        onClick={async () => {
+                            if (await showConfirm('Clear Board', 'Are you sure you want to clear the board? This cannot be undone.', 'danger')) {
                                 clearPage();
                             }
                         }}
@@ -800,12 +804,10 @@ export default function Toolbar({ boardId }: ToolbarProps) {
                         <p className="text-gray-500 mb-4">
                             Processing page {exportProgress.current} of {exportProgress.total}
                         </p>
-                        <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                        <div className="w-full bg-gray-200 rounded-full h-2">
                             <div
-                                className="h-full bg-blue-500 transition-all duration-300 ease-out"
-                                style={{
-                                    width: `${(exportProgress.current / exportProgress.total) * 100}%`
-                                }}
+                                className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                                style={{ width: `${(exportProgress.current / exportProgress.total) * 100}%` }}
                             />
                         </div>
                     </div>

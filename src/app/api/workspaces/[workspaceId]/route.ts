@@ -39,7 +39,7 @@ export async function GET(
         }
 
         // Check if user is a member
-        const isMember = workspace.members.some(m => m.userId === session.user?.id);
+        const isMember = workspace.members.some((m: { userId: string }) => m.userId === session.user?.id);
         if (!isMember) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }

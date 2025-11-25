@@ -27,7 +27,7 @@ export async function PUT(
         }
 
         const isOwner = label.board.userId === session.user.id;
-        const isMember = label.board.workspace?.members.some((m: any) => m.userId === session.user.id);
+        const isMember = label.board.workspace?.members.some((m: { userId: string }) => m.userId === session.user.id) ?? false;
 
         if (!isOwner && !isMember) {
             return new NextResponse('Unauthorized', { status: 401 });
@@ -70,7 +70,7 @@ export async function DELETE(
         }
 
         const isOwner = label.board.userId === session.user.id;
-        const isMember = label.board.workspace?.members.some((m: any) => m.userId === session.user.id);
+        const isMember = label.board.workspace?.members.some((m: { userId: string }) => m.userId === session.user.id) ?? false;
 
         if (!isOwner && !isMember) {
             return new NextResponse('Unauthorized', { status: 401 });

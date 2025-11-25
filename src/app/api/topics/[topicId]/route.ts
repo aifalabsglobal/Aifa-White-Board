@@ -26,7 +26,7 @@ export async function PUT(
             return new NextResponse('Topic not found', { status: 404 });
         }
 
-        const isMember = topic.workspace.members.some((m: any) => m.userId === session.user.id);
+        const isMember = topic.workspace.members.some((m: { userId: string }) => m.userId === session.user.id) ?? false;
         if (!isMember) {
             return new NextResponse('Unauthorized', { status: 401 });
         }
@@ -67,7 +67,7 @@ export async function DELETE(
             return new NextResponse('Topic not found', { status: 404 });
         }
 
-        const isMember = topic.workspace.members.some((m: any) => m.userId === session.user.id);
+        const isMember = topic.workspace.members.some((m: { userId: string }) => m.userId === session.user.id) ?? false;
         if (!isMember) {
             return new NextResponse('Unauthorized', { status: 401 });
         }

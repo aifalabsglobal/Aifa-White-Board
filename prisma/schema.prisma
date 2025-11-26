@@ -120,7 +120,15 @@ model WorkspaceMember {
 
   @@unique([workspaceId, userId])
 }
-
+model Label {
+  id        String   @id @default(cuid())
+  name      String
+  color     String
+  boardId   String
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 enum WorkspaceRole {
   OWNER
   ADMIN

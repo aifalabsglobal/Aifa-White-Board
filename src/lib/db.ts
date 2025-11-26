@@ -1,9 +1,7 @@
-import { config } from 'dotenv'
-config()
-
+import 'dotenv/config'
 import { Pool } from 'pg'
 import { PrismaPg } from '@prisma/adapter-pg'
-import { PrismaClient } from '@prisma/client/edge'   // ← this is the correct one for Accelerator
+import { PrismaClient } from '@prisma/client'   // 👈 normal client, NOT /edge
 
 const connectionString = process.env.DATABASE_URL!
 
@@ -14,6 +12,9 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-export const db = globalForPrisma.prisma ?? new PrismaClient({ adapter })
+export const db =
+  globalForPrisma.prisma ?? new PrismaClient({ adapter })
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = db
+}

@@ -84,6 +84,8 @@ model Board {
   user      User     @relation(fields: [userId], references: [id])
   workspaceId String?
   workspace   Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  topicId   String?
+  topic     Topic?   @relation(fields: [topicId], references: [id])
   labels    Label[] 
 }
 
@@ -135,6 +137,7 @@ model Topic {
   id          String   @id @default(cuid())
   name        String
   workspaceId String
+  boards      Board[] 
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

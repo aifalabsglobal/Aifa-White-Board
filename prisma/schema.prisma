@@ -136,8 +136,6 @@ model Topic {
   name        String
   workspaceId String
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  boards      Board[]
-
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

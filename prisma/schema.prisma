@@ -84,6 +84,7 @@ model Board {
   user      User     @relation(fields: [userId], references: [id])
   workspaceId String?
   workspace   Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  labels    Label[] 
 }
 
 model Page {

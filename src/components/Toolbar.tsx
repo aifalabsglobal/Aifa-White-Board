@@ -24,6 +24,7 @@ import {
     Redo2,
     Trash2,
     Feather,
+    PenTool,
     Sparkles,
     Lasso,
     Triangle,
@@ -616,7 +617,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
                                 }`}
                             title="Handwriting Fonts"
                         >
-                            <Type size={20} />
+                            <PenTool size={20} />
                         </button>
                         {expandedSection === 'fonts' && (
                             <div className={`absolute ${submenuPositionClass} left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-3 space-y-2 min-w-[200px] max-h-[60vh] overflow-y-auto custom-scrollbar`}>

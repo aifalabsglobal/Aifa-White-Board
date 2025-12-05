@@ -9,6 +9,7 @@ interface PageData {
     content: {
         strokes: Stroke[];
         backgroundColor?: string;
+        pageStyle?: string;
     };
 }
 
@@ -16,6 +17,22 @@ interface ExportOptions {
     boardId: string;
     onProgress?: (current: number, total: number) => void;
     pixelRatio?: number;
+}
+
+// Load logo image as base64
+async function loadLogoAsBase64(): Promise<string | null> {
+    try {
+        const response = await fetch('/aifa-logo.png');
+        const blob = await response.blob();
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = () => resolve(null);
+            reader.readAsDataURL(blob);
+        });
+    } catch {
+        return null;
+    }
 }
 
 /**
@@ -48,6 +65,7 @@ async function renderPageToDataURL(
 
             // Set background color
             const backgroundColor = pageData.content.backgroundColor || '#3b82f6';
+            const pageStyle = pageData.content.pageStyle || 'plain';
             const background = new Konva.Rect({
                 x: 0,
                 y: 0,
@@ -56,6 +74,59 @@ async function renderPageToDataURL(
                 fill: backgroundColor,
             });
             layer.add(background);
+
+            // Draw page style pattern
+            if (pageStyle !== 'plain') {
+                const patternCanvas = document.createElement('canvas');
+                patternCanvas.width = width;
+                patternCanvas.height = height;
+                const ctx = patternCanvas.getContext('2d');
+                if (ctx) {
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                    ctx.lineWidth = 1;
+
+                    if (pageStyle === 'ruled' || pageStyle === 'wide-ruled') {
+                        const spacing = pageStyle === 'ruled' ? 32 : 40;
+                        for (let y = spacing; y < height; y += spacing) {
+                            ctx.beginPath();
+                            ctx.moveTo(0, y);
+                            ctx.lineTo(width, y);
+                            ctx.stroke();
+                        }
+                    } else if (pageStyle === 'graph') {
+                        const gridSize = 24;
+                        for (let x = gridSize; x < width; x += gridSize) {
+                            ctx.beginPath();
+                            ctx.moveTo(x, 0);
+                            ctx.lineTo(x, height);
+                            ctx.stroke();
+                        }
+                        for (let y = gridSize; y < height; y += gridSize) {
+                            ctx.beginPath();
+                            ctx.moveTo(0, y);
+                            ctx.lineTo(width, y);
+                            ctx.stroke();
+                        }
+                    } else if (pageStyle === 'dotted') {
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                        const dotSpacing = 24;
+                        for (let x = dotSpacing; x < width; x += dotSpacing) {
+                            for (let y = dotSpacing; y < height; y += dotSpacing) {
+                                ctx.beginPath();
+                                ctx.arc(x, y, 1.5, 0, Math.PI * 2);
+                                ctx.fill();
+                            }
+                        }
+                    }
+
+                    layer.add(new Konva.Image({
+                        x: 0, y: 0,
+                        image: patternCanvas,
+                        width: width,
+                        height: height,
+                    }));
+                }
+            }
 
             // Render all strokes
             const strokes = pageData.content.strokes || [];
@@ -185,6 +256,9 @@ export async function exportAllPagesAsPDF(options: ExportOptions): Promise<void>
     const { boardId, onProgress, pixelRatio = 2 } = options;
 
     try {
+        // Load logo first
+        const logoBase64 = await loadLogoAsBase64();
+
         // Fetch all pages for the board
         const response = await fetch(`/api/boards/${boardId}/pages`, {
             cache: 'no-store',
@@ -217,23 +291,11 @@ export async function exportAllPagesAsPDF(options: ExportOptions): Promise<void>
         const canvasWidth = 1920;
         const canvasHeight = 1080;
 
-        // Calculate dimensions to fit in PDF page with margins
-        const margin = 10;
-        const availableWidth = pageWidth - 2 * margin;
-        const availableHeight = pageHeight - 2 * margin;
-
-        // Maintain aspect ratio
-        const scale = Math.min(
-            availableWidth / (canvasWidth / 10), // Convert pixels to mm (rough conversion)
-            availableHeight / (canvasHeight / 10)
-        );
-
-        const imgWidth = (canvasWidth / 10) * scale;
-        const imgHeight = (canvasHeight / 10) * scale;
-
-        // Center the image
-        const xOffset = (pageWidth - imgWidth) / 2;
-        const yOffset = (pageHeight - imgHeight) / 2;
+        // Calculate dimensions to fit full page (no margins for clean export)
+        const imgWidth = pageWidth;
+        const imgHeight = pageHeight;
+        const xOffset = 0;
+        const yOffset = 0;
 
         // Process each page
         for (let i = 0; i < pages.length; i++) {
@@ -257,25 +319,20 @@ export async function exportAllPagesAsPDF(options: ExportOptions): Promise<void>
                 pdf.addPage();
             }
 
-            // Add image to PDF
+            // Add image to PDF (full page, no borders)
             pdf.addImage(dataURL, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
 
-            // Add page number at bottom
-            pdf.setFontSize(10);
-            pdf.setTextColor(128, 128, 128);
-            pdf.text(
-                `Page ${i + 1} of ${pages.length}`,
-                pageWidth / 2,
-                pageHeight - 5,
-                { align: 'center' }
-            );
-
-            // Add page title at top (optional)
-            if (page.title) {
-                pdf.setFontSize(12);
-                pdf.setTextColor(64, 64, 64);
-                pdf.text(page.title, pageWidth / 2, 5, { align: 'center' });
-            }
+            // Add AIFA text logo (bottom right corner)
+            const logoX = pageWidth - 25;
+            const logoY = pageHeight - 8;
+            pdf.setFontSize(14);
+            pdf.setFont('helvetica', 'bold');
+            // "ai" in blue
+            pdf.setTextColor(37, 99, 235); // blue-600
+            pdf.text('ai', logoX, logoY);
+            // "fa" in dark gray (right after 'ai')
+            pdf.setTextColor(31, 41, 55); // gray-800
+            pdf.text('fa', logoX + 6, logoY);
         }
 
         // Generate filename with timestamp

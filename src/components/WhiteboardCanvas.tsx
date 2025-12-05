@@ -182,11 +182,11 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         loadBoard();
     }, [boardId, replaceStrokes, setBackgroundColor, setPages, setCurrentPageId, addPage]);
 
-    // Auto-save logic
+    // Auto-save logic with thumbnail generation
     useEffect(() => {
         if (!boardId || !currentPageId) return;
 
-        const contentToSave = { strokes, backgroundColor };
+        const contentToSave = { strokes, backgroundColor, pageStyle };
         const currentContentStr = JSON.stringify(contentToSave);
 
         if (currentContentStr === lastSavedStrokes.current) return;
@@ -194,11 +194,21 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         setSaveStatus('saving');
         const timeoutId = setTimeout(async () => {
             try {
-                // Save to the specific page endpoint
+                // Generate thumbnail from canvas
+                let thumbnail: string | undefined;
+                if (stageRef.current) {
+                    try {
+                        thumbnail = stageRef.current.toDataURL({ pixelRatio: 0.25 }); // Low res for thumbnail
+                    } catch (e) {
+                        console.warn('Failed to generate thumbnail:', e);
+                    }
+                }
+
+                // Save to the specific page endpoint with thumbnail
                 const res = await fetch(`/api/pages/${currentPageId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ content: contentToSave }),
+                    body: JSON.stringify({ content: contentToSave, thumbnail }),
                 });
 
                 if (!res.ok) throw new Error('Failed to save');
@@ -213,7 +223,7 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         }, 2000); // Debounce save by 2 seconds
 
         return () => clearTimeout(timeoutId);
-    }, [strokes, backgroundColor, boardId, currentPageId]);
+    }, [strokes, backgroundColor, pageStyle, boardId, currentPageId]);
 
     // Handle text input completion
     const handleTextInputComplete = useCallback(() => {

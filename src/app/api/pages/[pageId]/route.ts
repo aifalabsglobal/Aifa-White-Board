@@ -75,10 +75,16 @@ export async function PUT(
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
+        // Build content with thumbnail if provided
+        const contentToSave = {
+            ...body.content,
+            thumbnail: body.thumbnail || body.content?.thumbnail,
+        };
+
         const updatedPage = await prisma.page.update({
             where: { id: pageId },
             data: {
-                content: body.content,
+                content: contentToSave,
                 title: body.title, // Allow updating title if provided
             },
         });

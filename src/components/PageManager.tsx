@@ -18,7 +18,8 @@ export default function PageManager({ boardId }: PageManagerProps) {
         addPage,
         removePage,
         replaceStrokes,
-        setBackgroundColor
+        setBackgroundColor,
+        setPageStyle
     } = useWhiteboardStore();
     const { showAlert, showConfirm } = useModal();
 
@@ -76,15 +77,17 @@ export default function PageManager({ boardId }: PageManagerProps) {
             if (pageData.content) {
                 if (typeof pageData.content === 'object') {
                     replaceStrokes(pageData.content.strokes || []);
-                    // Set background color if present, otherwise reset to default
                     setBackgroundColor(pageData.content.backgroundColor || '#3b82f6');
+                    setPageStyle(pageData.content.pageStyle || 'plain');
                 } else if (Array.isArray(pageData.content)) {
                     replaceStrokes(pageData.content);
-                    setBackgroundColor('#3b82f6'); // Default for legacy array content
+                    setBackgroundColor('#3b82f6');
+                    setPageStyle('plain');
                 }
             } else {
                 replaceStrokes([]);
-                setBackgroundColor('#3b82f6'); // Default for empty page
+                setBackgroundColor('#3b82f6');
+                setPageStyle('plain');
             }
         } catch (error) {
             console.error('Error switching page:', error);

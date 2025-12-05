@@ -30,6 +30,7 @@ import {
     Sparkles,
     FileDown,
     ChevronDown,
+    Share2,
 } from 'lucide-react';
 import BoardSelector from './BoardSelector';
 import UserMenu from './UserMenu';
@@ -201,6 +202,15 @@ export default function TopBar({
             setIsExportingPDF(false);
         }
     }, [currentBoardId, pages, showAlert]);
+
+    const handleShareFlipbook = useCallback(() => {
+        if (!currentBoardId) {
+            showAlert('Share Failed', 'Board ID not found', 'danger');
+            return;
+        }
+        const flipbookUrl = `/flipbook/${currentBoardId}`;
+        window.open(flipbookUrl, '_blank');
+    }, [currentBoardId, showAlert]);
 
     type ToolConfig = { id: string; icon: React.ComponentType<{ size?: number }>; label: string; value?: string };
 
@@ -431,6 +441,15 @@ export default function TopBar({
                         </div>
 
                         <input ref={fileInputRef} type="file" accept=".json" onChange={handleImportBoard} className="hidden" />
+
+                        {/* Share Flipbook - Always visible */}
+                        <button
+                            onClick={handleShareFlipbook}
+                            className="p-1.5 rounded-lg bg-blue-500 text-white hover:bg-blue-600 flex-shrink-0"
+                            title="Share Flipbook"
+                        >
+                            <Share2 size={18} />
+                        </button>
 
                         <div className="w-px h-5 bg-gray-300 mx-0.5 hidden sm:block flex-shrink-0" />
 

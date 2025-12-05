@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import TopBar from '@/components/TopBar';
-import Toolbar from '@/components/Toolbar';
-import PageManager from '@/components/PageManager';
 
 // Dynamically import WhiteboardCanvas to avoid SSR issues with Konva
 const WhiteboardCanvas = dynamic(() => import('@/components/WhiteboardCanvas'), {
@@ -45,7 +43,7 @@ export default function BoardPage() {
 
     return (
         <main className="h-screen w-screen overflow-hidden flex flex-col bg-slate-50">
-            {/* Top Bar - Fixed header with navigation */}
+            {/* Top Bar - Fixed header with navigation, tools, and page controls */}
             <TopBar
                 currentBoardId={boardId}
                 currentWorkspaceId={boardData?.workspaceId}
@@ -53,24 +51,10 @@ export default function BoardPage() {
                 boardName={boardData?.title}
             />
 
-            {/* Main Canvas Area */}
+            {/* Main Canvas Area - Completely clean */}
             <div className="flex-1 relative overflow-hidden">
-                {/* Whiteboard Canvas - Base layer */}
                 <div className="absolute inset-0" style={{ zIndex: 'var(--z-canvas)' }}>
                     <WhiteboardCanvas boardId={boardId} />
-                </div>
-
-                {/* Page Manager - Above canvas */}
-                <div
-                    className="absolute top-4 left-1/2 -translate-x-1/2"
-                    style={{ zIndex: 'var(--z-page-controls)' }}
-                >
-                    <PageManager boardId={boardId} />
-                </div>
-
-                {/* Floating Toolbar - Above page controls */}
-                <div style={{ zIndex: 'var(--z-toolbar)' }}>
-                    <Toolbar boardId={boardId} />
                 </div>
             </div>
         </main>

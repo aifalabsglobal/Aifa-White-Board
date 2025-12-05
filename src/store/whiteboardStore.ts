@@ -4,6 +4,7 @@ import type { Stage } from 'konva/lib/Stage'
 
 export type ToolType = "select" | "lasso" | "pen" | "highlighter" | "eraser" | "rectangle" | "circle" | "line" | "arrow" | "triangle" | "pentagon" | "hexagon" | "star" | "text" | "calligraphy";
 export type ShapeType = "rectangle" | "circle" | "line" | "arrow" | "triangle" | "pentagon" | "hexagon" | "star";
+export type PageStyleType = "ruled" | "wide-ruled" | "graph" | "dotted" | "music" | "plain";
 
 export interface Point {
     x: number;
@@ -52,6 +53,7 @@ interface WhiteboardState {
     // Page state
     pages: Page[];
     currentPageId: string | null;
+    pageStyle: PageStyleType;
 
     toggleMagicMode: () => void;
     setTool: (tool: ToolType) => void;
@@ -61,6 +63,7 @@ interface WhiteboardState {
     setOpacity: (opacity: number) => void;
     setFontFamily: (fontFamily: string) => void;
     setFontSize: (fontSize: number) => void;
+    setPageStyle: (style: PageStyleType) => void;
 
     setStrokes: (strokes: Stroke[]) => void;
     addStroke: (stroke: Stroke) => void;
@@ -99,6 +102,7 @@ export const useWhiteboardStore = create<WhiteboardState>()(
         isMagicMode: false,
         pages: [],
         currentPageId: null,
+        pageStyle: 'plain',
 
         toggleMagicMode: () => set((state) => ({ isMagicMode: !state.isMagicMode })),
 
@@ -112,7 +116,8 @@ export const useWhiteboardStore = create<WhiteboardState>()(
         setBackgroundColor: (color) => set({ backgroundColor: color }),
         setWidth: (width) => set({ currentWidth: width }),
         setFontFamily: (fontFamily) => set({ currentFontFamily: fontFamily }),
-        setFontSize: (fontSize) => set({ currentFontSize: fontSize }), // Added
+        setFontSize: (fontSize) => set({ currentFontSize: fontSize }),
+        setPageStyle: (style) => set({ pageStyle: style }),
         setOpacity: (opacity) => set({ currentOpacity: opacity }),
         setStageRef: (ref) => set({ stageRef: ref }),
 

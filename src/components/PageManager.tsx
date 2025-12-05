@@ -143,55 +143,54 @@ export default function PageManager({ boardId }: PageManagerProps) {
     if (pages.length === 0) return null;
 
     return (
-        <div className="flex items-center gap-2">
-            <div className="bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-slate-200/60 p-1.5 flex items-center gap-1 transition-all duration-300 hover:shadow-xl hover:bg-white">
-
+        <div className="flex items-center">
+            <div className="bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-slate-200/60 p-1 sm:p-1.5 flex items-center gap-0.5 sm:gap-1 transition-all duration-300 hover:shadow-xl hover:bg-white">
                 {/* Previous Button */}
                 <button
                     onClick={handlePrevPage}
                     disabled={currentIndex <= 0 || isLoading}
-                    className="p-2 rounded-full hover:bg-slate-100 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className="p-1.5 sm:p-2 rounded-full hover:bg-slate-100 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     title="Previous Page"
                 >
-                    <ChevronLeft size={20} />
+                    <ChevronLeft size={16} className="sm:w-5 sm:h-5" />
                 </button>
 
-                {/* Page Indicator */}
-                <div className="px-3 font-medium text-slate-700 text-sm tabular-nums select-none min-w-[80px] text-center">
-                    Page {currentPageNumber} / {totalPages}
+                {/* Page Indicator - Compact on mobile */}
+                <div className="px-1.5 sm:px-3 font-medium text-slate-700 text-xs sm:text-sm tabular-nums select-none text-center whitespace-nowrap">
+                    <span className="hidden sm:inline">Page </span>{currentPageNumber}/{totalPages}
                 </div>
 
                 {/* Next Button */}
                 <button
                     onClick={handleNextPage}
                     disabled={currentIndex >= totalPages - 1 || isLoading}
-                    className="p-2 rounded-full hover:bg-slate-100 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className="p-1.5 sm:p-2 rounded-full hover:bg-slate-100 text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     title="Next Page"
                 >
-                    <ChevronRight size={20} />
+                    <ChevronRight size={16} className="sm:w-5 sm:h-5" />
                 </button>
 
-                {/* Divider */}
-                <div className="w-px h-6 bg-slate-200 mx-1" />
+                {/* Divider - Hidden on mobile */}
+                <div className="w-px h-5 sm:h-6 bg-slate-200 mx-0.5 sm:mx-1 hidden sm:block" />
 
                 {/* Add Page */}
                 <button
                     onClick={handleAddPage}
                     disabled={isLoading}
-                    className="p-2 rounded-full hover:bg-blue-50 text-blue-600 disabled:opacity-50 transition-colors"
+                    className="p-1.5 sm:p-2 rounded-full hover:bg-blue-50 text-blue-600 disabled:opacity-50 transition-colors"
                     title="New Page"
                 >
-                    <Plus size={20} />
+                    <Plus size={16} className="sm:w-5 sm:h-5" />
                 </button>
 
-                {/* Delete Page */}
+                {/* Delete Page - Hidden on mobile */}
                 <button
                     onClick={handleDeletePage}
                     disabled={isLoading || pages.length <= 1}
-                    className="p-2 rounded-full hover:bg-red-50 text-red-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className="p-1.5 sm:p-2 rounded-full hover:bg-red-50 text-red-500 disabled:opacity-30 disabled:cursor-not-allowed transition-colors hidden sm:block"
                     title="Delete Page"
                 >
-                    <Trash2 size={18} />
+                    <Trash2 size={16} className="sm:w-[18px] sm:h-[18px]" />
                 </button>
             </div>
         </div>

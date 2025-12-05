@@ -44,6 +44,15 @@ const COLORS = [
     '#8B5CF6', // Purple
 ];
 
+const PAGE_STYLES = [
+    { value: 'plain', label: 'Plain' },
+    { value: 'ruled', label: 'Ruled Lines' },
+    { value: 'wide-ruled', label: 'Wide Ruled' },
+    { value: 'graph', label: 'Graph Paper' },
+    { value: 'dotted', label: 'Dotted' },
+    { value: 'music', label: 'Music Staff' },
+];
+
 const isValidPoint = (value: unknown): value is { x: number; y: number } =>
     Boolean(
         value &&
@@ -94,6 +103,8 @@ export default function Toolbar({ boardId }: ToolbarProps) {
         isMagicMode,
         toggleMagicMode,
         pages,
+        pageStyle,
+        setPageStyle,
     } = useWhiteboardStore();
 
     const { undo, redo, pastStates, futureStates } = useStore(
@@ -550,6 +561,24 @@ export default function Toolbar({ boardId }: ToolbarProps) {
                                         onChange={(e) => setWidth(Number(e.target.value))}
                                         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
                                     />
+                                </div>
+
+                                <div className="border-t border-gray-100 pt-4">
+                                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Page Style</p>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {PAGE_STYLES.map((style) => (
+                                            <button
+                                                key={style.value}
+                                                onClick={() => setPageStyle(style.value as any)}
+                                                className={`px-3 py-2 rounded-lg text-xs font-medium transition-all ${pageStyle === style.value
+                                                    ? 'bg-blue-100 text-blue-700 border-2 border-blue-400'
+                                                    : 'bg-gray-50 text-gray-600 border-2 border-transparent hover:bg-gray-100'
+                                                    }`}
+                                            >
+                                                {style.label}
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         )}

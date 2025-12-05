@@ -70,6 +70,7 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         setCurrentPageId,
         currentPageId,
         addPage,
+        pageStyle,
     } = useWhiteboardStore();
 
     const stageRef = useRef<KonvaStage | null>(null);
@@ -983,17 +984,94 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         }
     };
 
+    // Get page style background
+    const getPageStyleBackground = () => {
+        switch (pageStyle) {
+            case 'ruled':
+                return {
+                    backgroundImage: `repeating-linear-gradient(
+                        0deg,
+                        transparent,
+                        transparent 31px,
+                        rgba(255, 255, 255, 0.5) 31px,
+                        rgba(255, 255, 255, 0.5) 32px
+                    )`,
+                    backgroundPosition: '0 0',
+                };
+            case 'wide-ruled':
+                return {
+                    backgroundImage: `repeating-linear-gradient(
+                        0deg,
+                        transparent,
+                        transparent 39px,
+                        rgba(255, 255, 255, 0.5) 39px,
+                        rgba(255, 255, 255, 0.5) 40px
+                    )`,
+                    backgroundPosition: '0 0',
+                };
+            case 'graph':
+                return {
+                    backgroundImage: `
+                        linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px)
+                    `,
+                    backgroundSize: '24px 24px',
+                };
+            case 'dotted':
+                return {
+                    backgroundImage: `radial-gradient(circle, rgba(255, 255, 255, 0.5) 1.5px, transparent 1.5px)`,
+                    backgroundSize: '24px 24px',
+                };
+            case 'music':
+                return {
+                    backgroundImage: `repeating-linear-gradient(
+                        0deg,
+                        transparent,
+                        transparent 7px,
+                        rgba(255, 255, 255, 0.4) 7px,
+                        rgba(255, 255, 255, 0.4) 8px,
+                        transparent 8px,
+                        transparent 15px,
+                        rgba(255, 255, 255, 0.4) 15px,
+                        rgba(255, 255, 255, 0.4) 16px,
+                        transparent 16px,
+                        transparent 23px,
+                        rgba(255, 255, 255, 0.4) 23px,
+                        rgba(255, 255, 255, 0.4) 24px,
+                        transparent 24px,
+                        transparent 31px,
+                        rgba(255, 255, 255, 0.4) 31px,
+                        rgba(255, 255, 255, 0.4) 32px,
+                        transparent 32px,
+                        transparent 39px,
+                        rgba(255, 255, 255, 0.4) 39px,
+                        rgba(255, 255, 255, 0.4) 40px,
+                        transparent 40px,
+                        transparent 80px
+                    )`,
+                    backgroundPosition: '0 0',
+                };
+            case 'plain':
+            default:
+                return {
+                    backgroundImage: `
+                        linear-gradient(90deg, rgba(99,102,241,0.08) 1px, transparent 0),
+                        linear-gradient(180deg, rgba(99,102,241,0.08) 1px, transparent 0)
+                    `,
+                    backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
+                };
+        }
+    };
+
+    const pageStyleBg = getPageStyleBackground();
+
     return (
         <div
             ref={containerRef}
             className="relative w-full h-full touch-none"
             style={{
                 backgroundColor: backgroundColor,
-                backgroundImage: `
-                    linear-gradient(90deg, rgba(99,102,241,0.08) 1px, transparent 0),
-                    linear-gradient(180deg, rgba(99,102,241,0.08) 1px, transparent 0)
-                `,
-                backgroundSize: `${GRID_SIZE}px ${GRID_SIZE}px`,
+                ...pageStyleBg,
             }}
         >
             <Stage

@@ -245,7 +245,7 @@ export default function TopBar({
 
     return (
         <header
-            className="w-full bg-blue-50/95 backdrop-blur-md border-b border-blue-100 shadow-sm"
+            className="w-full bg-blue-100/95 backdrop-blur-md border-b border-blue-200 shadow-sm"
             style={{ zIndex: 'var(--z-topbar)' }}
         >
             <div className="flex items-center justify-between gap-1 sm:gap-2 px-2 py-1.5 sm:px-4 sm:py-2">

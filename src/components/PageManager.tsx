@@ -65,29 +65,59 @@ export default function PageManager({ boardId }: PageManagerProps) {
     const handleSwitchPage = async (pageId: string) => {
         if (pageId === currentPageId || isLoading) return;
 
-        setIsLoading(true);
+        // 1. Save current page state to cache before switching
+        if (currentPageId) {
+            const { strokes, backgroundColor, pageStyle } = useWhiteboardStore.getState();
+            useWhiteboardStore.getState().updatePageContent(currentPageId, {
+                strokes,
+                backgroundColor,
+                pageStyle
+            });
+        }
+
+        // 2. Check cache for target page
+        const cachedContent = useWhiteboardStore.getState().pageContents[pageId];
+
+        // 3. Optimistic update - switch immediately if cached
+        setCurrentPageId(pageId);
+        if (cachedContent) {
+            replaceStrokes(cachedContent.strokes);
+            setBackgroundColor(cachedContent.backgroundColor);
+            setPageStyle(cachedContent.pageStyle);
+        } else {
+            // If not cached, clear canvas temporarily (or show loading state)
+            replaceStrokes([]);
+            setBackgroundColor('#3b82f6');
+            setPageStyle('plain');
+        }
+
+        // 4. Background fetch to ensure data is fresh (stale-while-revalidate)
+        // Only set loading if we don't have cached data to show
+        if (!cachedContent) setIsLoading(true);
+
         try {
             const res = await fetch(`/api/pages/${pageId}`, { cache: 'no-store' });
             if (!res.ok) throw new Error('Failed to load page');
 
             const pageData = await res.json();
 
-            setCurrentPageId(pageId);
+            // Update store with fresh data
+            // Only update if we are still on the same page (user might have switched again)
+            if (useWhiteboardStore.getState().currentPageId === pageId) {
+                if (pageData.content) {
+                    const newContent = {
+                        strokes: Array.isArray(pageData.content) ? pageData.content : (pageData.content.strokes || []),
+                        backgroundColor: !Array.isArray(pageData.content) ? (pageData.content.backgroundColor || '#3b82f6') : '#3b82f6',
+                        pageStyle: !Array.isArray(pageData.content) ? (pageData.content.pageStyle || 'plain') : 'plain'
+                    };
 
-            if (pageData.content) {
-                if (typeof pageData.content === 'object') {
-                    replaceStrokes(pageData.content.strokes || []);
-                    setBackgroundColor(pageData.content.backgroundColor || '#3b82f6');
-                    setPageStyle(pageData.content.pageStyle || 'plain');
-                } else if (Array.isArray(pageData.content)) {
-                    replaceStrokes(pageData.content);
-                    setBackgroundColor('#3b82f6');
-                    setPageStyle('plain');
+                    replaceStrokes(newContent.strokes);
+                    setBackgroundColor(newContent.backgroundColor);
+                    setPageStyle(newContent.pageStyle as any);
+
+                    // Update cache with fresh data
+                    useWhiteboardStore.getState().updatePageContent(pageId, newContent as any);
                 }
-            } else {
-                replaceStrokes([]);
-                setBackgroundColor('#3b82f6');
-                setPageStyle('plain');
             }
         } catch (error) {
             console.error('Error switching page:', error);

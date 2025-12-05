@@ -183,11 +183,15 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
     }, [boardId, replaceStrokes, setBackgroundColor, setPages, setCurrentPageId, addPage]);
 
     // Auto-save logic with thumbnail generation
+    // Auto-save logic with thumbnail generation
     useEffect(() => {
         if (!boardId || !currentPageId) return;
 
         const contentToSave = { strokes, backgroundColor, pageStyle };
         const currentContentStr = JSON.stringify(contentToSave);
+
+        // Sync to client-side cache immediately
+        useWhiteboardStore.getState().updatePageContent(currentPageId, contentToSave);
 
         if (currentContentStr === lastSavedStrokes.current) return;
 

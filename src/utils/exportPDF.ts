@@ -128,14 +128,23 @@ async function renderPageToDataURL(
                 }
             }
 
-            // Render all strokes
+            // Create a group for content with clipping
+            const contentGroup = new Konva.Group({
+                clipFunc: (ctx) => {
+                    ctx.rect(0, 0, width, height);
+                },
+            });
+
+            // Render all strokes into the clipped group
             const strokes = pageData.content.strokes || [];
             strokes.forEach((stroke) => {
                 const element = renderStrokeToKonva(stroke);
                 if (element) {
-                    layer.add(element);
+                    contentGroup.add(element);
                 }
             });
+
+            layer.add(contentGroup);
 
             layer.draw();
 

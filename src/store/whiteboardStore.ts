@@ -65,6 +65,10 @@ interface WhiteboardState {
     setFontSize: (fontSize: number) => void;
     setPageStyle: (style: PageStyleType) => void;
 
+    // Page content cache
+    pageContents: Record<string, { strokes: Stroke[], backgroundColor: string, pageStyle: PageStyleType }>;
+    updatePageContent: (pageId: string, content: { strokes: Stroke[], backgroundColor: string, pageStyle: PageStyleType }) => void;
+
     setStrokes: (strokes: Stroke[]) => void;
     addStroke: (stroke: Stroke) => void;
     updateStroke: (id: string, updates: Partial<Stroke>) => void;
@@ -103,6 +107,7 @@ export const useWhiteboardStore = create<WhiteboardState>()(
         pages: [],
         currentPageId: null,
         pageStyle: 'plain',
+        pageContents: {}, // Cache for page contents
 
         toggleMagicMode: () => set((state) => ({ isMagicMode: !state.isMagicMode })),
 
@@ -120,6 +125,13 @@ export const useWhiteboardStore = create<WhiteboardState>()(
         setPageStyle: (style) => set({ pageStyle: style }),
         setOpacity: (opacity) => set({ currentOpacity: opacity }),
         setStageRef: (ref) => set({ stageRef: ref }),
+
+        updatePageContent: (pageId, content) => set((state) => ({
+            pageContents: {
+                ...state.pageContents,
+                [pageId]: content
+            }
+        })),
 
         setStrokes: (strokes) => set({ strokes }),
 

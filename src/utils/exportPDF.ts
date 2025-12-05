@@ -227,6 +227,58 @@ function renderStrokeToKonva(stroke: Stroke): Konva.Shape | Konva.Group | null {
                     pointerWidth: 10,
                     globalCompositeOperation: compositeOp,
                 });
+
+            case 'triangle': {
+                const cx = start.x + width / 2;
+                const points = [
+                    cx, start.y,  // top
+                    start.x, end.y,  // bottom left
+                    end.x, end.y,  // bottom right
+                ];
+                return new Konva.Line({
+                    points,
+                    stroke: stroke.color,
+                    strokeWidth: stroke.width,
+                    opacity: stroke.opacity,
+                    closed: true,
+                    globalCompositeOperation: compositeOp,
+                });
+            }
+
+            case 'pentagon':
+            case 'hexagon':
+            case 'star': {
+                const cx = start.x + width / 2;
+                const cy = start.y + height / 2;
+                const rx = Math.abs(width / 2);
+                const ry = Math.abs(height / 2);
+                let sides = stroke.shapeType === 'pentagon' ? 5 : stroke.shapeType === 'hexagon' ? 6 : 5;
+                const points: number[] = [];
+
+                if (stroke.shapeType === 'star') {
+                    // Star shape with inner and outer points
+                    for (let i = 0; i < 10; i++) {
+                        const angle = (i * Math.PI / 5) - Math.PI / 2;
+                        const r = i % 2 === 0 ? rx : rx * 0.4;
+                        const rY = i % 2 === 0 ? ry : ry * 0.4;
+                        points.push(cx + r * Math.cos(angle), cy + rY * Math.sin(angle));
+                    }
+                } else {
+                    for (let i = 0; i < sides; i++) {
+                        const angle = (i * 2 * Math.PI / sides) - Math.PI / 2;
+                        points.push(cx + rx * Math.cos(angle), cy + ry * Math.sin(angle));
+                    }
+                }
+
+                return new Konva.Line({
+                    points,
+                    stroke: stroke.color,
+                    strokeWidth: stroke.width,
+                    opacity: stroke.opacity,
+                    closed: true,
+                    globalCompositeOperation: compositeOp,
+                });
+            }
         }
     }
 

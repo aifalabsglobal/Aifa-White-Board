@@ -177,6 +177,37 @@ async function renderPageToImage(pageData: PageData): Promise<string> {
                             points: [sx, sy, ex, ey],
                             stroke: stroke.color, fill: stroke.color, strokeWidth: sw, opacity: stroke.opacity || 1,
                         }));
+                    } else if (stroke.shapeType === 'triangle') {
+                        const cx = sx + (ex - sx) / 2;
+                        contentGroup.add(new Konva.Line({
+                            points: [cx, sy, sx, ey, ex, ey],
+                            stroke: stroke.color, strokeWidth: sw, opacity: stroke.opacity || 1, closed: true,
+                        }));
+                    } else if (stroke.shapeType === 'pentagon' || stroke.shapeType === 'hexagon' || stroke.shapeType === 'star') {
+                        const cx = sx + (ex - sx) / 2;
+                        const cy = sy + (ey - sy) / 2;
+                        const rx = Math.abs((ex - sx) / 2);
+                        const ry = Math.abs((ey - sy) / 2);
+                        const sides = stroke.shapeType === 'pentagon' ? 5 : stroke.shapeType === 'hexagon' ? 6 : 5;
+                        const points: number[] = [];
+
+                        if (stroke.shapeType === 'star') {
+                            for (let i = 0; i < 10; i++) {
+                                const angle = (i * Math.PI / 5) - Math.PI / 2;
+                                const r = i % 2 === 0 ? rx : rx * 0.4;
+                                const rY = i % 2 === 0 ? ry : ry * 0.4;
+                                points.push(cx + r * Math.cos(angle), cy + rY * Math.sin(angle));
+                            }
+                        } else {
+                            for (let i = 0; i < sides; i++) {
+                                const angle = (i * 2 * Math.PI / sides) - Math.PI / 2;
+                                points.push(cx + rx * Math.cos(angle), cy + ry * Math.sin(angle));
+                            }
+                        }
+
+                        contentGroup.add(new Konva.Line({
+                            points, stroke: stroke.color, strokeWidth: sw, opacity: stroke.opacity || 1, closed: true,
+                        }));
                     }
                 } else if (stroke.points?.length > 0) {
                     const points = stroke.points.flatMap((p: any) => [p.x * s, p.y * s]);

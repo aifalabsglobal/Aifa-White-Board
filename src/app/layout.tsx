@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Pacifico&family=Satisfy&family=Shadows+Into+Light&family=Indie+Flower&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Allura&family=Alex+Brush&family=Tangerine:wght@400;700&family=Kaushan+Script&family=Courgette&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Pacifico&family=Satisfy&family=Shadows+Into+Light&family=Indie+Flower&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Allura&family=Alex+Brush&family=Tangerine:wght@400;700&family=Kaushan+Script&family=Courgette&family=Permanent+Marker&family=Patrick+Hand&family=Cookie&family=Kalam:wght@300;400;700&family=Handlee&family=Sacramento&family=Parisienne&family=Yellowtail&family=Mr+Dafoe&family=Delius&family=Rock+Salt&family=Gloria+Hallelujah&family=Covered+By+Your+Grace&family=Reenie+Beanie&family=Nothing+You+Could+Do&family=Bad+Script&family=Marck+Script&family=Damion&family=Homemade+Apple&family=Cedarville+Cursive&display=swap" rel="stylesheet" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

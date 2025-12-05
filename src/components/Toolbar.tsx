@@ -328,6 +328,26 @@ export default function Toolbar({ boardId }: ToolbarProps) {
         { label: 'Courgette', value: 'Courgette' },
         { label: 'Shadows Into Light', value: 'Shadows Into Light' },
         { label: 'Indie Flower', value: 'Indie Flower' },
+        { label: 'Permanent Marker', value: 'Permanent Marker' },
+        { label: 'Patrick Hand', value: 'Patrick Hand' },
+        { label: 'Cookie', value: 'Cookie' },
+        { label: 'Kalam', value: 'Kalam' },
+        { label: 'Handlee', value: 'Handlee' },
+        { label: 'Sacramento', value: 'Sacramento' },
+        { label: 'Parisienne', value: 'Parisienne' },
+        { label: 'Yellowtail', value: 'Yellowtail' },
+        { label: 'Mr Dafoe', value: 'Mr Dafoe' },
+        { label: 'Delius', value: 'Delius' },
+        { label: 'Rock Salt', value: 'Rock Salt' },
+        { label: 'Gloria Hallelujah', value: 'Gloria Hallelujah' },
+        { label: 'Covered By Your Grace', value: 'Covered By Your Grace' },
+        { label: 'Reenie Beanie', value: 'Reenie Beanie' },
+        { label: 'Nothing You Could Do', value: 'Nothing You Could Do' },
+        { label: 'Bad Script', value: 'Bad Script' },
+        { label: 'Marck Script', value: 'Marck Script' },
+        { label: 'Damion', value: 'Damion' },
+        { label: 'Homemade Apple', value: 'Homemade Apple' },
+        { label: 'Cedarville Cursive', value: 'Cedarville Cursive' },
     ];
 
     // Handle click outside to close submenus
@@ -599,7 +619,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
                             <Type size={20} />
                         </button>
                         {expandedSection === 'fonts' && (
-                            <div className={`absolute ${submenuPositionClass} left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-3 space-y-2 min-w-[180px]`}>
+                            <div className={`absolute ${submenuPositionClass} left-1/2 -translate-x-1/2 bg-white rounded-2xl shadow-2xl border border-gray-200 p-3 space-y-2 min-w-[200px] max-h-[60vh] overflow-y-auto custom-scrollbar`}>
                                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-2 mb-1">Handwriting Fonts</p>
                                 {HANDWRITING_FONTS.map((font) => (
                                     <button

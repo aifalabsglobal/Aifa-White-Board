@@ -31,6 +31,7 @@ import {
     FileDown,
     ChevronDown,
     Share2,
+    PenTool,
 } from 'lucide-react';
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import BoardSelector from './BoardSelector';
@@ -50,6 +51,24 @@ const PAGE_STYLES = [
     { value: 'graph', label: 'Graph' },
     { value: 'dotted', label: 'Dotted' },
     { value: 'music', label: 'Music' },
+];
+
+const HANDWRITING_FONTS = [
+    { label: 'Caveat', value: 'Caveat' },
+    { label: 'Dancing Script', value: 'Dancing Script' },
+    { label: 'Pacifico', value: 'Pacifico' },
+    { label: 'Shadows Into Light', value: 'Shadows Into Light' },
+    { label: 'Indie Flower', value: 'Indie Flower' },
+    { label: 'Permanent Marker', value: 'Permanent Marker' },
+    { label: 'Patrick Hand', value: 'Patrick Hand' },
+    { label: 'Kalam', value: 'Kalam' },
+    { label: 'Sacramento', value: 'Sacramento' },
+    { label: 'Gloria Hallelujah', value: 'Gloria Hallelujah' },
+    { label: 'Cookie', value: 'Cookie' },
+    { label: 'Handlee', value: 'Handlee' },
+    { label: 'Rock Salt', value: 'Rock Salt' },
+    { label: 'Great Vibes', value: 'Great Vibes' },
+    { label: 'Yellowtail', value: 'Yellowtail' },
 ];
 
 const isValidPoint = (value: unknown): value is { x: number; y: number } =>
@@ -96,10 +115,12 @@ export default function TopBar({
         currentColor,
         currentWidth,
         backgroundColor,
+        currentFontFamily,
         setTool,
         setColor,
         setBackgroundColor,
         setWidth,
+        setFontFamily,
         clearPage,
         strokes,
         replaceStrokes,
@@ -383,6 +404,15 @@ export default function TopBar({
                                                     style={{ backgroundColor: color }}
                                                 />
                                             ))}
+                                            <label className="w-6 h-6 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center cursor-pointer text-[10px] text-gray-500 hover:bg-gray-50">
+                                                +
+                                                <input
+                                                    type="color"
+                                                    value={currentColor}
+                                                    onChange={(e) => setColor(e.target.value)}
+                                                    className="sr-only"
+                                                />
+                                            </label>
                                         </div>
                                     </div>
                                     <div className="border-t border-gray-100 pt-2">
@@ -396,6 +426,15 @@ export default function TopBar({
                                                     style={{ backgroundColor: bg.value }}
                                                 />
                                             ))}
+                                            <label className="w-6 h-6 rounded-full border-2 border-dashed border-gray-300 flex items-center justify-center cursor-pointer text-[10px] text-gray-500 hover:bg-gray-50">
+                                                +
+                                                <input
+                                                    type="color"
+                                                    value={backgroundColor}
+                                                    onChange={(e) => setBackgroundColor(e.target.value)}
+                                                    className="sr-only"
+                                                />
+                                            </label>
                                         </div>
                                     </div>
                                     <div className="border-t border-gray-100 pt-2">
@@ -415,6 +454,21 @@ export default function TopBar({
                                                     className={`px-2 py-1 rounded text-[10px] font-medium transition-all ${pageStyle === style.value ? 'bg-blue-100 text-blue-700' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'}`}
                                                 >
                                                     {style.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="border-t border-gray-100 pt-2">
+                                        <p className="text-[10px] font-semibold text-gray-400 uppercase mb-1.5">Handwriting Fonts</p>
+                                        <div className="max-h-[120px] overflow-y-auto space-y-0.5">
+                                            {HANDWRITING_FONTS.map((font) => (
+                                                <button
+                                                    key={font.value}
+                                                    onClick={() => { setFontFamily(font.value); }}
+                                                    className={`w-full text-left px-2 py-1 rounded text-sm transition-all ${currentFontFamily === font.value ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`}
+                                                    style={{ fontFamily: font.value }}
+                                                >
+                                                    {font.label}
                                                 </button>
                                             ))}
                                         </div>

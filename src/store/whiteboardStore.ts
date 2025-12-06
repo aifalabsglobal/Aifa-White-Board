@@ -47,7 +47,7 @@ interface WhiteboardState {
     strokes: Stroke[];
     activeStrokes: Map<string, Stroke>; // Map of touchId -> active stroke
     stageRef: Stage | null; // Konva Stage reference for export
-    selectedStrokeId: string | null;
+    selectedStrokeIds: string[]; // Array for multi-select support
     isMagicMode: boolean;
 
     // Page state
@@ -78,7 +78,10 @@ interface WhiteboardState {
     replaceStrokes: (strokes: Stroke[]) => void;
     clearPage: () => void;
     setStageRef: (stage: Stage | null) => void;
-    setSelectedStrokeId: (id: string | null) => void;
+    setSelectedStrokeIds: (ids: string[]) => void;
+    addToSelection: (id: string) => void;
+    removeFromSelection: (id: string) => void;
+    toggleSelection: (id: string) => void;
     startStroke: (point: Point, touchId?: string, pressure?: number) => void;
     addPointToStroke: (point: Point, touchId?: string, pressure?: number) => void;
     endStroke: (touchId?: string) => void;
@@ -102,7 +105,7 @@ export const useWhiteboardStore = create<WhiteboardState>()(
         strokes: [],
         activeStrokes: new Map(),
         stageRef: null,
-        selectedStrokeId: null,
+        selectedStrokeIds: [],
         isMagicMode: false,
         pages: [],
         currentPageId: null,
@@ -147,7 +150,7 @@ export const useWhiteboardStore = create<WhiteboardState>()(
 
         deleteStroke: (id) => set((state) => ({
             strokes: state.strokes.filter((s) => s.id !== id),
-            selectedStrokeId: state.selectedStrokeId === id ? null : state.selectedStrokeId,
+            selectedStrokeIds: state.selectedStrokeIds.filter(sid => sid !== id),
         })),
 
         moveStroke: (id, deltaX, deltaY) => set((state) => ({
@@ -161,78 +164,107 @@ export const useWhiteboardStore = create<WhiteboardState>()(
             )
         })),
 
+        replaceStrokes: (strokes) => set({
+            strokes,
+            activeStrokes: new Map(),
+            selectedStrokeIds: [],
+        }),
+        setSelectedStrokeIds: (ids) => set({ selectedStrokeIds: ids }),
+        addToSelection: (id) => set((state) => ({
+            selectedStrokeIds: state.selectedStrokeIds.includes(id)
+                ? state.selectedStrokeIds
+                : [...state.selectedStrokeIds, id]
+        })),
+        removeFromSelection: (id) => set((state) => ({
+            selectedStrokeIds: state.selectedStrokeIds.filter(sid => sid !== id)
+        })),
+        toggleSelection: (id) => set((state) => ({
+            selectedStrokeIds: state.selectedStrokeIds.includes(id)
+                ? state.selectedStrokeIds.filter(sid => sid !== id)
+                : [...state.selectedStrokeIds, id]
+        })),
+
         resizeStroke: (id, newBounds) => set((state) => ({
             strokes: state.strokes.map((s) => {
                 if (s.id !== id) return s;
 
-                // For shapes (rectangle, circle, line, arrow)
+                const MIN_SIZE = 10;
+                const safeWidth = Math.max(newBounds.width, MIN_SIZE);
+                const safeHeight = Math.max(newBounds.height, MIN_SIZE);
+
+                // Handle shapes (rectangle, circle, line, arrow, etc.)
                 if (s.shapeType && s.points.length >= 2) {
-                    return {
-                        ...s,
-                        points: [
-                            { x: newBounds.x, y: newBounds.y },
-                            { x: newBounds.x + newBounds.width, y: newBounds.y + newBounds.height }
-                        ]
-                    };
+                    const start = s.points[0];
+                    const end = s.points[s.points.length - 1];
+
+                    // Calculate old bounding box
+                    const oldMinX = Math.min(start.x, end.x);
+                    const oldMinY = Math.min(start.y, end.y);
+                    const oldMaxX = Math.max(start.x, end.x);
+                    const oldMaxY = Math.max(start.y, end.y);
+                    const oldWidth = oldMaxX - oldMinX || 1;
+                    const oldHeight = oldMaxY - oldMinY || 1;
+
+                    // Calculate scale factors
+                    const scaleX = safeWidth / oldWidth;
+                    const scaleY = safeHeight / oldHeight;
+
+                    // Scale both points relative to the old bounding box origin
+                    const newPoints = [
+                        {
+                            x: newBounds.x + (start.x - oldMinX) * scaleX,
+                            y: newBounds.y + (start.y - oldMinY) * scaleY
+                        },
+                        {
+                            x: newBounds.x + (end.x - oldMinX) * scaleX,
+                            y: newBounds.y + (end.y - oldMinY) * scaleY
+                        }
+                    ];
+                    return { ...s, points: newPoints };
                 }
 
-                // For text - adjust font size proportionally
-                if (s.tool === 'text' && s.text) {
-                    const oldBounds = (() => {
-                        const point = s.points[0];
-                        const fontSize = s.fontSize || 20;
-                        const textWidth = s.text.length * fontSize * 0.6;
-                        const textHeight = fontSize * 1.2;
-                        return { x: point.x, y: point.y - fontSize, width: textWidth, height: textHeight };
-                    })();
+                // Handle text
+                if (s.tool === 'text' && s.points.length > 0) {
+                    const fontSize = s.fontSize || 20;
+                    const text = s.text || '';
+                    const avgCharWidth = fontSize * 0.6;
+                    const oldWidth = Math.max(text.length * avgCharWidth, fontSize);
+                    const oldHeight = fontSize * 1.2;
 
-                    const scaleX = newBounds.width / oldBounds.width;
-                    const scaleY = newBounds.height / oldBounds.height;
-                    const scale = Math.min(scaleX, scaleY); // Maintain aspect ratio
+                    // Scale font size proportionally based on height change
+                    const scale = safeHeight / oldHeight;
+                    const newFontSize = Math.max(8, Math.round(fontSize * scale));
 
-                    return {
-                        ...s,
-                        points: [{ x: newBounds.x, y: newBounds.y + (s.fontSize || 20) * scale }],
-                        fontSize: Math.max(8, Math.round((s.fontSize || 20) * scale))
-                    };
+                    // Position text at new bounds origin (y is top of text in Konva)
+                    const newPoints = [{ x: newBounds.x, y: newBounds.y }];
+                    return { ...s, points: newPoints, fontSize: newFontSize };
                 }
 
-                // For freehand drawings - scale all points
+                // Handle freehand drawings (pen, highlighter, calligraphy)
                 if (s.points.length > 0) {
-                    const oldBounds = (() => {
-                        const xs = s.points.map(p => p.x);
-                        const ys = s.points.map(p => p.y);
-                        const minX = Math.min(...xs);
-                        const minY = Math.min(...ys);
-                        const maxX = Math.max(...xs);
-                        const maxY = Math.max(...ys);
-                        return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
-                    })();
+                    // Calculate old bounds from points
+                    const xs = s.points.map(p => p.x);
+                    const ys = s.points.map(p => p.y);
+                    const oldMinX = Math.min(...xs);
+                    const oldMinY = Math.min(...ys);
+                    const oldMaxX = Math.max(...xs);
+                    const oldMaxY = Math.max(...ys);
+                    const oldWidth = oldMaxX - oldMinX || 1;
+                    const oldHeight = oldMaxY - oldMinY || 1;
 
-                    if (oldBounds.width === 0 || oldBounds.height === 0) return s;
-
-                    const scaleX = newBounds.width / oldBounds.width;
-                    const scaleY = newBounds.height / oldBounds.height;
-
-                    return {
-                        ...s,
-                        points: s.points.map(p => ({
-                            x: newBounds.x + (p.x - oldBounds.x) * scaleX,
-                            y: newBounds.y + (p.y - oldBounds.y) * scaleY
-                        }))
-                    };
+                    // Scale all points to fit within new bounds
+                    const scaleX = safeWidth / oldWidth;
+                    const scaleY = safeHeight / oldHeight;
+                    const newPoints = s.points.map(p => ({
+                        x: newBounds.x + (p.x - oldMinX) * scaleX,
+                        y: newBounds.y + (p.y - oldMinY) * scaleY
+                    }));
+                    return { ...s, points: newPoints };
                 }
 
                 return s;
             })
         })),
-
-        replaceStrokes: (strokes) => set({
-            strokes,
-            activeStrokes: new Map(),
-            selectedStrokeId: null,
-        }),
-        setSelectedStrokeId: (strokeId) => set({ selectedStrokeId: strokeId }),
 
         startStroke: (point: Point, touchId: string = 'mouse') => {
             const { currentTool, currentColor, currentWidth, currentOpacity, activeStrokes, currentPageId } = get();
@@ -257,7 +289,7 @@ export const useWhiteboardStore = create<WhiteboardState>()(
 
             set({
                 activeStrokes: newActiveStrokes,
-                selectedStrokeId: null,
+                selectedStrokeIds: [],
             });
         },
 
@@ -303,7 +335,7 @@ export const useWhiteboardStore = create<WhiteboardState>()(
         },
 
         clearPage: () => {
-            set({ strokes: [], activeStrokes: new Map(), selectedStrokeId: null });
+            set({ strokes: [], activeStrokes: new Map(), selectedStrokeIds: [] });
         },
 
         // Page actions

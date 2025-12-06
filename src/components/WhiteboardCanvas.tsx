@@ -44,6 +44,123 @@ function getSvgPathFromStroke(stroke: number[][]) {
     return d.join(' ');
 }
 
+// Helper function to find a stroke at a given point
+function findStrokeAtPoint(point: Point, strokes: Stroke[]): Stroke | null {
+    // Check strokes in reverse order (top to bottom in z-order)
+    for (let i = strokes.length - 1; i >= 0; i--) {
+        const stroke = strokes[i];
+
+        // Skip if stroke has no points
+        if (!stroke.points || stroke.points.length === 0) continue;
+
+        let minX: number, minY: number, maxX: number, maxY: number;
+
+        // For text strokes, use proper text bounds calculation
+        if (stroke.tool === 'text' && stroke.text) {
+            const textPoint = stroke.points[0];
+            const fontSize = stroke.fontSize || 20;
+
+            // Match the getStrokeBounds calculation for text
+            const avgCharWidth = 0.6; // Average for most fonts
+            const textWidth = Math.max(stroke.text.length * fontSize * avgCharWidth, fontSize);
+            const textHeight = fontSize * 1.2;
+
+            minX = textPoint.x;
+            minY = textPoint.y; // Konva renders text with y as TOP
+            maxX = textPoint.x + textWidth;
+            maxY = textPoint.y + textHeight;
+        } else {
+            // Get the bounding box for other strokes
+            minX = Infinity;
+            minY = Infinity;
+            maxX = -Infinity;
+            maxY = -Infinity;
+            stroke.points.forEach(p => {
+                minX = Math.min(minX, p.x);
+                minY = Math.min(minY, p.y);
+                maxX = Math.max(maxX, p.x);
+                maxY = Math.max(maxY, p.y);
+            });
+        }
+
+        // Add some padding for easier selection (based on stroke width)
+        const padding = Math.max(stroke.width * 2, 10);
+        minX -= padding;
+        minY -= padding;
+        maxX += padding;
+        maxY += padding;
+
+        // Check if point is within bounding box
+        if (point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY) {
+            // For shapes and text, bounding box is enough
+            if (['rectangle', 'circle', 'triangle', 'pentagon', 'hexagon', 'star', 'text'].includes(stroke.tool)) {
+                return stroke;
+            }
+
+            // For freehand strokes, check if point is close to any segment
+            for (let j = 0; j < stroke.points.length - 1; j++) {
+                const p1 = stroke.points[j];
+                const p2 = stroke.points[j + 1];
+                const distance = distanceToLineSegment(point, p1, p2);
+                if (distance <= padding) {
+                    return stroke;
+                }
+            }
+
+            // For lines and arrows with 2 points
+            if (stroke.points.length === 2 && ['line', 'arrow'].includes(stroke.tool)) {
+                const distance = distanceToLineSegment(point, stroke.points[0], stroke.points[1]);
+                if (distance <= padding) {
+                    return stroke;
+                }
+            }
+
+            // For single point strokes (dots)
+            if (stroke.points.length === 1) {
+                const dx = point.x - stroke.points[0].x;
+                const dy = point.y - stroke.points[0].y;
+                if (Math.sqrt(dx * dx + dy * dy) <= padding) {
+                    return stroke;
+                }
+            }
+        }
+    }
+    return null;
+}
+
+// Helper function to calculate distance from a point to a line segment
+function distanceToLineSegment(point: Point, lineStart: Point, lineEnd: Point): number {
+    const A = point.x - lineStart.x;
+    const B = point.y - lineStart.y;
+    const C = lineEnd.x - lineStart.x;
+    const D = lineEnd.y - lineStart.y;
+
+    const dot = A * C + B * D;
+    const lenSq = C * C + D * D;
+    let param = -1;
+
+    if (lenSq !== 0) {
+        param = dot / lenSq;
+    }
+
+    let xx: number, yy: number;
+
+    if (param < 0) {
+        xx = lineStart.x;
+        yy = lineStart.y;
+    } else if (param > 1) {
+        xx = lineEnd.x;
+        yy = lineEnd.y;
+    } else {
+        xx = lineStart.x + param * C;
+        yy = lineStart.y + param * D;
+    }
+
+    const dx = point.x - xx;
+    const dy = point.y - yy;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
 export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
     console.log('WhiteboardCanvas: Component rendering');
     const {
@@ -56,8 +173,10 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         currentFontFamily,
         currentFontSize,
         setStageRef,
-        selectedStrokeId,
-        setSelectedStrokeId,
+        selectedStrokeIds,
+        setSelectedStrokeIds,
+        addToSelection,
+        toggleSelection,
         deleteStroke,
         moveStroke,
         resizeStroke,
@@ -383,21 +502,22 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         }
     }, [isPanning, isSpacePressed, isSelectionMode]);
 
-    // Delete selected stroke with keyboard
+    // Delete selected strokes with keyboard
     useEffect(() => {
         const handleDeleteKey = (event: KeyboardEvent) => {
             // Don't delete if user is typing in text input
             if (showTextInput) return;
 
-            if ((event.key === 'Delete' || event.key === 'Backspace') && selectedStrokeId) {
+            if ((event.key === 'Delete' || event.key === 'Backspace') && selectedStrokeIds.length > 0) {
                 event.preventDefault();
-                deleteStroke(selectedStrokeId);
+                // Delete all selected strokes
+                selectedStrokeIds.forEach(id => deleteStroke(id));
             }
         };
 
         window.addEventListener('keydown', handleDeleteKey);
         return () => window.removeEventListener('keydown', handleDeleteKey);
-    }, [selectedStrokeId, showTextInput, deleteStroke]);
+    }, [selectedStrokeIds, showTextInput, deleteStroke]);
 
     useEffect(() => {
         if (!isSelectionMode) {
@@ -507,19 +627,34 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         if (isSelectionMode) {
             const clickedOnEmpty = e.target === e.target.getStage();
             if (clickedOnEmpty) {
-                setSelectedStrokeId(null);
+                setSelectedStrokeIds([]);
                 return;
             }
 
-            // Check if clicking on a selected stroke to start dragging
-            if (selectedStrokeId) {
-                const selectedStroke = strokes.find(s => s.id === selectedStrokeId);
-                if (selectedStroke) {
-                    // Start dragging the selected stroke
+            // Find which stroke was clicked by checking if any stroke contains this point
+            const clickedStroke = findStrokeAtPoint(pos, strokes);
+
+            if (clickedStroke) {
+                // Check if Shift key is held for multi-select
+                if (e.evt.shiftKey) {
+                    // Toggle this stroke in/out of selection
+                    toggleSelection(clickedStroke.id);
+                    return;
+                }
+
+                // If clicking on a stroke that's already selected, start dragging
+                if (selectedStrokeIds.includes(clickedStroke.id)) {
                     setIsDraggingStroke(true);
                     setDragStart(pos);
                     return;
                 }
+
+                // Otherwise, select only this stroke (replace selection)
+                setSelectedStrokeIds([clickedStroke.id]);
+                return;
+            } else {
+                // Clicked on canvas but no stroke found - deselect
+                setSelectedStrokeIds([]);
             }
             return;
         }
@@ -542,15 +677,15 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
             return;
         }
 
-        // Handle dragging selected stroke
-        if (isDraggingStroke && dragStart && selectedStrokeId) {
+        // Handle dragging selected strokes
+        if (isDraggingStroke && dragStart && selectedStrokeIds.length > 0) {
             const pos = clientToScenePoint(e.evt.clientX, e.evt.clientY);
             if (pos) {
                 const deltaX = pos.x - dragStart.x;
                 const deltaY = pos.y - dragStart.y;
 
-                // Move the stroke
-                moveStroke(selectedStrokeId, deltaX, deltaY);
+                // Move all selected strokes
+                selectedStrokeIds.forEach(id => moveStroke(id, deltaX, deltaY));
 
                 // Update drag start for next movement
                 setDragStart(pos);
@@ -660,7 +795,7 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         if (isSelectionMode) {
             const tappedOnEmpty = e.target === stage;
             if (tappedOnEmpty) {
-                setSelectedStrokeId(null);
+                setSelectedStrokeIds([]);
             }
             return;
         }
@@ -762,7 +897,7 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
 
     // Helper function to render a stroke (line or shape)
     const renderStroke = (stroke: Stroke) => {
-        const isSelectedStroke = stroke.id === selectedStrokeId;
+        const isSelectedStroke = selectedStrokeIds.includes(stroke.id);
         const selectionStyles = isSelectedStroke
             ? {
                 shadowColor: '#2563eb',
@@ -774,12 +909,16 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
             onMouseDown: (event: KonvaEventObject<MouseEvent>) => {
                 if (!isSelectionMode) return;
                 event.cancelBubble = true;
-                setSelectedStrokeId(stroke.id);
+                if (event.evt.shiftKey) {
+                    toggleSelection(stroke.id);
+                } else {
+                    setSelectedStrokeIds([stroke.id]);
+                }
             },
             onTouchStart: (event: KonvaEventObject<TouchEvent>) => {
                 if (!isSelectionMode) return;
                 event.cancelBubble = true;
-                setSelectedStrokeId(stroke.id);
+                setSelectedStrokeIds([stroke.id]);
             },
         };
         const compositeOp = (stroke.tool === 'eraser' ? 'destination-out' : 'source-over') as globalThis.GlobalCompositeOperation;
@@ -1126,9 +1265,9 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
                         />
                     )}
 
-                    {/* Selection Box */}
-                    {selectedStrokeId && (() => {
-                        const selectedStroke = strokes.find(s => s.id === selectedStrokeId);
+                    {/* Selection Box for each selected stroke */}
+                    {selectedStrokeIds.map(strokeId => {
+                        const selectedStroke = strokes.find(s => s.id === strokeId);
                         if (!selectedStroke) return null;
 
                         const handleResize = (handleIndex: number, newX: number, newY: number) => {
@@ -1181,19 +1320,20 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
                                 height: newBounds.height - padding * 2
                             };
 
-                            resizeStroke(selectedStrokeId, finalBounds);
+                            resizeStroke(strokeId, finalBounds);
                         };
 
                         return (
                             <SelectionBox
+                                key={strokeId}
                                 selectedStroke={selectedStroke}
-                                onDelete={() => deleteStroke(selectedStrokeId)}
+                                onDelete={() => deleteStroke(strokeId)}
                                 onResize={handleResize}
-                                onMove={(deltaX, deltaY) => moveStroke(selectedStrokeId, deltaX, deltaY)}
+                                onMove={(deltaX, deltaY) => moveStroke(strokeId, deltaX, deltaY)}
                                 stageScale={stageTransform.scale}
                             />
                         );
-                    })()}
+                    })}
                 </Layer>
             </Stage>
 
@@ -1297,11 +1437,11 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
                 />
             )}
 
-            {/* Floating Toolbar */}
-            {selectedStrokeId && strokes.find(s => s.id === selectedStrokeId) && (
+            {/* Floating Toolbar - show for last selected stroke */}
+            {selectedStrokeIds.length > 0 && strokes.find(s => s.id === selectedStrokeIds[selectedStrokeIds.length - 1]) && (
                 <FloatingToolbar
-                    bounds={getStrokeBounds(strokes.find(s => s.id === selectedStrokeId)!)}
-                    onDelete={() => deleteStroke(selectedStrokeId)}
+                    bounds={getStrokeBounds(strokes.find(s => s.id === selectedStrokeIds[selectedStrokeIds.length - 1])!)}
+                    onDelete={() => selectedStrokeIds.forEach(id => deleteStroke(id))}
                     stageTransform={stageTransform}
                 />
             )}

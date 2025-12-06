@@ -20,16 +20,18 @@ export function getStrokeBounds(stroke: Stroke): Bounds {
         const point = stroke.points[0];
         const fontSize = stroke.fontSize || 20;
 
-        // More accurate width calculation for cursive fonts
-        const avgCharWidth = stroke.fontFamily?.toLowerCase().includes('cursive') ? 0.5 : 0.55;
-        const textWidth = stroke.text.length * fontSize * avgCharWidth;
+        // Calculate text width based on character count and font
+        // Different fonts have different average character widths
+        const avgCharWidth = 0.6; // Average for most fonts
+        const textWidth = Math.max(stroke.text.length * fontSize * avgCharWidth, fontSize);
 
-        // Tighter height - just slightly more than fontSize
-        const textHeight = fontSize * 1.1;
+        // Text height is approximately 1.2x the font size (includes line height)
+        const textHeight = fontSize * 1.2;
 
+        // Konva renders text with y as the TOP of the text box, not the baseline
         return {
             x: point.x,
-            y: point.y - fontSize * 0.85, // Better baseline adjustment
+            y: point.y, // No offset needed - y is already the top
             width: textWidth,
             height: textHeight,
         };

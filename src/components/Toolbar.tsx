@@ -99,7 +99,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
         deleteStroke,
         clearPage,
         strokes,
-        selectedStrokeId,
+        selectedStrokeIds,
         replaceStrokes,
         isMagicMode,
         toggleMagicMode,
@@ -643,7 +643,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
                     </div>
 
                     {/* Text Tool Options (Font Size only) - shown when text tool is active but no stroke selected */}
-                    {currentTool === 'text' && !selectedStrokeId && (
+                    {currentTool === 'text' && selectedStrokeIds.length === 0 && (
                         <select
                             value={currentFontSize}
                             onChange={(e) => setFontSize(Number(e.target.value))}
@@ -661,93 +661,85 @@ export default function Toolbar({ boardId }: ToolbarProps) {
                     )}
 
                     {/* Text Formatting Options - shown when a text stroke is selected */}
-                    {selectedStrokeId && strokes.find(s => s.id === selectedStrokeId)?.tool === 'text' && (
-                        <>
-                            {/* Font Size */}
-                            <select
-                                value={strokes.find(s => s.id === selectedStrokeId)?.fontSize || 20}
-                                onChange={(e) => {
-                                    const newSize = Number(e.target.value);
-                                    const stroke = strokes.find(s => s.id === selectedStrokeId);
-                                    if (stroke) {
-                                        const newStroke = { ...stroke, fontSize: newSize, width: newSize };
-                                        const newStrokes = strokes.map(s => s.id === selectedStrokeId ? newStroke : s);
+                    {selectedStrokeIds.length > 0 && (() => {
+                        const selectedTextStroke = strokes.find(s => selectedStrokeIds.includes(s.id) && s.tool === 'text');
+                        if (!selectedTextStroke) return null;
+                        return (
+                            <>
+                                {/* Font Size */}
+                                <select
+                                    value={selectedTextStroke.fontSize || 20}
+                                    onChange={(e) => {
+                                        const newSize = Number(e.target.value);
+                                        const newStroke = { ...selectedTextStroke, fontSize: newSize, width: newSize };
+                                        const newStrokes = strokes.map(s => s.id === selectedTextStroke.id ? newStroke : s);
                                         useWhiteboardStore.getState().replaceStrokes(newStrokes);
-                                    }
-                                }}
-                                className="px-2 py-1 border border-gray-300 rounded text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                title="Font Size"
-                            >
-                                <option value={12}>12px</option>
-                                <option value={16}>16px</option>
-                                <option value={20}>20px</option>
-                                <option value={24}>24px</option>
-                                <option value={32}>32px</option>
-                                <option value={48}>48px</option>
-                                <option value={64}>64px</option>
-                            </select>
+                                    }}
+                                    className="px-2 py-1 border border-gray-300 rounded text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    title="Font Size"
+                                >
+                                    <option value={12}>12px</option>
+                                    <option value={16}>16px</option>
+                                    <option value={20}>20px</option>
+                                    <option value={24}>24px</option>
+                                    <option value={32}>32px</option>
+                                    <option value={48}>48px</option>
+                                    <option value={64}>64px</option>
+                                </select>
 
-                            {/* Bold */}
-                            <button
-                                onClick={() => {
-                                    const stroke = strokes.find(s => s.id === selectedStrokeId);
-                                    if (stroke) {
-                                        const newWeight = stroke.fontWeight === 'bold' ? 'normal' : 'bold';
-                                        const newStroke = { ...stroke, fontWeight: newWeight as 'bold' | 'normal' };
-                                        const newStrokes = strokes.map(s => s.id === selectedStrokeId ? newStroke : s);
+                                {/* Bold */}
+                                <button
+                                    onClick={() => {
+                                        const newWeight = selectedTextStroke.fontWeight === 'bold' ? 'normal' : 'bold';
+                                        const newStroke = { ...selectedTextStroke, fontWeight: newWeight as 'bold' | 'normal' };
+                                        const newStrokes = strokes.map(s => s.id === selectedTextStroke.id ? newStroke : s);
                                         useWhiteboardStore.getState().replaceStrokes(newStrokes);
-                                    }
-                                }}
-                                className={`px-2 py-1 rounded-lg font-bold transition-colors ${strokes.find(s => s.id === selectedStrokeId)?.fontWeight === 'bold'
-                                    ? 'bg-blue-100 text-blue-700'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                    }`}
-                                title="Bold"
-                            >
-                                B
-                            </button>
+                                    }}
+                                    className={`px-2 py-1 rounded-lg font-bold transition-colors ${selectedTextStroke.fontWeight === 'bold'
+                                        ? 'bg-blue-100 text-blue-700'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        }`}
+                                    title="Bold"
+                                >
+                                    B
+                                </button>
 
-                            {/* Italic */}
-                            <button
-                                onClick={() => {
-                                    const stroke = strokes.find(s => s.id === selectedStrokeId);
-                                    if (stroke) {
-                                        const newStyle = stroke.fontStyle === 'italic' ? 'normal' : 'italic';
-                                        const newStroke = { ...stroke, fontStyle: newStyle as 'italic' | 'normal' };
-                                        const newStrokes = strokes.map(s => s.id === selectedStrokeId ? newStroke : s);
+                                {/* Italic */}
+                                <button
+                                    onClick={() => {
+                                        const newStyle = selectedTextStroke.fontStyle === 'italic' ? 'normal' : 'italic';
+                                        const newStroke = { ...selectedTextStroke, fontStyle: newStyle as 'italic' | 'normal' };
+                                        const newStrokes = strokes.map(s => s.id === selectedTextStroke.id ? newStroke : s);
                                         useWhiteboardStore.getState().replaceStrokes(newStrokes);
-                                    }
-                                }}
-                                className={`px-2 py-1 rounded-lg italic transition-colors ${strokes.find(s => s.id === selectedStrokeId)?.fontStyle === 'italic'
-                                    ? 'bg-blue-100 text-blue-700'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                    }`}
-                                title="Italic"
-                            >
-                                I
-                            </button>
+                                    }}
+                                    className={`px-2 py-1 rounded-lg italic transition-colors ${selectedTextStroke.fontStyle === 'italic'
+                                        ? 'bg-blue-100 text-blue-700'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        }`}
+                                    title="Italic"
+                                >
+                                    I
+                                </button>
 
-                            {/* Underline */}
-                            <button
-                                onClick={() => {
-                                    const stroke = strokes.find(s => s.id === selectedStrokeId);
-                                    if (stroke) {
-                                        const newDec = stroke.textDecoration === 'underline' ? 'none' : 'underline';
-                                        const newStroke = { ...stroke, textDecoration: newDec as 'underline' | 'none' };
-                                        const newStrokes = strokes.map(s => s.id === selectedStrokeId ? newStroke : s);
+                                {/* Underline */}
+                                <button
+                                    onClick={() => {
+                                        const newDec = selectedTextStroke.textDecoration === 'underline' ? 'none' : 'underline';
+                                        const newStroke = { ...selectedTextStroke, textDecoration: newDec as 'underline' | 'none' };
+                                        const newStrokes = strokes.map(s => s.id === selectedTextStroke.id ? newStroke : s);
                                         useWhiteboardStore.getState().replaceStrokes(newStrokes);
-                                    }
-                                }}
-                                className={`px-2 py-1 rounded-lg underline transition-colors ${strokes.find(s => s.id === selectedStrokeId)?.textDecoration === 'underline'
-                                    ? 'bg-blue-100 text-blue-700'
-                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                    }`}
-                                title="Underline"
-                            >
-                                U
-                            </button>
-                        </>
-                    )}
+                                    }}
+                                    className={`px-2 py-1 rounded-lg underline transition-colors ${selectedTextStroke.textDecoration === 'underline'
+                                        ? 'bg-blue-100 text-blue-700'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        }`}
+                                    title="Underline"
+                                >
+                                    U
+                                </button>
+                            </>
+                        );
+                    })()}
 
                     <div className="w-px h-8 bg-gray-200 mx-1" />
 

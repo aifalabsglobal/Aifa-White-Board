@@ -1,0 +1,137 @@
+﻿   Γû▓ Next.js 15.0.3
+   - Environments: .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+npx : Failed to compile.
+At line:1 char:1
++ npx next build > 
+build_log_final.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (F  
+  ailed to compile.:Str   
+ ing) [], RemoteExcept    
+ion
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+
+./src/components/Toolbar.t
+sx:293:22
+Type error: Type 'ForwardR
+efExoticComponent<Omit<Luc
+ideProps, "ref"> & RefAttr
+ibutes<SVGSVGElement>>' 
+is not assignable to type 
+'ComponentType<{ size?: 
+number | undefined; }>'.
+  Type 'ForwardRefExoticCo
+mponent<Omit<LucideProps, 
+"ref"> & RefAttributes<SVG
+SVGElement>>' is not 
+assignable to type 
+'FunctionComponent<{ 
+size?: number | 
+undefined; }>'.
+    Types of property 
+'propTypes' are 
+incompatible.
+      Type 'WeakValidation
+Map<Omit<LucideProps, 
+"ref"> & RefAttributes<SVG
+SVGElement>> | undefined' 
+is not assignable to type 
+'WeakValidationMap<{ 
+size?: number | 
+undefined; }> | 
+undefined'.
+        Type 'WeakValidati
+onMap<Omit<LucideProps, 
+"ref"> & RefAttributes<SVG
+SVGElement>>' is not 
+assignable to type 
+'WeakValidationMap<{ 
+size?: number | 
+undefined; }>'.
+          Types of 
+property 'size' are 
+incompatible.
+            Type 
+'Validator<string | 
+number | null | 
+undefined> | undefined' 
+is not assignable to type 
+'Validator<number | null 
+| undefined> | undefined'.
+              Type 
+'Validator<string | 
+number | null | 
+undefined>' is not 
+assignable to type 
+'Validator<number | null 
+| undefined>'.
+                Type 
+'string | number | null | 
+undefined' is not 
+assignable to type 
+'number | null | 
+undefined'.
+                  Type 
+'string' is not 
+assignable to type 
+'number'.
+
+[0m [90m 291 |[39m[0m
+[0m [90m 292 |[39m     
+[36mconst[39m 
+drawTools[33m:[39m 
+[33mToolConfig[39m[] 
+[33m=[39m [[0m
+[0m[31m[1m>[22m[39m[
+90m 293 |[39m         { 
+id[33m:[39m [32m'pen'[
+39m[33m,[39m 
+icon[33m:[39m [33mPenci
+l[39m[33m,[39m 
+label[33m:[39m [32m'Pen
+'[39m[33m,[39m 
+value[33m:[39m 
+[32m'pen'[39m 
+}[33m,[39m[0m
+[0m [90m     |[39m     
+                 
+[31m[1m^[22m[39m[0m
+[0m [90m 294 |[39m     
+    { id[33m:[39m [32m'
+highlighter'[39m[33m,[3
+9m icon[33m:[39m [33mHi
+ghlighter[39m[33m,[39m 
+label[33m:[39m [32m'Hig
+hlighter'[39m[33m,[39m 
+value[33m:[39m 
+[32m'highlighter'[39m 
+}[33m,[39m[0m
+[0m [90m 295 |[39m     
+    { id[33m:[39m [32m'
+eraser'[39m[33m,[39m 
+icon[33m:[39m [33mErase
+r[39m[33m,[39m 
+label[33m:[39m [32m'Era
+ser'[39m[33m,[39m 
+value[33m:[39m 
+[32m'eraser'[39m 
+}[33m,[39m[0m
+[0m [90m 296 |[39m     
+    { id[33m:[39m [32m'
+text'[39m[33m,[39m 
+icon[33m:[39m 
+[33mType[39m[33m,[39m 
+label[33m:[39m [32m'Tex
+t'[39m[33m,[39m 
+value[33m:[39m 
+[32m'text'[39m 
+}[33m,[39m[0m

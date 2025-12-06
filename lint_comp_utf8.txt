@@ -1,0 +1,185 @@
+﻿
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\AppModal.tsx
+  41:13  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\AppModal.tsx:41:13
+  39 |     useEffect(() => {
+  40 |         if (isOpen) {
+> 41 |             setIsVisible(true);
+     |             ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  42 |             // Small delay to allow render before animation
+  43 |             requestAnimationFrame(() => setIsAnimating(true));
+  44 |             setInputValue(initialInputValue);  react-hooks/set-state-in-effect
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\BoardNavigator.tsx
+  31:8  warning  React Hook useEffect has a missing dependency: 'loadBoards'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\CameraOverlay.tsx
+  40:26  warning  The ref value 'videoRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'videoRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\FlipbookViewer.tsx
+   28:42  warning  'boardId' is defined but never used                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+  311:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  341:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  383:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  415:33  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\GlobalCameraOverlay.tsx
+  19:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\GlobalCameraOverlay.tsx:19:13
+  17 |     useEffect(() => {
+  18 |         if (!initialized && typeof window !== 'undefined') {
+> 19 |             setPosition({
+     |             ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  20 |                 x: window.innerWidth - 180 - 24, // width - size - margin
+  21 |                 y: window.innerHeight - 180 - 24
+  22 |             });  react-hooks/set-state-in-effect
+  37:26  warning  The ref value 'videoRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'videoRef.current' to a variable inside the effect, and use that variable in the cleanup function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\PageManager.tsx
+    6:10  warning  'cn' is defined but never used                    @typescript-eslint/no-unused-vars
+   24:24  warning  'showConfirm' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   57:25  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  116:58  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  119:91  error    Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\RecordingControls.tsx
+    3:38  warning  'useRef' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+    4:76  warning  'GripVertical' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+   32:5   warning  'onDownload' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+   54:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\RecordingControls.tsx:54:13
+  52 |             return () => clearInterval(interval);
+  53 |         } else {
+> 54 |             setAudioLevel(0);
+     |             ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  55 |         }
+  56 |     }, [status]);
+  57 |                                                                                                          react-hooks/set-state-in-effect
+   63:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\RecordingControls.tsx:63:13
+  61 |             const blob = new Blob(recordedChunks, { type: 'video/webm' });
+  62 |             const url = URL.createObjectURL(blob);
+> 63 |             setDownloadUrl(url);
+     |             ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  64 |
+  65 |             return () => {
+  66 |                 URL.revokeObjectURL(url);  react-hooks/set-state-in-effect
+  103:35  warning  'e' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\RecordingSettings.tsx
+  58:8  warning  React Hook useEffect has missing dependencies: 'settings.cameraId' and 'settings.microphoneId'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\ScreenRecorder.tsx
+   23:42  warning  'boardId' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   80:17  error    Error: Cannot access variable before it is declared
+
+`handleStop` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\ScreenRecorder.tsx:80:17
+  78 |
+  79 |             screenStream.getVideoTracks()[0].addEventListener('ended', () => {
+> 80 |                 handleStop();
+     |                 ^^^^^^^^^^ `handleStop` accessed before it is declared
+  81 |             });
+  82 |
+  83 |             const streams: MediaStream[] = [screenStream];
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\ScreenRecorder.tsx:138:5
+  136 |     }, []);
+  137 |
+> 138 |     const handleStop = useCallback(async () => {
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 139 |         if (!recorderRef.current) return;
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 140 |
+      ΓÇª
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 159 |         }
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 160 |     }, [onRecordingComplete]);
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `handleStop` is declared here
+  161 |
+  162 |     const handleDownload = useCallback(() => {
+  163 |         if (recordedBlob) {  react-hooks/immutability
+  117:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  122:8   warning  React Hook useCallback has a missing dependency: 'handleStop'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          react-hooks/exhaustive-deps
+  156:25  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\SelectionBox.tsx
+  34:48  warning  'onDelete' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\Toolbar.tsx
+   19:5   warning  'FileJson' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+   21:5   warning  'History' is defined but never used                                                                          @typescript-eslint/no-unused-vars
+   26:5   warning  'Feather' is defined but never used                                                                          @typescript-eslint/no-unused-vars
+   34:5   warning  'Video' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+   99:9   warning  'deleteStroke' is assigned a value but never used                                                            @typescript-eslint/no-unused-vars
+  141:8   warning  React Hook useEffect has a missing dependency: 'position'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  183:11  warning  'handleExportClick' is assigned a value but never used                                                       @typescript-eslint/no-unused-vars
+  452:49  warning  Expected an assignment or function call and instead saw an expression                                        @typescript-eslint/no-unused-expressions
+  452:85  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  490:49  warning  Expected an assignment or function call and instead saw an expression                                        @typescript-eslint/no-unused-expressions
+  490:85  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  593:92  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\TopBar.tsx
+   92:5    warning  'showBackButton' is assigned a value but never used                    @typescript-eslint/no-unused-vars
+  322:66   warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  322:102  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  351:66   warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+  351:102  error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+  414:96   error    Unexpected any. Specify a different type                               @typescript-eslint/no-explicit-any
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\TopicNavigator.tsx
+  29:8  warning  React Hook useEffect has a missing dependency: 'loadTopics'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\WhiteboardCanvas.tsx
+    91:22  warning  'setTextBold' is assigned a value but never used       @typescript-eslint/no-unused-vars
+    92:24  warning  'setTextItalic' is assigned a value but never used     @typescript-eslint/no-unused-vars
+    93:27  warning  'setTextUnderline' is assigned a value but never used  @typescript-eslint/no-unused-vars
+    94:23  warning  'setTextAlign' is assigned a value but never used      @typescript-eslint/no-unused-vars
+   240:37  error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+   265:27  error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+   623:28  error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  1262:42  error    Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\WorkspaceMenu.tsx
+  4:38  warning  'Check' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\WorkspaceNavigator.tsx
+  26:8  warning  React Hook useEffect has a missing dependency: 'loadWorkspaces'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\components\providers\ModalProvider.tsx
+  24:67  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  26:11  warning  'close' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 59 problems (21 errors, 38 warnings)
+

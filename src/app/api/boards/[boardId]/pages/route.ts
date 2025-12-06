@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
+import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(
@@ -7,8 +7,8 @@ export async function GET(
     { params }: { params: Promise<{ boardId: string }> }
 ) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -25,9 +25,9 @@ export async function GET(
 
         // Check access
         const isMember = board.workspace?.members.some(
-            (m: { userId: string }) => m.userId === session.user?.id
+            (m: { userId: string }) => m.userId === userId
         ) ?? false;
-        const isOwner = board.userId === session.user?.id;
+        const isOwner = board.userId === userId;
 
         if (!isMember && !isOwner) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -53,8 +53,8 @@ export async function POST(
     { params }: { params: Promise<{ boardId: string }> }
 ) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -71,9 +71,9 @@ export async function POST(
 
         // Check access (only members can create pages)
         const isMember = board.workspace?.members.some(
-            (m: { userId: string }) => m.userId === session.user?.id
+            (m: { userId: string }) => m.userId === userId
         ) ?? false;
-        const isOwner = board.userId === session.user?.id;
+        const isOwner = board.userId === userId;
 
         if (!isMember && !isOwner) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });

@@ -49,15 +49,16 @@ export default function RecordingControls({
                 setAudioLevel(Math.random() * 100);
             }, 100);
 
-            return () => clearInterval(interval);
-        } else {
-            setAudioLevel(0);
+            return () => {
+                clearInterval(interval);
+                setAudioLevel(0);
+            };
         }
     }, [status]);
 
     // Generate download URL when recording stops
     useEffect(() => {
-        if (status === 'idle' && hasRecording && recordedChunks.length > 0) {
+        if (status === 'idle' && hasRecording && recordedChunks.length > 0 && !downloadUrl) {
             const blob = new Blob(recordedChunks, { type: 'video/webm' });
             const url = URL.createObjectURL(blob);
             setDownloadUrl(url);
@@ -67,7 +68,7 @@ export default function RecordingControls({
                 setDownloadUrl(null);
             };
         }
-    }, [status, hasRecording, recordedChunks]);
+    }, [status, hasRecording, recordedChunks, downloadUrl]);
 
     const isRecording = status === 'recording';
     const isPaused = status === 'paused';

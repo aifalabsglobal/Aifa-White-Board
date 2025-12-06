@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
+import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -13,22 +13,14 @@ export async function GET(request: NextRequest) {
             where: {
                 members: {
                     some: {
-                        userId: session.user.id,
+                        userId: userId,
                     },
                 },
             },
             include: {
-                owner: {
-                    select: {
-                        id: true,
-                        name: true,
-                        email: true,
-                        image: true,
-                    },
-                },
                 members: {
                     where: {
-                        userId: session.user.id,
+                        userId: userId,
                     },
                     select: {
                         role: true,
@@ -74,13 +66,16 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+    console.log('[API] POST /api/workspaces called');
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        console.log('[API] Auth check. UserId:', userId);
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
         const body = await request.json();
+        console.log('[API] Request body:', body);
         const { name, workspaceId } = body;
 
         if (!name) {
@@ -97,7 +92,7 @@ export async function POST(request: NextRequest) {
                 where: {
                     workspaceId_userId: {
                         workspaceId,
-                        userId: session.user.id,
+                        userId: userId,
                     },
                 },
             });
@@ -110,7 +105,7 @@ export async function POST(request: NextRequest) {
                 data: {
                     title: name,
                     workspaceId,
-                    userId: session.user.id,
+                    userId: userId,
                     content: [],
                 },
             });
@@ -135,10 +130,10 @@ export async function POST(request: NextRequest) {
             data: {
                 name,
                 slug,
-                ownerId: session.user.id,
+                ownerId: userId,
                 members: {
                     create: {
-                        userId: session.user.id,
+                        userId: userId,
                         role: 'OWNER',
                     },
                 },
@@ -150,7 +145,7 @@ export async function POST(request: NextRequest) {
             data: {
                 title: 'Welcome Board',
                 workspaceId: workspace.id,
-                userId: session.user.id,
+                userId: userId,
                 content: [],
             },
         });

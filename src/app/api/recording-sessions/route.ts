@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@/lib/auth'; // Assuming auth is exported from lib/auth
+import { auth } from '@clerk/nextjs/server';
 
 export async function GET() {
     try {
-        const session = await auth();
-        if (!session?.user) {
+        const { userId } = await auth();
+        if (!userId) {
             return new NextResponse('Unauthorized', { status: 401 });
         }
 

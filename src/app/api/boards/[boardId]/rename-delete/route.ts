@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
+import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
 
 export async function PATCH(
@@ -7,8 +7,8 @@ export async function PATCH(
     { params }: { params: Promise<{ boardId: string }> }
 ) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -27,7 +27,7 @@ export async function PATCH(
                 workspace: {
                     include: {
                         members: {
-                            where: { userId: session.user.id },
+                            where: { userId: userId },
                         },
                     },
                 },
@@ -39,7 +39,7 @@ export async function PATCH(
         }
 
         const isMember = board.workspace?.members && board.workspace.members.length > 0;
-        const isOwner = board.userId === session.user.id;
+        const isOwner = board.userId === userId;
 
         if (!isMember && !isOwner) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -62,8 +62,8 @@ export async function DELETE(
     { params }: { params: Promise<{ boardId: string }> }
 ) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -76,7 +76,7 @@ export async function DELETE(
                 workspace: {
                     include: {
                         members: {
-                            where: { userId: session.user.id },
+                            where: { userId: userId },
                         },
                     },
                 },
@@ -88,7 +88,7 @@ export async function DELETE(
         }
 
         const userRole = board.workspace?.members[0]?.role;
-        const isOwner = board.userId === session.user.id;
+        const isOwner = board.userId === userId;
 
         // Allow deletion if user is board owner, workspace owner, or workspace admin
         if (!isOwner && userRole !== 'OWNER' && userRole !== 'ADMIN') {

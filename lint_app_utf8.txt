@@ -1,0 +1,78 @@
+﻿
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\api\recording-sessions\route.ts
+  15:15  warning  'mockSessions' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\api\workspaces\create\route.ts
+  23:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  32:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\api\workspaces\route.ts
+    5:27  warning  'request' is defined but never used       @typescript-eslint/no-unused-vars
+   52:63  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   88:49  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  101:44  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  111:30  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  126:44  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  141:26  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\board\[boardId]\page.tsx
+  22:48  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  27:9   error    Error: Cannot access variable before it is declared
+
+`fetchBoardData` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\board\[boardId]\page.tsx:27:9
+  25 |         setMounted(true);
+  26 |         // Fetch board with workspace info
+> 27 |         fetchBoardData();
+     |         ^^^^^^^^^^^^^^ `fetchBoardData` accessed before it is declared
+  28 |     }, [boardId]);
+  29 |
+  30 |     const fetchBoardData = async () => {
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\board\[boardId]\page.tsx:30:5
+  28 |     }, [boardId]);
+  29 |
+> 30 |     const fetchBoardData = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 31 |         try {
+     | ^^^^^^^^^^^^^
+> 32 |             const res = await fetch(`/api/boards/${boardId}`);
+     ΓÇª
+     | ^^^^^^^^^^^^^
+> 39 |         }
+     | ^^^^^^^^^^^^^
+> 40 |     };
+     | ^^^^^^^ `fetchBoardData` is declared here
+  41 |
+  42 |     if (!mounted) return null;
+  43 |  react-hooks/immutability
+  28:8   warning  React Hook useEffect has a missing dependency: 'fetchBoardData'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\boards\page.tsx
+  35:8  warning  React Hook useEffect has a missing dependency: 'loadWorkspaces'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\dashboard\page.tsx
+  25:24  warning  'showConfirm' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\flipbook\[boardId]\page.tsx
+   16:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  149:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  220:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  294:53  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\layout.tsx
+   7:8  warning  'Script' is defined but never used                                                                                                                               @typescript-eslint/no-unused-vars
+  35:9  warning  Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font  @next/next/no-page-custom-font
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\workspaces\[workspaceId]\page.tsx
+  26:24  warning  'showPrompt' is assigned a value but never used                                                                   @typescript-eslint/no-unused-vars
+  37:8   warning  React Hook useEffect has a missing dependency: 'loadWorkspace'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\src\app\workspaces\page.tsx
+   13:13  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   14:15  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  185:45  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+Γ£û 26 problems (16 errors, 10 warnings)
+

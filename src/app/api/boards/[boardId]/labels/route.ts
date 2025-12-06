@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { auth } from '@/lib/auth';
+import { auth } from '@clerk/nextjs/server';
 
 export async function GET(
     request: Request,
     { params }: { params: Promise<{ boardId: string }> }
 ) {
-    const session = await auth();
-    if (!session?.user?.id) {
+    const { userId } = await auth();
+    if (!userId) {
         return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -23,8 +23,8 @@ export async function GET(
             return new NextResponse('Board not found', { status: 404 });
         }
 
-        const isOwner = board.userId === session.user.id;
-        const isMember = board.workspace?.members.some((m: { userId: string }) => m.userId === session.user.id) ?? false;
+        const isOwner = board.userId === userId;
+        const isMember = board.workspace?.members.some((m: { userId: string }) => m.userId === userId) ?? false;
 
         if (!isOwner && !isMember) {
             return new NextResponse('Unauthorized', { status: 401 });
@@ -46,8 +46,8 @@ export async function POST(
     request: Request,
     { params }: { params: Promise<{ boardId: string }> }
 ) {
-    const session = await auth();
-    if (!session?.user?.id) {
+    const { userId } = await auth();
+    if (!userId) {
         return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -70,8 +70,8 @@ export async function POST(
             return new NextResponse('Board not found', { status: 404 });
         }
 
-        const isOwner = board.userId === session.user.id;
-        const isMember = board.workspace?.members.some((m: { userId: string }) => m.userId === session.user.id) ?? false;
+        const isOwner = board.userId === userId;
+        const isMember = board.workspace?.members.some((m: { userId: string }) => m.userId === userId) ?? false;
 
         if (!isOwner && !isMember) {
             return new NextResponse('Unauthorized', { status: 401 });

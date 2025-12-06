@@ -283,7 +283,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
 
     type ToolConfig = {
         id: string;
-        icon: React.ComponentType<{ size?: number }>;
+        icon: React.ComponentType<{ size?: number | string }>;
         label: string;
         value?: string;
         action?: () => void;
@@ -449,7 +449,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
                                         <button
                                             key={tool.id}
                                             onClick={() => {
-                                                tool.value && setTool(tool.value as any);
+                                                if (tool.value) setTool(tool.value as any);
                                                 setExpandedSection(null);
                                             }}
                                             className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all ${currentTool === tool.value
@@ -487,7 +487,7 @@ export default function Toolbar({ boardId }: ToolbarProps) {
                                         <button
                                             key={tool.id}
                                             onClick={() => {
-                                                tool.value && setTool(tool.value as any);
+                                                if (tool.value) setTool(tool.value as any);
                                                 setExpandedSection(null);
                                             }}
                                             className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all ${currentTool === tool.value

@@ -1,0 +1,37 @@
+﻿npm : npm warn deprecated 
+next@15.0.3: This version 
+has a security 
+vulnerability. Please 
+upgrade to a patched 
+version. See https://nextj
+s.org/blog/CVE-2025-66478 
+for more details.
+At line:1 char:1
++ npm install 
+--legacy-peer-deps > 
+install_error_log_v5.txt 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (n  
+  pm warn deprec...r mo   
+ re details.:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+
+added 415 packages, removed 1 package, changed 4 packages, and audited 420 packages in 1m
+
+141 packages are looking for funding
+  run `npm fund` for details
+
+1 critical severity vulnerability
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.

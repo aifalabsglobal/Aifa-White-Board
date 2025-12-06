@@ -6,23 +6,20 @@ import { useRecordingStore } from '@/store/recordingStore';
 export default function GlobalCameraOverlay() {
     const { isRecording, cameraStream } = useRecordingStore();
     const videoRef = useRef<HTMLVideoElement>(null);
-    
-    // Default position: bottom-right (will be adjusted on mount/resize if needed)
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [isDragging, setIsDragging] = useState(false);
-    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-    const [initialized, setInitialized] = useState(false);
 
-    // Initialize position to bottom-right on mount
-    useEffect(() => {
-        if (!initialized && typeof window !== 'undefined') {
-            setPosition({
+    // Default position: bottom-right (will be adjusted on mount/resize if needed)
+    // Default position: bottom-right
+    const [position, setPosition] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return {
                 x: window.innerWidth - 180 - 24, // width - size - margin
                 y: window.innerHeight - 180 - 24
-            });
-            setInitialized(true);
+            };
         }
-    }, [initialized]);
+        return { x: 0, y: 0 };
+    });
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
         if (videoRef.current && cameraStream) {
@@ -88,10 +85,10 @@ export default function GlobalCameraOverlay() {
     return (
         <div
             className={`fixed z-[80] rounded-full shadow-2xl overflow-hidden cursor-move transition-shadow hover:shadow-xl ${isDragging ? 'cursor-grabbing' : ''}`}
-            style={{ 
-                left: `${position.x}px`, 
-                top: `${position.y}px`, 
-                width: '160px', 
+            style={{
+                left: `${position.x}px`,
+                top: `${position.y}px`,
+                width: '160px',
                 height: '160px',
                 // Ensure no border is visible, just the shadow and content
             }}

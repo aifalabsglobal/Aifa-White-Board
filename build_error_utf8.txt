@@ -1,0 +1,2299 @@
+﻿npx : [baseline-brows
+er-mapping] The data 
+in this module is 
+over two months old. 
+ To ensure accurate 
+Baseline data, 
+please update: `npm 
+i baseline-browser-ma
+pping@latest -D`
+At line:1 char:1
++ npx next build > 
+build_error.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: ([baseli   
+ ne-brows...ping@    
+latest -D`:Strin    
+g) [], RemoteExc    
+eption
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+   Γû▓ Next.js 16.0.3 (Turbopack)
+   - Environments: .env
+
+ ΓÜá The 
+"middleware" file 
+convention is 
+deprecated. Please 
+use "proxy" instead. 
+Learn more: https://n
+extjs.org/docs/messag
+es/middleware-to-prox
+y
+   Creating an optimized production build ...
+[baseline-browser-map
+ping] The data in 
+this module is over 
+two months old.  To 
+ensure accurate 
+Baseline data, 
+please update: `npm 
+i baseline-browser-ma
+pping@latest -D`
+
+> Build error 
+occurred
+Error: Turbopack 
+build failed with 23 
+errors:
+./src/app/layout.tsx:
+4:1
+Module not found: 
+Can't resolve 
+'@clerk/nextjs'
+[0m [90m 2 |[39m 
+[36mimport[39m { [
+33mGeist[39m[33m,[
+39m 
+[33mGeist_Mono[39m 
+} [36mfrom[39m [32
+m"next/font/google"[
+39m[33m;[39m
+ [90m 3 |[39m 
+[36mimport[39m [32
+m"./globals.css"[39m
+[33m;[39m
+[31m[1m>[22m[39m
+[90m 4 |[39m 
+[36mimport[39m { [
+33mClerkProvider[39m
+ } [36mfrom[39m [3
+2m"@clerk/nextjs"[39
+m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m
+ [90m 5 |[39m 
+[36mimport[39m [33
+mGlobalCameraOverlay
+[39m [36mfrom[39m 
+[32m"@/components/Glo
+balCameraOverlay"[39
+m[33m;[39m
+ [90m 6 |[39m 
+[36mimport[39m { [
+33mModalProvider[39m
+ } [36mfrom[39m [3
+2m"@/components/provi
+ders/ModalProvider"[
+39m[33m;[39m
+ [90m 7 |[39m 
+[36mimport[39m 
+[33mScript[39m 
+[36mfrom[39m [32m"
+next/script"[39m[33
+m;[39m[0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/sign-in/[[.
+..sign-in]]/page.tsx:
+1:1
+Module not found: 
+Can't resolve 
+'@clerk/nextjs'
+[0m[31m[1m>[22m[
+39m[90m 1 |[39m 
+[36mimport[39m { 
+[33mSignIn[39m } 
+[36mfrom[39m [32m'
+@clerk/nextjs'[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m 
+[36mexport[39m 
+[36mdefault[39m 
+[36mfunction[39m 
+[33mPage[39m() {
+ [90m 4 |[39m     
+[36mreturn[39m 
+([0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/sign-up/[[.
+..sign-up]]/page.tsx:
+1:1
+Module not found: 
+Can't resolve 
+'@clerk/nextjs'
+[0m[31m[1m>[22m[
+39m[90m 1 |[39m 
+[36mimport[39m { 
+[33mSignUp[39m } 
+[36mfrom[39m [32m'
+@clerk/nextjs'[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m 
+[36mexport[39m 
+[36mdefault[39m 
+[36mfunction[39m 
+[33mPage[39m() {
+ [90m 4 |[39m     
+[36mreturn[39m 
+([0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/workspaces/
+page.tsx:6:1
+Module not found: 
+Can't resolve 
+'@clerk/nextjs'
+[0m [90m 4 |[39m 
+[36mimport[39m { 
+useRouter } 
+[36mfrom[39m [32m'
+next/navigation'[39m
+[33m;[39m
+ [90m 5 |[39m 
+[36mimport[39m { [
+33mFolder[39m[33m,
+[39m [33mPlus[39m[
+33m,[39m [33mLoader
+[39m[33m,[39m [33
+mSearch[39m[33m,[3
+9m [33mUsers[39m[3
+3m,[39m 
+[33mLayout[39m 
+[36mas[39m [33mLay
+outIcon[39m[33m,[3
+9m [33mChevronRight
+[39m } 
+[36mfrom[39m [32m'
+lucide-react'[39m[3
+3m;[39m
+[31m[1m>[22m[39m
+[90m 6 |[39m 
+[36mimport[39m { 
+useAuth[33m,[39m 
+useUser } 
+[36mfrom[39m [32m'
+@clerk/nextjs'[39m[
+33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m
+ [90m 7 |[39m 
+[36mimport[39m 
+[33mTopBar[39m 
+[36mfrom[39m [32m'
+@/components/TopBar'
+[39m[33m;[39m
+ [90m 8 |[39m 
+[36mimport[39m [33
+mRecordingHistory[39
+m [36mfrom[39m [32
+m'@/components/Record
+ingHistory'[39m[33m
+;[39m
+ [90m 9 |[39m[0m
+
+
+
+Import traces:
+  Client Component 
+Browser:
+    ./src/app/workspa
+ces/page.tsx [Client 
+Component Browser]
+    ./src/app/workspa
+ces/page.tsx [Server 
+Component]
+
+  Client Component 
+SSR:
+    ./src/app/workspa
+ces/page.tsx [Client 
+Component SSR]
+    ./src/app/workspa
+ces/page.tsx [Server 
+Component]
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/components/TopB
+ar.tsx:35:1
+Module not found: 
+Can't resolve 
+'@clerk/nextjs'
+[0m [90m 33 |[39m 
+    [33mShare2[39m
+[33m,[39m
+ [90m 34 |[39m } 
+[36mfrom[39m [32m'
+lucide-react'[39m[3
+3m;[39m
+[31m[1m>[22m[39m
+[90m 35 |[39m 
+[36mimport[39m { [
+33mSignInButton[39m
+[33m,[39m [33mSigne
+dIn[39m[33m,[39m 
+[33mSignedOut[39m[3
+3m,[39m 
+[33mUserButton[39m 
+} [36mfrom[39m [32
+m'@clerk/nextjs'[39m
+[33m;[39m
+ [90m    |[39m [31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m
+ [90m 36 |[39m 
+[36mimport[39m [33
+mBoardSelector[39m 
+[36mfrom[39m [32m'
+./BoardSelector'[39m
+[33m;[39m
+ [90m 37 |[39m 
+[36mimport[39m [33
+mWorkspaceMenu[39m 
+[36mfrom[39m [32m'
+./WorkspaceMenu'[39m
+[33m;[39m
+ [90m 38 |[39m 
+[36mimport[39m [33
+mRecordingButton[39m
+ [36mfrom[39m [32m
+'./RecordingButton'[
+39m[33m;[39m[0m
+
+
+
+Import traces:
+  Client Component 
+Browser:
+    ./src/components/
+TopBar.tsx [Client 
+Component Browser]
+    ./src/app/board/[
+boardId]/page.tsx 
+[Client Component 
+Browser]
+    ./src/app/board/[
+boardId]/page.tsx 
+[Server Component]
+
+  Client Component 
+SSR:
+    ./src/components/
+TopBar.tsx [Client 
+Component SSR]
+    ./src/app/board/[
+boardId]/page.tsx 
+[Client Component 
+SSR]
+    ./src/app/board/[
+boardId]/page.tsx 
+[Server Component]
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/components/Work
+spaceMenu.tsx:6:1
+Module not found: 
+Can't resolve 
+'@clerk/nextjs'
+[0m [90m 4 |[39m 
+[36mimport[39m { [
+33mLayout[39m[33m,
+[39m [33mChevronRigh
+t[39m[33m,[39m [3
+3mPlus[39m[33m,[39
+m [33mCheck[39m } 
+[36mfrom[39m [32m'
+lucide-react'[39m[3
+3m;[39m
+ [90m 5 |[39m 
+[36mimport[39m { 
+useRouter } 
+[36mfrom[39m [32m'
+next/navigation'[39m
+[33m;[39m
+[31m[1m>[22m[39m
+[90m 6 |[39m 
+[36mimport[39m { 
+useAuth } 
+[36mfrom[39m [32m'
+@clerk/nextjs'[39m[
+33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m
+ [90m 7 |[39m
+ [90m 8 |[39m type 
+[33mBoard[39m 
+[33m=[39m {
+ [90m 9 |[39m     
+id[33m:[39m 
+string[33m;[39m[0m
+
+
+
+Import traces:
+  Client Component 
+Browser:
+    ./src/components/
+WorkspaceMenu.tsx 
+[Client Component 
+Browser]
+    ./src/components/
+TopBar.tsx [Client 
+Component Browser]
+    ./src/app/board/[
+boardId]/page.tsx 
+[Client Component 
+Browser]
+    ./src/app/board/[
+boardId]/page.tsx 
+[Server Component]
+
+  Client Component 
+SSR:
+    ./src/components/
+WorkspaceMenu.tsx 
+[Client Component 
+SSR]
+    ./src/components/
+TopBar.tsx [Client 
+Component SSR]
+    ./src/app/board/[
+boardId]/page.tsx 
+[Client Component 
+SSR]
+    ./src/app/board/[
+boardId]/page.tsx 
+[Server Component]
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/boards/
+[boardId]/labels/rout
+e.ts:3:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextResponse[39m 
+} [36mfrom[39m [32
+m'next/server'[39m[
+33m;[39m
+ [90m 2 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+[31m[1m>[22m[39m
+[90m 3 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mGET[39m(
+ [90m 6 |[39m     
+request[33m:[39m [
+33mRequest[39m[33m,
+[39m[0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/boards/
+[boardId]/pages/route
+.ts:2:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextRequest[39m[
+33m,[39m [33mNextRe
+sponse[39m } 
+[36mfrom[39m [32m'
+next/server'[39m[33
+m;[39m
+[31m[1m>[22m[39m
+[90m 2 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 3 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mGET[39m([0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/boards/
+[boardId]/rename-dele
+te/route.ts:2:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextRequest[39m[
+33m,[39m [33mNextRe
+sponse[39m } 
+[36mfrom[39m [32m'
+next/server'[39m[33
+m;[39m
+[31m[1m>[22m[39m
+[90m 2 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 3 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mPATCH[39m([0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/boards/
+[boardId]/route.ts:2:
+1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextRequest[39m[
+33m,[39m [33mNextRe
+sponse[39m } 
+[36mfrom[39m [32m'
+next/server'[39m[33
+m;[39m
+[31m[1m>[22m[39m
+[90m 2 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 3 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mGET[39m([0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/boards/
+[boardId]/save/route.
+ts:2:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextRequest[39m[
+33m,[39m [33mNextRe
+sponse[39m } 
+[36mfrom[39m [32m'
+next/server'[39m[33
+m;[39m
+[31m[1m>[22m[39m
+[90m 2 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 3 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mPOST[39m([0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/labels/
+[labelId]/route.ts:3:
+1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextRequest[39m[
+33m,[39m [33mNextRe
+sponse[39m } 
+[36mfrom[39m [32m'
+next/server'[39m[33
+m;[39m
+ [90m 2 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+[31m[1m>[22m[39m
+[90m 3 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mPUT[39m(
+ [90m 6 |[39m   
+request[33m:[39m [
+33mNextRequest[39m[
+33m,[39m[0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/pages/[
+pageId]/route.ts:2:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextRequest[39m[
+33m,[39m [33mNextRe
+sponse[39m } 
+[36mfrom[39m [32m'
+next/server'[39m[33
+m;[39m
+[31m[1m>[22m[39m
+[90m 2 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 3 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mGET[39m([0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/recordi
+ng-sessions/route.ts:
+2:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextResponse[39m 
+} [36mfrom[39m [32
+m'next/server'[39m[
+33m;[39m
+[31m[1m>[22m[39m
+[90m 2 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 3 |[39m
+ [90m 4 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mGET[39m() {
+ [90m 5 |[39m     
+[36mtry[39m {[0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/topics/
+[topicId]/boards/rout
+e.ts:3:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextResponse[39m 
+} [36mfrom[39m [32
+m'next/server'[39m[
+33m;[39m
+ [90m 2 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+[31m[1m>[22m[39m
+[90m 3 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mGET[39m(
+ [90m 6 |[39m     
+request[33m:[39m [
+33mRequest[39m[33m,
+[39m[0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/topics/
+[topicId]/route.ts:3:
+1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextResponse[39m 
+} [36mfrom[39m [32
+m'next/server'[39m[
+33m;[39m
+ [90m 2 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+[31m[1m>[22m[39m
+[90m 3 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mPUT[39m(
+ [90m 6 |[39m     
+request[33m:[39m [
+33mRequest[39m[33m,
+[39m[0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/workspa
+ces/[workspaceId]/lea
+ve/route.ts:2:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextRequest[39m[
+33m,[39m [33mNextRe
+sponse[39m } 
+[36mfrom[39m [32m'
+next/server'[39m[33
+m;[39m
+[31m[1m>[22m[39m
+[90m 2 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 3 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mPOST[39m([0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/workspa
+ces/[workspaceId]/rou
+te.ts:2:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextRequest[39m[
+33m,[39m [33mNextRe
+sponse[39m } 
+[36mfrom[39m [32m'
+next/server'[39m[33
+m;[39m
+[31m[1m>[22m[39m
+[90m 2 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 3 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mGET[39m([0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/workspa
+ces/[workspaceId]/top
+ics/route.ts:3:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextResponse[39m 
+} [36mfrom[39m [32
+m'next/server'[39m[
+33m;[39m
+ [90m 2 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+[31m[1m>[22m[39m
+[90m 3 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mGET[39m(
+ [90m 6 |[39m     
+request[33m:[39m [
+33mRequest[39m[33m,
+[39m[0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/workspa
+ces/create/route.ts:2
+:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextResponse[39m 
+} [36mfrom[39m [32
+m'next/server'[39m[
+33m;[39m
+[31m[1m>[22m[39m
+[90m 2 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 3 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m [
+33mPOST[39m(request
+[33m:[39m 
+[33mRequest[39m) 
+{[0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/api/workspa
+ces/route.ts:2:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { [
+33mNextRequest[39m[
+33m,[39m [33mNextRe
+sponse[39m } 
+[36mfrom[39m [32m'
+next/server'[39m[33
+m;[39m
+[31m[1m>[22m[39m
+[90m 2 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 3 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m [32m'
+@/lib/prisma'[39m[3
+3m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m 
+[36mexport[39m 
+[36masync[39m 
+[36mfunction[39m [
+33mGET[39m(request[
+33m:[39m [33mNextRe
+quest[39m) {[0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/app/page.tsx:2:
+1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m [90m 1 |[39m 
+[36mimport[39m { 
+redirect } 
+[36mfrom[39m [32m'
+next/navigation'[39m
+[33m;[39m
+[31m[1m>[22m[39m
+[90m 2 |[39m 
+[36mimport[39m { 
+auth } 
+[36mfrom[39m [32m'
+@clerk/nextjs/server'
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m
+ [90m 3 |[39m
+ [90m 4 |[39m 
+[36mexport[39m 
+[36mdefault[39m 
+[36masync[39m 
+[36mfunction[39m 
+[33mHome[39m() {
+ [90m 5 |[39m   
+[36mconst[39m { 
+userId } [33m=[39m 
+[36mawait[39m 
+auth()[33m;[39m[0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+./src/middleware.ts:1
+:1
+Module not found: 
+Can't resolve '@clerk
+/nextjs/server'
+[0m[31m[1m>[22m[
+39m[90m 1 |[39m 
+[36mimport[39m { cl
+erkMiddleware[33m,[
+39m 
+createRouteMatcher } 
+[36mfrom[39m [32m"
+@clerk/nextjs/server"
+[39m[33m;[39m
+ [90m   |[39m [31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m[31m[1m^[22m[
+39m[31m[1m^[22m[3
+9m[31m[1m^[22m[39
+m[31m[1m^[22m[39m
+[31m[1m^[22m[39m
+[31m[1m^[22m[39m[
+31m[1m^[22m[39m[3
+1m[1m^[22m[39m[31
+m[1m^[22m[39m[31m
+[1m^[22m[39m[31m
+[1m^[22m[39m[31m[
+1m^[22m[39m[31m[1
+m^[22m[39m[31m[1m
+^[22m[39m[31m[1m^
+[22m[39m[31m[1m^
+[22m[39m[31m[1m^[
+22m[39m[31m[1m^[2
+2m[39m[31m[1m^[22
+m[39m[31m[1m^[22m
+[39m[31m[1m^[22m
+[39m
+ [90m 2 |[39m
+ [90m 3 |[39m 
+[36mconst[39m 
+isProtectedRoute 
+[33m=[39m 
+createRouteMatcher([
+ [90m 4 |[39m     
+[32m'/dashboard(.*)'
+[39m[33m,[39m[0m
+
+
+
+https://nextjs.org/do
+cs/messages/module-no
+t-found
+
+
+    at <unknown> (./s
+rc/app/layout.tsx:4:1
+)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/sign-in/[[...s
+ign-in]]/page.tsx:1:1
+)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/sign-up/[[...s
+ign-up]]/page.tsx:1:1
+)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/workspaces/pag
+e.tsx:6:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/components/TopBar.
+tsx:35:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/components/Workspa
+ceMenu.tsx:6:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/boards/[bo
+ardId]/labels/route.t
+s:3:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/boards/[bo
+ardId]/pages/route.ts
+:2:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/boards/[bo
+ardId]/rename-delete/
+route.ts:2:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/boards/[bo
+ardId]/route.ts:2:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/boards/[bo
+ardId]/save/route.ts:
+2:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/labels/[la
+belId]/route.ts:3:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/pages/[pag
+eId]/route.ts:2:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/recording-
+sessions/route.ts:2:1
+)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/topics/[to
+picId]/boards/route.t
+s:3:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/topics/[to
+picId]/route.ts:3:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/workspaces
+/[workspaceId]/leave/
+route.ts:2:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/workspaces
+/[workspaceId]/route.
+ts:2:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/workspaces
+/[workspaceId]/topics
+/route.ts:3:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/workspaces
+/create/route.ts:2:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/api/workspaces
+/route.ts:2:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/app/page.tsx:2:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)
+    at <unknown> (./s
+rc/middleware.ts:1:1)
+    at <unknown> (htt
+ps://nextjs.org/docs/
+messages/module-not-f
+ound)

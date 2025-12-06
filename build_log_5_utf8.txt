@@ -1,0 +1,59 @@
+﻿   Γû▓ Next.js 15.0.3
+   - Environments: .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+npx :  Γ¿» ESLint: 
+nextVitals is not iterable
+At line:1 char:1
++ npx next build > 
+build_log_5.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (   
+  Γ¿» ESLint: nextVital   
+ s is not iterable:Str    
+ing) [], RemoteExcept    
+ion
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+Failed to compile.
+
+./src/app/api/boards/[boar
+dId]/pages/route.ts:10:17
+Type error: Property 
+'userId' does not exist 
+on type 'Promise<SessionAu
+thWithRedirect>'.
+
+[0m [90m  8 |[39m ) 
+{[0m
+[0m [90m  9 |[39m     
+[36mtry[39m {[0m
+[0m[31m[1m>[22m[39m[
+90m 10 |[39m         
+[36mconst[39m { userId 
+} [33m=[39m 
+auth()[33m;[39m[0m
+[0m [90m    |[39m      
+           
+[31m[1m^[22m[39m[0m
+[0m [90m 11 |[39m      
+   [36mif[39m 
+([33m![39muserId) {[0m
+[0m [90m 12 |[39m      
+       [36mreturn[39m [
+33mNextResponse[39m[33m.
+[39mjson({ 
+error[33m:[39m 
+[32m'Unauthorized'[39m 
+}[33m,[39m { 
+status[33m:[39m 
+[35m401[39m 
+})[33m;[39m[0m
+[0m [90m 13 |[39m      
+   }[0m

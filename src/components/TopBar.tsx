@@ -32,8 +32,9 @@ import {
     ChevronDown,
     Share2,
 } from 'lucide-react';
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import BoardSelector from './BoardSelector';
-import UserMenu from './UserMenu';
+import WorkspaceMenu from './WorkspaceMenu';
 import RecordingButton from './RecordingButton';
 import PageManager from './PageManager';
 
@@ -212,7 +213,7 @@ export default function TopBar({
         window.open(flipbookUrl, '_blank');
     }, [currentBoardId, showAlert]);
 
-    type ToolConfig = { id: string; icon: React.ComponentType<{ size?: number }>; label: string; value?: string };
+    type ToolConfig = { id: string; icon: React.ComponentType<{ size?: number | string }>; label: string; value?: string };
 
     const drawTools: ToolConfig[] = [
         { id: 'pen', icon: Pencil, label: 'Pen', value: 'pen' },
@@ -318,7 +319,7 @@ export default function TopBar({
                                         return (
                                             <button
                                                 key={tool.id}
-                                                onClick={() => { tool.value && setTool(tool.value as any); setExpandedSection(null); }}
+                                                onClick={() => { if (tool.value) setTool(tool.value as any); setExpandedSection(null); }}
                                                 className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-sm transition-all ${currentTool === tool.value ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
                                             >
                                                 <Icon size={16} />
@@ -347,7 +348,7 @@ export default function TopBar({
                                         return (
                                             <button
                                                 key={tool.id}
-                                                onClick={() => { tool.value && setTool(tool.value as any); setExpandedSection(null); }}
+                                                onClick={() => { if (tool.value) setTool(tool.value as any); setExpandedSection(null); }}
                                                 className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-sm transition-all ${currentTool === tool.value ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
                                             >
                                                 <Icon size={16} />
@@ -475,7 +476,26 @@ export default function TopBar({
                 <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                     {currentBoardId && <PageManager boardId={currentBoardId} />}
                     {currentBoardId && <RecordingButton boardId={currentBoardId} />}
-                    <UserMenu />
+                    <SignedIn>
+                        <WorkspaceMenu />
+                    </SignedIn>
+                    <SignedOut>
+                        <SignInButton mode="modal">
+                            <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-sm">
+                                Sign In
+                            </button>
+                        </SignInButton>
+                    </SignedOut>
+                    <SignedIn>
+                        <UserButton
+                            afterSignOutUrl="/"
+                            appearance={{
+                                elements: {
+                                    avatarBox: "w-9 h-9 border-2 border-white shadow-sm"
+                                }
+                            }}
+                        />
+                    </SignedIn>
                 </div>
             </div>
         </header>

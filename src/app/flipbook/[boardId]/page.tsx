@@ -6,7 +6,7 @@ import FlipbookViewer from '@/components/FlipbookViewer';
 import { exportAllPagesAsPDF } from '@/utils/exportPDF';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import Konva from 'konva';
+
 
 interface PageData {
     id: string;
@@ -20,6 +20,10 @@ interface PageData {
     };
     thumbnail?: string;
 }
+
+// Page dimensions for rendering (Portrait 3:4 ratio for realistic book feel)
+const PAGE_WIDTH = 800;
+const PAGE_HEIGHT = 1100;
 
 // Render strokes to canvas and return data URL
 async function renderPageToImage(pageData: PageData): Promise<string> {
@@ -76,20 +80,21 @@ async function renderPageToImage(pageData: PageData): Promise<string> {
     // Return solid background with style for empty pages
     if (strokes.length === 0) {
         const canvas = document.createElement('canvas');
-        canvas.width = 1600;
-        canvas.height = 900;
+        canvas.width = PAGE_WIDTH;
+        canvas.height = PAGE_HEIGHT;
         const ctx = canvas.getContext('2d');
         if (ctx) {
             ctx.fillStyle = bgColor;
-            ctx.fillRect(0, 0, 1600, 900);
-            drawPageStyle(ctx, 1600, 900);
+            ctx.fillRect(0, 0, PAGE_WIDTH, PAGE_HEIGHT);
+            drawPageStyle(ctx, PAGE_WIDTH, PAGE_HEIGHT);
         }
         return canvas.toDataURL();
     }
 
     // Render with Konva
-    return new Promise((resolve) => {
+    return new Promise(async (resolve) => {
         try {
+            const Konva = (await import('konva')).default;
             const container = document.createElement('div');
             container.style.position = 'absolute';
             container.style.top = '-9999px';
@@ -98,46 +103,49 @@ async function renderPageToImage(pageData: PageData): Promise<string> {
 
             const stage = new Konva.Stage({
                 container: container,
-                width: 1600,
-                height: 900,
+                width: PAGE_WIDTH,
+                height: PAGE_HEIGHT,
             });
 
             const layer = new Konva.Layer();
             stage.add(layer);
 
-            // Create a group with clipping to keep content within page bounds
-            const contentGroup = new Konva.Group({
-                clipFunc: (ctx) => {
-                    ctx.rect(0, 0, 1600, 900);
-                },
-            });
-
-            // Full background
+            // Full background first (outside clip group so it fills everything)
             layer.add(new Konva.Rect({
                 x: 0, y: 0,
-                width: 1600, height: 900,
+                width: PAGE_WIDTH, height: PAGE_HEIGHT,
                 fill: bgColor,
             }));
+
+            // Create a group with strict clipping to keep content within page bounds
+            const contentGroup = new Konva.Group({
+                clip: {
+                    x: 0,
+                    y: 0,
+                    width: PAGE_WIDTH,
+                    height: PAGE_HEIGHT,
+                },
+            });
 
             // Draw page style pattern using a canvas shape
             if (pageStyle !== 'plain') {
                 const patternCanvas = document.createElement('canvas');
-                patternCanvas.width = 1600;
-                patternCanvas.height = 900;
+                patternCanvas.width = PAGE_WIDTH;
+                patternCanvas.height = PAGE_HEIGHT;
                 const patternCtx = patternCanvas.getContext('2d');
                 if (patternCtx) {
-                    drawPageStyle(patternCtx, 1600, 900);
+                    drawPageStyle(patternCtx, PAGE_WIDTH, PAGE_HEIGHT);
                     layer.add(new Konva.Image({
                         x: 0, y: 0,
                         image: patternCanvas,
-                        width: 1600,
-                        height: 900,
+                        width: PAGE_WIDTH,
+                        height: PAGE_HEIGHT,
                     }));
                 }
             }
 
-            // Scale from 1920 to 1600
-            const s = 1600 / 1920;
+            // Scale from typical whiteboard size (1920) to render size
+            const s = PAGE_WIDTH / 1920;
 
             strokes.forEach((stroke: any) => {
                 if (stroke.tool === 'text' && stroke.text) {
@@ -221,16 +229,47 @@ async function renderPageToImage(pageData: PageData): Promise<string> {
 
             layer.add(contentGroup);
             layer.draw();
-            const dataURL = stage.toDataURL({ pixelRatio: 1 });
-            stage.destroy();
-            document.body.removeChild(container);
-            resolve(dataURL);
+
+            // Two-stage rendering: Konva → Canvas with explicit clip
+            const konvaDataURL = stage.toDataURL({ pixelRatio: 1 });
+
+            // Create a final canvas to ensure strict clipping
+            const finalCanvas = document.createElement('canvas');
+            finalCanvas.width = PAGE_WIDTH;
+            finalCanvas.height = PAGE_HEIGHT;
+            const finalCtx = finalCanvas.getContext('2d');
+
+            if (finalCtx) {
+                const img = new Image();
+                img.onload = () => {
+                    // Draw only the bounded portion
+                    finalCtx.drawImage(
+                        img,
+                        0, 0, PAGE_WIDTH, PAGE_HEIGHT,  // Source rect (clipped)
+                        0, 0, PAGE_WIDTH, PAGE_HEIGHT   // Dest rect
+                    );
+
+                    stage.destroy();
+                    document.body.removeChild(container);
+                    resolve(finalCanvas.toDataURL());
+                };
+                img.onerror = () => {
+                    stage.destroy();
+                    document.body.removeChild(container);
+                    resolve(konvaDataURL);
+                };
+                img.src = konvaDataURL;
+            } else {
+                stage.destroy();
+                document.body.removeChild(container);
+                resolve(konvaDataURL);
+            }
         } catch (e) {
             console.error('Render error:', e);
             const canvas = document.createElement('canvas');
-            canvas.width = 1600; canvas.height = 900;
+            canvas.width = PAGE_WIDTH; canvas.height = PAGE_HEIGHT;
             const ctx = canvas.getContext('2d');
-            if (ctx) { ctx.fillStyle = bgColor; ctx.fillRect(0, 0, 1600, 900); }
+            if (ctx) { ctx.fillStyle = bgColor; ctx.fillRect(0, 0, PAGE_WIDTH, PAGE_HEIGHT); }
             resolve(canvas.toDataURL());
         }
     });

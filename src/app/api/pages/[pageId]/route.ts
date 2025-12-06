@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
+import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(
@@ -7,8 +7,8 @@ export async function GET(
     { params }: { params: Promise<{ pageId: string }> }
 ) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -25,9 +25,9 @@ export async function GET(
 
         // Check access
         const isMember = page.board.workspace?.members.some(
-            (m: { userId: string }) => m.userId === session.user?.id
+            (m: { userId: string }) => m.userId === userId
         ) ?? false;
-        const isOwner = page.board.userId === session.user?.id;
+        const isOwner = page.board.userId === userId;
 
         if (!isMember && !isOwner) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -48,8 +48,8 @@ export async function PUT(
     { params }: { params: Promise<{ pageId: string }> }
 ) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -67,9 +67,9 @@ export async function PUT(
 
         // Check access
         const isMember = page.board.workspace?.members.some(
-            (m: { userId: string }) => m.userId === session.user?.id
+            (m: { userId: string }) => m.userId === userId
         ) ?? false;
-        const isOwner = page.board.userId === session.user?.id;
+        const isOwner = page.board.userId === userId;
 
         if (!isMember && !isOwner) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -104,8 +104,8 @@ export async function DELETE(
     { params }: { params: Promise<{ pageId: string }> }
 ) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -122,9 +122,9 @@ export async function DELETE(
 
         // Check access
         const isMember = page.board.workspace?.members.some(
-            (m: { userId: string }) => m.userId === session.user?.id
+            (m: { userId: string }) => m.userId === userId
         ) ?? false;
-        const isOwner = page.board.userId === session.user?.id;
+        const isOwner = page.board.userId === userId;
 
         if (!isMember && !isOwner) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });

@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { auth } from '@/lib/auth';
+import { auth } from '@clerk/nextjs/server';
 
 export async function PUT(
     request: Request,
     { params }: { params: Promise<{ topicId: string }> }
 ) {
-    const session = await auth();
-    if (!session?.user?.id) {
+    const { userId } = await auth();
+    if (!userId) {
         return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -26,7 +26,7 @@ export async function PUT(
             return new NextResponse('Topic not found', { status: 404 });
         }
 
-        const isMember = topic.workspace.members.some((m: { userId: string }) => m.userId === session.user.id) ?? false;
+        const isMember = topic.workspace.members.some((m: { userId: string }) => m.userId === userId) ?? false;
         if (!isMember) {
             return new NextResponse('Unauthorized', { status: 401 });
         }
@@ -50,8 +50,8 @@ export async function DELETE(
     request: Request,
     { params }: { params: Promise<{ topicId: string }> }
 ) {
-    const session = await auth();
-    if (!session?.user?.id) {
+    const { userId } = await auth();
+    if (!userId) {
         return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -67,7 +67,7 @@ export async function DELETE(
             return new NextResponse('Topic not found', { status: 404 });
         }
 
-        const isMember = topic.workspace.members.some((m: { userId: string }) => m.userId === session.user.id) ?? false;
+        const isMember = topic.workspace.members.some((m: { userId: string }) => m.userId === userId) ?? false;
         if (!isMember) {
             return new NextResponse('Unauthorized', { status: 401 });
         }

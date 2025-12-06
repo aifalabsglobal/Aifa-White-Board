@@ -1,0 +1,562 @@
+﻿   Γû▓ Next.js 15.0.3
+   - Environments: .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+npx : 
+At line:1 char:1
++ npx next build > 
+build_log_9.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (:  
+  String) [], RemoteExc   
+ eption
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+Failed to compile.
+
+./src/app/api/recording-se
+ssions/route.ts
+15:15  Error: 
+'mockSessions' is 
+assigned a value but 
+never used.  @typescript-e
+slint/no-unused-vars
+
+./src/app/api/workspaces/c
+reate/route.ts
+23:44  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+32:26  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+
+./src/app/api/workspaces/r
+oute.ts
+5:27  Error: 'request' is 
+defined but never used.  @
+typescript-eslint/no-unuse
+d-vars
+52:63  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+88:49  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+101:44  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+111:30  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+126:44  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+141:26  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+
+./src/app/board/[boardId]/
+page.tsx
+22:48  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+40:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 
+'fetchBoardData'. Either 
+include it or remove the 
+dependency array.  react-h
+ooks/exhaustive-deps
+
+./src/app/boards/page.tsx
+35:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 
+'loadWorkspaces'. Either 
+include it or remove the 
+dependency array.  react-h
+ooks/exhaustive-deps
+
+./src/app/dashboard/page.t
+sx
+25:24  Error: 
+'showConfirm' is assigned 
+a value but never used.  @
+typescript-eslint/no-unuse
+d-vars
+
+./src/app/flipbook/[boardI
+d]/page.tsx
+16:18  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+150:38  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+221:62  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+295:53  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+
+./src/app/layout.tsx
+7:8  Error: 'Script' is 
+defined but never used.  @
+typescript-eslint/no-unuse
+d-vars
+35:9  Warning: Custom 
+fonts not added in 
+`pages/_document.js` will 
+only load for a single 
+page. This is 
+discouraged. See: https://
+nextjs.org/docs/messages/n
+o-page-custom-font  @next/
+next/no-page-custom-font
+
+./src/app/workspaces/page.
+tsx
+13:13  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+14:15  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+185:45  Warning: Using 
+`<img>` could result in 
+slower LCP and higher 
+bandwidth. Consider using 
+`<Image />` from 
+`next/image` to 
+automatically optimize 
+images. This may incur 
+additional usage or cost 
+from your provider. See: h
+ttps://nextjs.org/docs/mes
+sages/no-img-element  
+@next/next/no-img-element
+
+./src/app/workspaces/[work
+spaceId]/page.tsx
+26:24  Error: 
+'showPrompt' is assigned 
+a value but never used.  @
+typescript-eslint/no-unuse
+d-vars
+37:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 
+'loadWorkspace'. Either 
+include it or remove the 
+dependency array.  react-h
+ooks/exhaustive-deps
+
+./src/components/BoardNavi
+gator.tsx
+31:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 'loadBoards'. 
+Either include it or 
+remove the dependency 
+array.  react-hooks/exhaus
+tive-deps
+
+./src/components/CameraOve
+rlay.tsx
+40:26  Warning: The ref 
+value 'videoRef.current' 
+will likely have changed 
+by the time this effect 
+cleanup function runs. If 
+this ref points to a node 
+rendered by React, copy 
+'videoRef.current' to a 
+variable inside the 
+effect, and use that 
+variable in the cleanup 
+function.  react-hooks/exh
+austive-deps
+
+./src/components/FlipbookV
+iewer.tsx
+28:42  Error: 'boardId' 
+is defined but never 
+used.  @typescript-eslint/
+no-unused-vars
+311:33  Warning: Using 
+`<img>` could result in 
+slower LCP and higher 
+bandwidth. Consider using 
+`<Image />` from 
+`next/image` to 
+automatically optimize 
+images. This may incur 
+additional usage or cost 
+from your provider. See: h
+ttps://nextjs.org/docs/mes
+sages/no-img-element  
+@next/next/no-img-element
+341:33  Warning: Using 
+`<img>` could result in 
+slower LCP and higher 
+bandwidth. Consider using 
+`<Image />` from 
+`next/image` to 
+automatically optimize 
+images. This may incur 
+additional usage or cost 
+from your provider. See: h
+ttps://nextjs.org/docs/mes
+sages/no-img-element  
+@next/next/no-img-element
+383:33  Warning: Using 
+`<img>` could result in 
+slower LCP and higher 
+bandwidth. Consider using 
+`<Image />` from 
+`next/image` to 
+automatically optimize 
+images. This may incur 
+additional usage or cost 
+from your provider. See: h
+ttps://nextjs.org/docs/mes
+sages/no-img-element  
+@next/next/no-img-element
+415:33  Warning: Using 
+`<img>` could result in 
+slower LCP and higher 
+bandwidth. Consider using 
+`<Image />` from 
+`next/image` to 
+automatically optimize 
+images. This may incur 
+additional usage or cost 
+from your provider. See: h
+ttps://nextjs.org/docs/mes
+sages/no-img-element  
+@next/next/no-img-element
+
+./src/components/GlobalCam
+eraOverlay.tsx
+34:26  Warning: The ref 
+value 'videoRef.current' 
+will likely have changed 
+by the time this effect 
+cleanup function runs. If 
+this ref points to a node 
+rendered by React, copy 
+'videoRef.current' to a 
+variable inside the 
+effect, and use that 
+variable in the cleanup 
+function.  react-hooks/exh
+austive-deps
+
+./src/components/PageManag
+er.tsx
+6:10  Error: 'cn' is 
+defined but never used.  @
+typescript-eslint/no-unuse
+d-vars
+24:24  Error: 
+'showConfirm' is assigned 
+a value but never used.  @
+typescript-eslint/no-unuse
+d-vars
+57:25  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+116:58  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+119:91  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+
+./src/components/providers
+/ModalProvider.tsx
+24:67  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+26:11  Error: 'close' is 
+assigned a value but 
+never used.  @typescript-e
+slint/no-unused-vars
+
+./src/components/Recording
+Controls.tsx
+3:38  Error: 'useRef' is 
+defined but never used.  @
+typescript-eslint/no-unuse
+d-vars
+4:76  Error: 
+'GripVertical' is defined 
+but never used.  @typescri
+pt-eslint/no-unused-vars
+32:5  Error: 'onDownload' 
+is defined but never 
+used.  @typescript-eslint/
+no-unused-vars
+104:35  Error: 'e' is 
+defined but never used.  @
+typescript-eslint/no-unuse
+d-vars
+
+./src/components/Recording
+Settings.tsx
+58:8  Warning: React Hook 
+useEffect has missing 
+dependencies: 
+'settings.cameraId' and 
+'settings.microphoneId'. 
+Either include them or 
+remove the dependency 
+array.  react-hooks/exhaus
+tive-deps
+
+./src/components/ScreenRec
+order.tsx
+23:42  Error: 'boardId' 
+is defined but never 
+used.  @typescript-eslint/
+no-unused-vars
+89:25  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+141:25  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+146:8  Warning: React 
+Hook useCallback has a 
+missing dependency: 
+'handleStop'. Either 
+include it or remove the 
+dependency array.  react-h
+ooks/exhaustive-deps
+
+./src/components/Selection
+Box.tsx
+34:48  Error: 'onDelete' 
+is defined but never 
+used.  @typescript-eslint/
+no-unused-vars
+
+./src/components/Toolbar.t
+sx
+19:5  Error: 'FileJson' 
+is defined but never 
+used.  @typescript-eslint/
+no-unused-vars
+21:5  Error: 'History' is 
+defined but never used.  @
+typescript-eslint/no-unuse
+d-vars
+26:5  Error: 'Feather' is 
+defined but never used.  @
+typescript-eslint/no-unuse
+d-vars
+34:5  Error: 'Video' is 
+defined but never used.  @
+typescript-eslint/no-unuse
+d-vars
+99:9  Error: 
+'deleteStroke' is 
+assigned a value but 
+never used.  @typescript-e
+slint/no-unused-vars
+141:8  Warning: React 
+Hook useEffect has a 
+missing dependency: 
+'position'. Either 
+include it or remove the 
+dependency array.  react-h
+ooks/exhaustive-deps
+183:11  Error: 
+'handleExportClick' is 
+assigned a value but 
+never used.  @typescript-e
+slint/no-unused-vars
+452:49  Error: Expected 
+an assignment or function 
+call and instead saw an 
+expression.  @typescript-e
+slint/no-unused-expression
+s
+452:85  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+490:49  Error: Expected 
+an assignment or function 
+call and instead saw an 
+expression.  @typescript-e
+slint/no-unused-expression
+s
+490:85  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+593:92  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+
+./src/components/TopBar.ts
+x
+92:5  Error: 
+'showBackButton' is 
+assigned a value but 
+never used.  @typescript-e
+slint/no-unused-vars
+322:66  Error: Expected 
+an assignment or function 
+call and instead saw an 
+expression.  @typescript-e
+slint/no-unused-expression
+s
+322:102  Error: 
+Unexpected any. Specify a 
+different type.  @typescri
+pt-eslint/no-explicit-any
+351:66  Error: Expected 
+an assignment or function 
+call and instead saw an 
+expression.  @typescript-e
+slint/no-unused-expression
+s
+351:102  Error: 
+Unexpected any. Specify a 
+different type.  @typescri
+pt-eslint/no-explicit-any
+414:96  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+
+./src/components/TopicNavi
+gator.tsx
+29:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 'loadTopics'. 
+Either include it or 
+remove the dependency 
+array.  react-hooks/exhaus
+tive-deps
+
+./src/components/Whiteboar
+dCanvas.tsx
+91:22  Error: 
+'setTextBold' is assigned 
+a value but never used.  @
+typescript-eslint/no-unuse
+d-vars
+92:24  Error: 
+'setTextItalic' is 
+assigned a value but 
+never used.  @typescript-e
+slint/no-unused-vars
+93:27  Error: 
+'setTextUnderline' is 
+assigned a value but 
+never used.  @typescript-e
+slint/no-unused-vars
+94:23  Error: 
+'setTextAlign' is 
+assigned a value but 
+never used.  @typescript-e
+slint/no-unused-vars
+240:37  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+265:27  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+623:28  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+1262:42  Error: 
+Unexpected any. Specify a 
+different type.  @typescri
+pt-eslint/no-explicit-any
+
+./src/components/Workspace
+Menu.tsx
+4:38  Error: 'Check' is 
+defined but never used.  @
+typescript-eslint/no-unuse
+d-vars
+
+./src/components/Workspace
+Navigator.tsx
+26:8  Warning: React Hook 
+useEffect has a missing 
+dependency: 
+'loadWorkspaces'. Either 
+include it or remove the 
+dependency array.  react-h
+ooks/exhaustive-deps
+
+./src/utils/exportPDF.ts
+206:53  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+302:21  Error: 'sides' is 
+never reassigned. Use 
+'const' instead.  
+prefer-const
+359:15  Error: 
+'logoBase64' is assigned 
+a value but never used.  @
+typescript-eslint/no-unuse
+d-vars
+
+./src/utils/recordingManag
+er.ts
+37:22  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+208:50  Error: Unexpected 
+any. Specify a different 
+type.  @typescript-eslint/
+no-explicit-any
+
+info  - Need to disable 
+some ESLint rules? Learn 
+more here: https://nextjs.
+org/docs/app/building-your
+-application/configuring/e
+slint#disabling-rules

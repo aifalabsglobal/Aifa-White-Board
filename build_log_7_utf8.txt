@@ -1,0 +1,56 @@
+﻿   Γû▓ Next.js 15.0.3
+   - Environments: .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+npx : Failed to compile.
+At line:1 char:1
++ npx next build > 
+build_log_7.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (F  
+  ailed to compile.:Str   
+ ing) [], RemoteExcept    
+ion
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+
+./src/lib/prisma.ts:16:9
+Type error: Type 
+'PrismaPg' is not 
+assignable to type 
+'never'.
+
+[0m [90m 14 |[39m     g
+lobalForPrisma[33m.[39mp
+risma 
+[33m?[39m[33m?[39m[0m
+[0m [90m 15 |[39m     
+[36mnew[39m [33mPrismaC
+lient[39m({[0m
+[0m[31m[1m>[22m[39m[
+90m 16 |[39m         
+adapter[33m,[39m[0m
+[0m [90m    |[39m      
+   
+[31m[1m^[22m[39m[0m
+[0m [90m 17 |[39m      
+   log[33m:[39m process
+[33m.[39menv[33m.[39m[
+33mNODE_ENV[39m 
+[33m===[39m 
+[32m'development'[39m 
+[33m?[39m [[32m'query'
+[39m[33m,[39m [32m'erro
+r'[39m[33m,[39m 
+[32m'warn'[39m] 
+[33m:[39m [[32m'error'
+[39m][33m,[39m[0m
+[0m [90m 18 |[39m     
+})[33m;[39m[0m
+[0m [90m 19 |[39m[0m

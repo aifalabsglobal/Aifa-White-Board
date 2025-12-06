@@ -1,0 +1,45 @@
+﻿   Γû▓ Next.js 15.0.3
+   - Environments: .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+npx : 
+At line:1 char:1
++ npx next build > 
+build_log_10.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (:  
+  String) [], RemoteExc   
+ eption
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+Failed to compile.
+
+./src/app/layout.tsx
+35:9  Warning: Custom 
+fonts not added in 
+`pages/_document.js` will 
+only load for a single 
+page. This is 
+discouraged. See: https://
+nextjs.org/docs/messages/n
+o-page-custom-font  @next/
+next/no-page-custom-font
+
+./src/utils/exportPDF.ts
+302:21  Error: 'sides' is 
+never reassigned. Use 
+'const' instead.  
+prefer-const
+
+info  - Need to disable 
+some ESLint rules? Learn 
+more here: https://nextjs.
+org/docs/app/building-your
+-application/configuring/e
+slint#disabling-rules

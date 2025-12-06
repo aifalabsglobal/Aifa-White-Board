@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
+import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: Request) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
             data: {
                 name: name.trim(),
                 slug: `${slug}-${Date.now()}`,
-                ownerId: session.user.id,
+                ownerId: userId,
             },
         });
 
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
         await (prisma as any).workspaceMember.create({
             data: {
                 workspaceId: workspace.id,
-                userId: session.user.id,
+                userId: userId,
                 role: 'OWNER',
             },
         });

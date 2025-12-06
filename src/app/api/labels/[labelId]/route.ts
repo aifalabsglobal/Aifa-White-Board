@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
-import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import { auth } from '@clerk/nextjs/server';
 
 export async function PUT(
   request: NextRequest,
   context: { params: Promise<{ labelId: string }> }
 ) {
-  const session = await auth();
-  if (!session?.user?.id) {
+  const { userId } = await auth();
+  if (!userId) {
     return new NextResponse('Unauthorized', { status: 401 });
   }
 
@@ -18,7 +18,7 @@ export async function PUT(
     const json = await request.json();
     const { name, color } = json;
 
-    const label = await db.label.findUnique({
+    const label = await prisma.label.findUnique({
       where: { id: labelId },
       include: {
         board: {
@@ -35,17 +35,17 @@ export async function PUT(
       return new NextResponse('Label not found', { status: 404 });
     }
 
-    const isOwner = label.board.userId === session.user.id;
+    const isOwner = label.board.userId === userId;
     const isMember =
       label.board.workspace?.members.some(
-        (m: { userId: string }) => m.userId === session.user.id
+        (m: { userId: string }) => m.userId === userId
       ) ?? false;
 
     if (!isOwner && !isMember) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    const updatedLabel = await db.label.update({
+    const updatedLabel = await prisma.label.update({
       where: { id: labelId },
       data: {
         name: name || undefined,
@@ -64,8 +64,8 @@ export async function DELETE(
   request: NextRequest,
   context: { params: Promise<{ labelId: string }> }
 ) {
-  const session = await auth();
-  if (!session?.user?.id) {
+  const { userId } = await auth();
+  if (!userId) {
     return new NextResponse('Unauthorized', { status: 401 });
   }
 
@@ -73,7 +73,7 @@ export async function DELETE(
   const { labelId } = await params;
 
   try {
-    const label = await db.label.findUnique({
+    const label = await prisma.label.findUnique({
       where: { id: labelId },
       include: {
         board: {
@@ -90,17 +90,17 @@ export async function DELETE(
       return new NextResponse('Label not found', { status: 404 });
     }
 
-    const isOwner = label.board.userId === session.user.id;
+    const isOwner = label.board.userId === userId;
     const isMember =
       label.board.workspace?.members.some(
-        (m: { userId: string }) => m.userId === session.user.id
+        (m: { userId: string }) => m.userId === userId
       ) ?? false;
 
     if (!isOwner && !isMember) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    await db.label.delete({
+    await prisma.label.delete({
       where: { id: labelId }
     });
 

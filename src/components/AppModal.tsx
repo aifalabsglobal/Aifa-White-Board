@@ -95,8 +95,8 @@ export default function AppModal({
                 <div className="p-6">
                     <div className="flex items-start gap-4">
                         <div className={`p-3 rounded-full bg-opacity-10 shrink-0 ${variant === 'danger' ? 'bg-red-500' :
-                                variant === 'warning' ? 'bg-yellow-500' :
-                                    variant === 'success' ? 'bg-green-500' : 'bg-blue-500'
+                            variant === 'warning' ? 'bg-yellow-500' :
+                                variant === 'success' ? 'bg-green-500' : 'bg-blue-500'
                             }`}>
                             {getIcon()}
                         </div>

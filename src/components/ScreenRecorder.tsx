@@ -68,6 +68,30 @@ export default function ScreenRecorder({ boardId, onRecordingComplete }: ScreenR
         localStorage.setItem('recordingPreferences', JSON.stringify(newSettings));
     }, []);
 
+    const handleStop = useCallback(async () => {
+        if (!recorderRef.current) return;
+
+        try {
+            const blob = await recorderRef.current.stopRecording();
+            setRecordedBlob(blob);
+            setStatus('stopped');
+
+            recorderRef.current.cleanup();
+            recorderRef.current = null;
+            setCameraStream(null);
+            setShowCamera(false);
+
+            setTimeout(() => {
+                setStatus('idle');
+            }, 100);
+
+            onRecordingComplete?.(blob);
+        } catch (error: any) {
+            console.error('Failed to stop recording:', error);
+            setError(error.message || 'Failed to stop recording');
+        }
+    }, [onRecordingComplete]);
+
     const handleStart = useCallback(async () => {
         try {
             setError(null);
@@ -135,29 +159,7 @@ export default function ScreenRecorder({ boardId, onRecordingComplete }: ScreenR
         }
     }, []);
 
-    const handleStop = useCallback(async () => {
-        if (!recorderRef.current) return;
 
-        try {
-            const blob = await recorderRef.current.stopRecording();
-            setRecordedBlob(blob);
-            setStatus('stopped');
-
-            recorderRef.current.cleanup();
-            recorderRef.current = null;
-            setCameraStream(null);
-            setShowCamera(false);
-
-            setTimeout(() => {
-                setStatus('idle');
-            }, 100);
-
-            onRecordingComplete?.(blob);
-        } catch (error: any) {
-            console.error('Failed to stop recording:', error);
-            setError(error.message || 'Failed to stop recording');
-        }
-    }, [onRecordingComplete]);
 
     const handleDownload = useCallback(() => {
         if (recordedBlob) {

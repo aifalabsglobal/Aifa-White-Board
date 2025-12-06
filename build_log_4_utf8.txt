@@ -1,0 +1,67 @@
+﻿   Γû▓ Next.js 15.0.3
+   - Environments: .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+npx :  Γ¿» ESLint: Cannot 
+find module 'D:\Yoga_Data\
+Myprojects\aifaboard\Aifa-
+White-Board\node_modules\e
+slint-config-next\core-web
+-vitals' imported from D:\
+Yoga_Data\Myprojects\aifab
+oard\Aifa-White-Board\esli
+nt.config.mjs Did you 
+mean to import "eslint-con
+fig-next/core-web-vitals.j
+s"?
+At line:1 char:1
++ npx next build > 
+build_log_4.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (   
+  Γ¿» ESLint: Ca...web-   
+ vitals.js"?:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+Failed to compile.
+
+./prisma.config.ts:4:35
+Type error: Cannot find 
+module 'prisma/config' or 
+its corresponding type 
+declarations.
+
+[0m [90m 2 |[39m 
+[90m// npm install 
+--save-dev prisma 
+dotenv[39m[0m
+[0m [90m 3 |[39m 
+[36mimport[39m [32m"dot
+env/config"[39m[33m;[39
+m[0m
+[0m[31m[1m>[22m[39m[
+90m 4 |[39m 
+[36mimport[39m { 
+defineConfig[33m,[39m 
+env } [36mfrom[39m [32m
+"prisma/config"[39m[33m;
+[39m[0m
+[0m [90m   |[39m       
+                          
+  [31m[1m^[22m[39m[0m
+[0m [90m 5 |[39m[0m
+[0m [90m 6 |[39m 
+[36mexport[39m 
+[36mdefault[39m 
+defineConfig({[0m
+[0m [90m 7 |[39m   
+schema[33m:[39m [32m"pr
+isma/schema.prisma"[39m[
+33m,[39m[0m

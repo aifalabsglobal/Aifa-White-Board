@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { auth } from '@/lib/auth';
+import { auth } from '@clerk/nextjs/server';
 
 export async function GET(
     request: Request,
     { params }: { params: Promise<{ workspaceId: string }> }
 ) {
-    const session = await auth();
-    if (!session?.user?.id) {
+    const { userId } = await auth();
+    if (!userId) {
         return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -20,7 +20,7 @@ export async function GET(
                 workspace: {
                     members: {
                         some: {
-                            userId: session.user.id
+                            userId: userId
                         }
                     }
                 }
@@ -46,8 +46,8 @@ export async function POST(
     request: Request,
     { params }: { params: Promise<{ workspaceId: string }> }
 ) {
-    const session = await auth();
-    if (!session?.user?.id) {
+    const { userId } = await auth();
+    if (!userId) {
         return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -66,7 +66,7 @@ export async function POST(
                 id: workspaceId,
                 members: {
                     some: {
-                        userId: session.user.id
+                        userId: userId
                     }
                 }
             }

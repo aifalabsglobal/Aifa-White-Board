@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import Konva from 'konva';
+import type Konva from 'konva';
 import { Stroke } from '@/store/whiteboardStore';
 
 interface PageData {
@@ -37,6 +37,7 @@ async function loadLogoAsBase64(): Promise<string | null> {
 
 /**
  * Renders a single page's content to a Konva Stage and returns a data URL
+ * Uses two-stage rendering: Konva for strokes, then canvas clip for strict bounds
  */
 async function renderPageToDataURL(
     pageData: PageData,
@@ -44,8 +45,10 @@ async function renderPageToDataURL(
     height: number,
     pixelRatio: number = 2
 ): Promise<string> {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
+            const Konva = (await import('konva')).default;
+
             // Create a temporary container for the stage
             const container = document.createElement('div');
             container.style.position = 'absolute';
@@ -128,34 +131,69 @@ async function renderPageToDataURL(
                 }
             }
 
-            // Create a group for content with clipping
+            // Create a clip group using Konva's clip property (more reliable than clipFunc)
             const contentGroup = new Konva.Group({
-                clipFunc: (ctx) => {
-                    ctx.rect(0, 0, width, height);
+                clip: {
+                    x: 0,
+                    y: 0,
+                    width: width,
+                    height: height,
                 },
             });
 
             // Render all strokes into the clipped group
             const strokes = pageData.content.strokes || [];
             strokes.forEach((stroke) => {
-                const element = renderStrokeToKonva(stroke);
+                const element = renderStrokeToKonva(stroke, Konva);
                 if (element) {
                     contentGroup.add(element);
                 }
             });
 
             layer.add(contentGroup);
-
             layer.draw();
 
-            // Convert to data URL
-            const dataURL = stage.toDataURL({ pixelRatio });
+            // Get the Konva canvas data
+            const konvaDataURL = stage.toDataURL({ pixelRatio });
 
-            // Cleanup
-            stage.destroy();
-            document.body.removeChild(container);
+            // Create a final canvas with explicit clipping to ensure strict bounds
+            const finalCanvas = document.createElement('canvas');
+            finalCanvas.width = width * pixelRatio;
+            finalCanvas.height = height * pixelRatio;
+            const finalCtx = finalCanvas.getContext('2d');
 
-            resolve(dataURL);
+            if (finalCtx) {
+                // Create an image from the Konva output
+                const img = new Image();
+                img.onload = () => {
+                    // Clear and clip the canvas
+                    finalCtx.clearRect(0, 0, finalCanvas.width, finalCanvas.height);
+
+                    // Draw only the portion within bounds (0, 0, width*pixelRatio, height*pixelRatio)
+                    finalCtx.drawImage(
+                        img,
+                        0, 0, width * pixelRatio, height * pixelRatio,  // Source rect (clipped)
+                        0, 0, width * pixelRatio, height * pixelRatio   // Dest rect
+                    );
+
+                    // Cleanup
+                    stage.destroy();
+                    document.body.removeChild(container);
+
+                    resolve(finalCanvas.toDataURL('image/png'));
+                };
+                img.onerror = () => {
+                    stage.destroy();
+                    document.body.removeChild(container);
+                    resolve(konvaDataURL); // Fallback to Konva output
+                };
+                img.src = konvaDataURL;
+            } else {
+                // Fallback if canvas context fails
+                stage.destroy();
+                document.body.removeChild(container);
+                resolve(konvaDataURL);
+            }
         } catch (error) {
             reject(error);
         }
@@ -165,7 +203,7 @@ async function renderPageToDataURL(
 /**
  * Converts a Stroke object to a Konva shape
  */
-function renderStrokeToKonva(stroke: Stroke): Konva.Shape | Konva.Group | null {
+function renderStrokeToKonva(stroke: Stroke, Konva: any): Konva.Shape | Konva.Group | null {
     const compositeOp = stroke.tool === 'eraser' ? 'destination-out' : 'source-over';
 
     // Handle text
@@ -261,7 +299,7 @@ function renderStrokeToKonva(stroke: Stroke): Konva.Shape | Konva.Group | null {
                 const cy = start.y + height / 2;
                 const rx = Math.abs(width / 2);
                 const ry = Math.abs(height / 2);
-                let sides = stroke.shapeType === 'pentagon' ? 5 : stroke.shapeType === 'hexagon' ? 6 : 5;
+                const sides = stroke.shapeType === 'pentagon' ? 5 : stroke.shapeType === 'hexagon' ? 6 : 5;
                 const points: number[] = [];
 
                 if (stroke.shapeType === 'star') {

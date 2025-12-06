@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
+import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(
@@ -7,8 +7,8 @@ export async function POST(
     { params }: { params: Promise<{ workspaceId: string }> }
 ) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -19,7 +19,7 @@ export async function POST(
             where: {
                 workspaceId_userId: {
                     workspaceId,
-                    userId: session.user.id,
+                    userId: userId,
                 },
             },
         });
@@ -34,7 +34,7 @@ export async function POST(
             select: { ownerId: true },
         });
 
-        if (workspace?.ownerId === session.user.id) {
+        if (workspace?.ownerId === userId) {
             return NextResponse.json(
                 { error: 'Workspace owner cannot leave. Transfer ownership or delete the workspace instead.' },
                 { status: 400 }
@@ -46,7 +46,7 @@ export async function POST(
             where: {
                 workspaceId_userId: {
                     workspaceId,
-                    userId: session.user.id,
+                    userId: userId,
                 },
             },
         });

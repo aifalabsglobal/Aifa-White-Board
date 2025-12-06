@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Folder, Plus, Loader, Search, Users, Layout as LayoutIcon, User, Save, Camera, Lock, LogOut } from 'lucide-react';
-import { useSession, signOut } from 'next-auth/react';
+import { Folder, Plus, Loader, Search, Users, Layout as LayoutIcon, ChevronRight } from 'lucide-react';
+import { useAuth, useUser } from '@clerk/nextjs';
 import TopBar from '@/components/TopBar';
-import WorkspaceActions from '@/components/WorkspaceActions';
 import RecordingHistory from '@/components/RecordingHistory';
 
 interface Workspace {
@@ -18,7 +17,8 @@ interface Workspace {
 
 export default function WorkspacesPage() {
     const router = useRouter();
-    const { data: session, update } = useSession();
+    const { isLoaded, userId } = useAuth();
+    const { user } = useUser();
     const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
     const [loading, setLoading] = useState(true);
     const [showCreateDialog, setShowCreateDialog] = useState(false);
@@ -26,42 +26,13 @@ export default function WorkspacesPage() {
     const [creating, setCreating] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Profile States
-    const [isEditingProfile, setIsEditingProfile] = useState(false);
-    const [profileName, setProfileName] = useState('');
-    const [profileBio, setProfileBio] = useState('');
-    const [profileImage, setProfileImage] = useState('');
-    const [uploadingAvatar, setUploadingAvatar] = useState(false);
-    const fileInputRef = useRef<HTMLInputElement>(null);
-
-    // Password Change States
-    const [showPasswordChange, setShowPasswordChange] = useState(false);
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordMessage, setPasswordMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
-    const [changingPassword, setChangingPassword] = useState(false);
-
     useEffect(() => {
-        loadWorkspaces();
-        if (session?.user) {
-            loadProfile();
+        if (isLoaded && userId) {
+            loadWorkspaces();
+        } else if (isLoaded && !userId) {
+            router.push('/'); // Redirect to home if not logged in
         }
-    }, [session]);
-
-    const loadProfile = async () => {
-        try {
-            const res = await fetch('/api/profile');
-            if (res.ok) {
-                const data = await res.json();
-                setProfileName(data.user.name || '');
-                setProfileBio(data.user.bio || '');
-                setProfileImage(data.user.image || '');
-            }
-        } catch (error) {
-            console.error('Failed to load profile:', error);
-        }
-    };
+    }, [isLoaded, userId, router]);
 
     const loadWorkspaces = async () => {
         try {
@@ -101,102 +72,17 @@ export default function WorkspacesPage() {
         }
     };
 
-    const handleUpdateProfile = async () => {
-        try {
-            const res = await fetch('/api/profile', {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: profileName, bio: profileBio }),
-            });
-
-            if (res.ok) {
-                await update({ name: profileName });
-                setIsEditingProfile(false);
-            }
-        } catch (error) {
-            console.error('Failed to update profile:', error);
-        }
-    };
-
-    const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        setUploadingAvatar(true);
-        const formData = new FormData();
-        formData.append('file', file);
-
-        try {
-            const res = await fetch('/api/profile/avatar', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (res.ok) {
-                const data = await res.json();
-                setProfileImage(data.user.image);
-                await update(); // Refresh session to get new image
-                window.location.reload(); // Force reload to show new image everywhere
-            }
-        } catch (error) {
-            console.error('Failed to upload avatar:', error);
-        } finally {
-            setUploadingAvatar(false);
-        }
-    };
-
-    const handleChangePassword = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setPasswordMessage(null);
-
-        if (newPassword !== confirmPassword) {
-            setPasswordMessage({ type: 'error', text: 'New passwords do not match' });
-            return;
-        }
-
-        if (newPassword.length < 6) {
-            setPasswordMessage({ type: 'error', text: 'Password must be at least 6 characters' });
-            return;
-        }
-
-        setChangingPassword(true);
-        try {
-            const res = await fetch('/api/profile/change-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ currentPassword, newPassword }),
-            });
-
-            const data = await res.json();
-
-            if (res.ok) {
-                setPasswordMessage({ type: 'success', text: 'Password changed successfully' });
-                setCurrentPassword('');
-                setNewPassword('');
-                setConfirmPassword('');
-                setTimeout(() => setShowPasswordChange(false), 2000);
-            } else {
-                setPasswordMessage({ type: 'error', text: data.message || 'Failed to change password' });
-            }
-        } catch (error) {
-            setPasswordMessage({ type: 'error', text: 'An error occurred' });
-        } finally {
-            setChangingPassword(false);
-        }
-    };
-
-    const getInitials = (name: string) => {
-        return name
-            .split(' ')
-            .map((n) => n[0])
-            .join('')
-            .toUpperCase()
-            .slice(0, 2);
-    };
-
     const filteredWorkspaces = workspaces.filter(w =>
         w.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    if (!isLoaded || !userId) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <Loader className="animate-spin text-blue-600" size={32} />
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gray-50">
@@ -296,156 +182,19 @@ export default function WorkspacesPage() {
                                 <div className="relative flex justify-between items-end -mt-12 mb-4">
                                     <div className="relative group">
                                         <div className="w-24 h-24 rounded-full border-4 border-white bg-white shadow-md overflow-hidden flex items-center justify-center text-2xl font-bold text-blue-600 bg-blue-50">
-                                            {profileImage ? (
-                                                <img src={profileImage} alt="Profile" className="w-full h-full object-cover" />
-                                            ) : (
-                                                getInitials(profileName || session?.user?.name || 'User')
-                                            )}
+                                            <img
+                                                src={user?.imageUrl}
+                                                alt={user?.fullName || 'User'}
+                                                className="w-full h-full object-cover"
+                                            />
                                         </div>
-                                        {/* Avatar Upload Overlay */}
-                                        <button
-                                            onClick={() => fileInputRef.current?.click()}
-                                            disabled={uploadingAvatar}
-                                            className="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
-                                        >
-                                            {uploadingAvatar ? (
-                                                <Loader className="animate-spin text-white" size={20} />
-                                            ) : (
-                                                <Camera className="text-white" size={24} />
-                                            )}
-                                        </button>
-                                        <input
-                                            ref={fileInputRef}
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={handleAvatarUpload}
-                                            className="hidden"
-                                        />
                                     </div>
-                                    {!isEditingProfile && (
-                                        <button
-                                            onClick={() => setIsEditingProfile(true)}
-                                            className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                                        >
-                                            Edit Profile
-                                        </button>
-                                    )}
                                 </div>
 
-                                {isEditingProfile ? (
-                                    <div className="space-y-4">
-                                        <div>
-                                            <label className="block text-xs font-medium text-gray-500 mb-1">Display Name</label>
-                                            <input
-                                                type="text"
-                                                value={profileName}
-                                                onChange={(e) => setProfileName(e.target.value)}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-medium text-gray-500 mb-1">Bio</label>
-                                            <textarea
-                                                value={profileBio}
-                                                onChange={(e) => setProfileBio(e.target.value)}
-                                                rows={3}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none resize-none"
-                                                placeholder="Add a bio..."
-                                            />
-                                        </div>
-                                        <div className="flex gap-2">
-                                            <button
-                                                onClick={handleUpdateProfile}
-                                                className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-medium hover:bg-blue-700"
-                                            >
-                                                Save
-                                            </button>
-                                            <button
-                                                onClick={() => setIsEditingProfile(false)}
-                                                className="flex-1 bg-gray-100 text-gray-700 py-2 rounded-lg text-sm font-medium hover:bg-gray-200"
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <h2 className="text-xl font-bold text-gray-900">{profileName || session?.user?.name}</h2>
-                                        <p className="text-gray-500 text-sm mb-4">{session?.user?.email}</p>
-                                        {profileBio && (
-                                            <p className="text-gray-600 text-sm mb-4">{profileBio}</p>
-                                        )}
-
-                                        <div className="pt-4 border-t border-gray-100 space-y-2">
-                                            <button
-                                                onClick={() => setShowPasswordChange(!showPasswordChange)}
-                                                className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 w-full py-1"
-                                            >
-                                                <Lock size={16} />
-                                                Change Password
-                                            </button>
-                                            <button
-                                                onClick={() => signOut()}
-                                                className="flex items-center gap-2 text-sm text-red-600 hover:text-red-700 w-full py-1"
-                                            >
-                                                <LogOut size={16} />
-                                                Sign Out
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Password Change Form */}
-                                {showPasswordChange && (
-                                    <div className="mt-4 pt-4 border-t border-gray-100 animate-in slide-in-from-top-2">
-                                        <h3 className="text-sm font-semibold text-gray-900 mb-3">Change Password</h3>
-                                        {passwordMessage && (
-                                            <div className={`text-xs p-2 rounded mb-3 ${passwordMessage.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
-                                                }`}>
-                                                {passwordMessage.text}
-                                            </div>
-                                        )}
-                                        <form onSubmit={handleChangePassword} className="space-y-3">
-                                            <input
-                                                type="password"
-                                                placeholder="Current Password"
-                                                value={currentPassword}
-                                                onChange={(e) => setCurrentPassword(e.target.value)}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
-                                            />
-                                            <input
-                                                type="password"
-                                                placeholder="New Password"
-                                                value={newPassword}
-                                                onChange={(e) => setNewPassword(e.target.value)}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
-                                            />
-                                            <input
-                                                type="password"
-                                                placeholder="Confirm New Password"
-                                                value={confirmPassword}
-                                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
-                                            />
-                                            <div className="flex gap-2">
-                                                <button
-                                                    type="submit"
-                                                    disabled={changingPassword}
-                                                    className="flex-1 bg-gray-900 text-white py-2 rounded-lg text-sm font-medium hover:bg-gray-800 disabled:opacity-50"
-                                                >
-                                                    {changingPassword ? 'Updating...' : 'Update Password'}
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setShowPasswordChange(false)}
-                                                    className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                )}
+                                <div>
+                                    <h2 className="text-xl font-bold text-gray-900">{user?.fullName}</h2>
+                                    <p className="text-gray-500 text-sm mb-4">{user?.primaryEmailAddress?.emailAddress}</p>
+                                </div>
                             </div>
                         </div>
 
@@ -493,23 +242,5 @@ export default function WorkspacesPage() {
                 </div>
             )}
         </div>
-    );
-}
-
-function ChevronRight({ size, className }: { size?: number, className?: string }) {
-    return (
-        <svg
-            width={size || 24}
-            height={size || 24}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={className}
-        >
-            <polyline points="9 18 15 12 9 6" />
-        </svg>
     );
 }

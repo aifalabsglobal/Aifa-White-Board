@@ -1,0 +1,39 @@
+﻿npm : npm warn EBADENGINE Unsupported engine {
+At line:1 char:1
++ npm install --legacy-peer-deps > install_debug_log.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo              : NotSpe    cified: (npm war    n EBADENGINE Uns    upported engine     {:String) [], Re    moteException
+    + FullyQualified    ErrorId : Native    CommandError
+ 
+npm warn EBADENGINE   package: '@prisma/client@7.1.0',
+npm warn EBADENGINE   required: { node: '^20.19 || ^22.12 || >=24.0' },
+npm warn EBADENGINE   current: { node: 'v20.17.0', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn EBADENGINE Unsupported engine {
+npm warn EBADENGINE   package: 'prisma@7.1.0',
+npm warn EBADENGINE   required: { node: '^20.19 || ^22.12 || >=24.0' },
+npm warn EBADENGINE   current: { node: 'v20.17.0', npm: '10.8.2' }
+npm warn EBADENGINE }
+npm warn deprecated next@15.0.3: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/CVE-2025-66478 for more details.
+npm warn cleanup Failed to remove some directories [
+npm warn cleanup   [
+npm warn cleanup     'D:\\Yoga_Data\\Myprojects\\aifaboard\\Aifa-White-Board\\node_modules\\next',
+npm warn cleanup     [Error: EPERM: operation not permitted, rmdir 'D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\node_modules\next\dist\client\components'] {
+npm warn cleanup       errno: -4048,
+npm warn cleanup       code: 'EPERM',
+npm warn cleanup       syscall: 'rmdir',
+npm warn cleanup       path: 'D:\\Yoga_Data\\Myprojects\\aifaboard\\Aifa-White-Board\\node_modules\\next\\dist\\client\\components'
+npm warn cleanup     }
+npm warn cleanup   ]
+npm warn cleanup ]
+npm error code 1
+npm error path D:\Yoga_Data\Myprojects\aifaboard\Aifa-White-Board\node_modules\prisma
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c node scripts/preinstall-entry.js
+npm error ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+npm error Γöé    Prisma only supports Node.js versions 20.19+, 22.12+, 24.0+.    Γöé
+npm error Γöé    Please upgrade your Node.js version.                            Γöé
+npm error ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓ
+öÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+npm error A complete log of this run can be found in: C:\Users\user\AppData\Local\npm-cache\_logs\2025-12-06T16_24_09_633Z-debug-0.log

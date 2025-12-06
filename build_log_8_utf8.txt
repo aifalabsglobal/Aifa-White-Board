@@ -1,0 +1,51 @@
+﻿   Γû▓ Next.js 15.0.3
+   - Environments: .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+npx : Failed to compile.
+At line:1 char:1
++ npx next build > 
+build_log_8.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpe    cified: 
+(Failed     to 
+compile.:Stri    ng) [], 
+RemoteEx    ception
+    + FullyQualified    
+ErrorId : Native    
+CommandError
+ 
+
+./src/middleware.ts:9:39
+Type error: Property 
+'protect' does not exist 
+on type 'Promise<SessionAu
+thWithRedirect>'.
+
+[0m [90m  7 |[39m[0m
+[0m [90m  8 |[39m 
+[36mexport[39m 
+[36mdefault[39m clerkMid
+dleware((auth[33m,[39m 
+req) [33m=>[39m {[0m
+[0m[31m[1m>[22m[39m[
+90m  9 |[39m     
+[36mif[39m 
+(isProtectedRoute(req)) au
+th()[33m.[39mprotect()[
+33m;[39m[0m
+[0m [90m    |[39m      
+                          
+       
+[31m[1m^[22m[39m[0m
+[0m [90m 10 |[39m 
+})[33m;[39m[0m
+[0m [90m 11 |[39m[0m
+[0m [90m 12 |[39m 
+[36mexport[39m 
+[36mconst[39m config 
+[33m=[39m {[0m

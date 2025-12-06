@@ -1,0 +1,55 @@
+﻿   Γû▓ Next.js 15.0.3
+   - Environments: .env
+
+   Creating an optimized production build ...
+npx : Failed to compile.
+At line:1 char:1
++ npx next build > 
+build_log_2.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (F  
+  ailed to compile.:Str   
+ ing) [], RemoteExcept    
+ion
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+
+./node_modules/konva/lib/i
+ndex-node.js
+Module not found: Can't 
+resolve 'canvas'
+Did you mean './canvas'?
+Requests that should 
+resolve in the current 
+directory need to start 
+with './'.
+Requests that start with 
+a name are treated as 
+module requests and 
+resolve within module 
+directories 
+(node_modules).
+If changing the source 
+code is not an option 
+there is also a resolve 
+options called 
+'preferRelative' which 
+tries to resolve these 
+kind of requests in the 
+current directory too.
+
+https://nextjs.org/docs/me
+ssages/module-not-found
+
+Import trace for 
+requested module:
+./src/app/flipbook/[boardI
+d]/page.tsx
+
+
+> Build failed because of 
+webpack errors

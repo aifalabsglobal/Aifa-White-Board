@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
+import { auth } from '@clerk/nextjs/server';
 import { prisma } from '@/lib/prisma';
 
 export async function GET(
@@ -7,8 +7,8 @@ export async function GET(
     { params }: { params: Promise<{ workspaceId: string }> }
 ) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -20,17 +20,7 @@ export async function GET(
                 boards: {
                     orderBy: { updatedAt: 'desc' },
                 },
-                members: {
-                    include: {
-                        user: {
-                            select: {
-                                id: true,
-                                name: true,
-                                email: true,
-                            },
-                        },
-                    },
-                },
+                members: true,
             },
         });
 
@@ -39,7 +29,7 @@ export async function GET(
         }
 
         // Check if user is a member
-        const isMember = workspace.members.some((m: { userId: string }) => m.userId === session.user?.id);
+        const isMember = workspace.members.some((m: { userId: string }) => m.userId === userId);
         if (!isMember) {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
@@ -56,8 +46,8 @@ export async function PATCH(
     { params }: { params: Promise<{ workspaceId: string }> }
 ) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -74,7 +64,7 @@ export async function PATCH(
             where: { id: workspaceId },
             include: {
                 members: {
-                    where: { userId: session.user.id },
+                    where: { userId: userId },
                 },
             },
         });
@@ -105,8 +95,8 @@ export async function DELETE(
     { params }: { params: Promise<{ workspaceId: string }> }
 ) {
     try {
-        const session = await auth();
-        if (!session?.user?.id) {
+        const { userId } = await auth();
+        if (!userId) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
@@ -117,7 +107,7 @@ export async function DELETE(
             where: { id: workspaceId },
             include: {
                 members: {
-                    where: { userId: session.user.id },
+                    where: { userId: userId },
                 },
             },
         });
@@ -126,7 +116,7 @@ export async function DELETE(
             return NextResponse.json({ error: 'Workspace not found' }, { status: 404 });
         }
 
-        if (workspace.ownerId !== session.user.id) {
+        if (workspace.ownerId !== userId) {
             return NextResponse.json({ error: 'Only workspace owners can delete workspaces' }, { status: 403 });
         }
 

@@ -1,11 +1,11 @@
 import { redirect } from 'next/navigation';
-import { auth } from '@/lib/auth';
+import { auth } from '@clerk/nextjs/server';
 
 export default async function Home() {
-  const session = await auth();
+  const { userId } = await auth();
 
-  if (!session?.user) {
-    redirect('/login');
+  if (!userId) {
+    redirect('/sign-in');
   }
 
   // Redirect to workspaces page for workspace-centric navigation

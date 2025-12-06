@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import TopBar from '@/components/TopBar';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 // Dynamically import WhiteboardCanvas to avoid SSR issues with Konva
 const WhiteboardCanvas = dynamic(() => import('@/components/WhiteboardCanvas'), {
@@ -21,12 +22,6 @@ export default function BoardPage() {
     const [mounted, setMounted] = useState(false);
     const [boardData, setBoardData] = useState<any>(null);
 
-    useEffect(() => {
-        setMounted(true);
-        // Fetch board with workspace info
-        fetchBoardData();
-    }, [boardId]);
-
     const fetchBoardData = async () => {
         try {
             const res = await fetch(`/api/boards/${boardId}`);
@@ -39,24 +34,34 @@ export default function BoardPage() {
         }
     };
 
+    useEffect(() => {
+        setMounted(true);
+        // Fetch board with workspace info
+        fetchBoardData();
+    }, [boardId]);
+
     if (!mounted) return null;
 
     return (
         <main className="h-screen w-screen overflow-hidden flex flex-col bg-slate-50">
             {/* Top Bar - Fixed header with navigation, tools, and page controls */}
-            <TopBar
-                currentBoardId={boardId}
-                currentWorkspaceId={boardData?.workspaceId}
-                workspaceName={boardData?.workspace?.name}
-                boardName={boardData?.title}
-            />
+            <ErrorBoundary name="TopBar">
+                <TopBar
+                    currentBoardId={boardId}
+                    currentWorkspaceId={boardData?.workspaceId}
+                    workspaceName={boardData?.workspace?.name}
+                    boardName={boardData?.title}
+                />
+            </ErrorBoundary>
 
             {/* Main Canvas Area - Completely clean */}
             <div className="flex-1 relative overflow-hidden">
                 <div className="absolute inset-0" style={{ zIndex: 'var(--z-canvas)' }}>
-                    <WhiteboardCanvas boardId={boardId} />
+                    <ErrorBoundary name="WhiteboardCanvas">
+                        <WhiteboardCanvas boardId={boardId} />
+                    </ErrorBoundary>
                 </div>
             </div>
-        </main>
+        </main >
     );
 }

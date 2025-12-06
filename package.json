@@ -16,7 +16,7 @@
     "jspdf": "^3.0.4",
     "konva": "^9.3.16",
     "lucide-react": "^0.554.0",
-    "next": "14.2.16",
+    "next": "14.2.25",
     "@clerk/nextjs": "^6.5.0",
     "perfect-freehand": "^1.2.2",
     "pg": "^8.16.3",
@@ -36,7 +36,7 @@
     "@types/react-dom": "^18",
     "dotenv": "^17.2.3",
     "eslint": "^9",
-    "eslint-config-next": "14.2.16",
+    "eslint-config-next": "14.2.25",
     "prisma": "^5.22.0",
     "tailwindcss": "^4",
     "typescript": "^5"

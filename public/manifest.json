@@ -1,0 +1,32 @@
+{
+    "name": "AIFA Board",
+    "short_name": "AIFA Board",
+    "description": "Free online interactive whiteboard for teaching and collaboration. Create digital lessons, collaborate in real-time with multitouch support.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#2563eb",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "/logo.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        },
+        {
+            "src": "/aifa-logo.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/aifaboard-logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "categories": [
+        "education",
+        "productivity"
+    ],
+    "lang": "en-US"
+}

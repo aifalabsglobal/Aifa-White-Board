@@ -154,7 +154,11 @@ async function renderPageToImage(pageData: PageData): Promise<string> {
                         text: stroke.text,
                         x: x * s, y: y * s,
                         fontSize: (stroke.fontSize || 24) * s,
-                        fontFamily: stroke.fontFamily || 'Arial',
+                        fontFamily: stroke.fontFamily || 'Caveat',
+                        fontStyle: stroke.fontStyle || 'normal',
+                        fontVariant: stroke.fontWeight || 'normal',
+                        textDecoration: stroke.textDecoration || 'none',
+                        align: stroke.textAlign || 'left',
                         fill: stroke.color,
                         opacity: stroke.opacity || 1,
                     }));

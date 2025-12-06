@@ -216,6 +216,7 @@ function renderStrokeToKonva(stroke: Stroke, Konva: any): Konva.Shape | Konva.Gr
             fontSize: stroke.fontSize || Math.max(stroke.width * 4, 12),
             fontFamily: stroke.fontFamily || 'Caveat',
             fontStyle: stroke.fontStyle || 'normal',
+            fontVariant: stroke.fontWeight || 'normal',
             textDecoration: stroke.textDecoration || 'none',
             align: stroke.textAlign || 'left',
             fill: stroke.color,

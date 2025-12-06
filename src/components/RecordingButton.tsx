@@ -45,11 +45,27 @@ export default function RecordingButton({ boardId }: RecordingButtonProps) {
     const handleStartRecording = async () => {
         setStarting(true);
         try {
-            // Request screen sharing
+            // Request screen sharing with system audio
             const screenStream = await navigator.mediaDevices.getDisplayMedia({
                 video: true,
-                audio: true,
+                audio: true, // This captures system/tab audio
             });
+
+            // Request microphone audio separately - THIS IS THE KEY FIX
+            let micStream: MediaStream | null = null;
+            try {
+                micStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true,
+                    },
+                    video: false,
+                });
+                console.log('Microphone captured successfully');
+            } catch (err) {
+                console.log('Microphone not available:', err);
+            }
 
             // Request camera (optional - don't fail if denied)
             let cameraStream: MediaStream | null = null;
@@ -65,18 +81,45 @@ export default function RecordingButton({ boardId }: RecordingButtonProps) {
             // Update global store
             startRecording(screenStream, cameraStream);
 
-            // Combine streams for recording
+            // Create combined stream for recording
             const combinedStream = new MediaStream();
 
-            // Add screen video and audio
-            screenStream.getTracks().forEach(track => combinedStream.addTrack(track));
+            // Add screen video track
+            screenStream.getVideoTracks().forEach(track => combinedStream.addTrack(track));
+
+            // Combine audio streams using AudioContext
+            const audioContext = new AudioContext();
+            const destination = audioContext.createMediaStreamDestination();
+
+            // Add screen/system audio if available
+            const screenAudioTracks = screenStream.getAudioTracks();
+            if (screenAudioTracks.length > 0) {
+                const screenAudioSource = audioContext.createMediaStreamSource(
+                    new MediaStream(screenAudioTracks)
+                );
+                screenAudioSource.connect(destination);
+                console.log('Screen audio connected');
+            }
+
+            // Add microphone audio if available
+            if (micStream) {
+                const micAudioSource = audioContext.createMediaStreamSource(micStream);
+                micAudioSource.connect(destination);
+                console.log('Microphone audio connected');
+            }
+
+            // Add combined audio track to the recording stream
+            destination.stream.getAudioTracks().forEach(track => {
+                combinedStream.addTrack(track);
+            });
 
             // Create MediaRecorder
             chunksRef.current = [];
             startTimeRef.current = Date.now();
 
             const recorder = new MediaRecorder(combinedStream, {
-                mimeType: 'video/webm;codecs=vp9',
+                mimeType: 'video/webm;codecs=vp9,opus',
+                audioBitsPerSecond: 128000,
             });
 
             recorder.ondataavailable = (event) => {
@@ -84,6 +127,10 @@ export default function RecordingButton({ boardId }: RecordingButtonProps) {
                     chunksRef.current.push(event.data);
                 }
             };
+
+            // Store audioContext and micStream for cleanup
+            (recorder as any)._audioContext = audioContext;
+            (recorder as any)._micStream = micStream;
 
             mediaRecorderRef.current = recorder;
             recorder.start(1000); // Collect data every second
@@ -143,6 +190,21 @@ export default function RecordingButton({ boardId }: RecordingButtonProps) {
         // Show success message
         setShowSuccess(true);
         setTimeout(() => setShowSuccess(false), 3000);
+
+        // Cleanup AudioContext and microphone stream
+        try {
+            const audioContext = (recorder as any)._audioContext as AudioContext;
+            const micStream = (recorder as any)._micStream as MediaStream | null;
+
+            if (audioContext && audioContext.state !== 'closed') {
+                audioContext.close();
+            }
+            if (micStream) {
+                micStream.getTracks().forEach(track => track.stop());
+            }
+        } catch (err) {
+            console.log('Error cleaning up audio resources:', err);
+        }
 
         // Cleanup refs
         mediaRecorderRef.current = null;

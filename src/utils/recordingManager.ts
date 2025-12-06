@@ -35,7 +35,7 @@ export class RecordingManager {
                     cursor: 'always',
                     displaySurface: 'browser',
                 } as any,
-                audio: false, // We'll capture audio separately for better control
+                audio: true, // Capture system audio from the screen share
             });
 
             this.screenStream = stream;

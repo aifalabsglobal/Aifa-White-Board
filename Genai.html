@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generative AI - Complete Learning Roadmap</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        }
+        .card-gradient {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+        }
+        .glow { box-shadow: 0 0 40px rgba(99, 102, 241, 0.3); }
+        .timeline-line {
+            background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+        }
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+        .phase-card:hover {
+            transform: scale(1.02);
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/30 backdrop-blur-lg border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <!-- mytutor99 Logo -->
+                <div class="relative group">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center shadow-lg shadow-blue-500/30 cursor-pointer transition-transform hover:scale-105">
+                        <span class="text-white font-bold text-lg">my</span>
+                    </div>
+                    <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md">
+                        <span class="text-blue-600 font-bold text-xs">99</span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">mytutor99</span>
+                    <span class="text-xs text-blue-300 tracking-wider">AI Learning Platform</span>
+                </div>
+            </div>
+            <div class="hidden md:flex gap-6 text-sm">
+                <a href="#evolution" class="hover:text-indigo-400 transition">History</a>
+                <a href="#modules" class="hover:text-indigo-400 transition">Modules</a>
+                <a href="#syllabus" class="hover:text-indigo-400 transition">Syllabus</a>
+                <a href="#future" class="hover:text-indigo-400 transition">Future</a>
+                <a href="#projects" class="hover:text-indigo-400 transition">Projects</a>
+            </div>
+            <button class="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-2 rounded-full text-sm font-semibold hover:opacity-90 transition">
+                Start Learning
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-sm mb-6">
+                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                Comprehensive Learning Path 2024+
+            </div>
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center shadow-xl shadow-blue-500/30">
+                    <span class="text-white font-bold text-xl">my</span>
+                </div>
+                <div class="flex flex-col items-start">
+                    <span class="text-3xl font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">mytutor99</span>
+                    <span class="text-sm text-blue-300 tracking-widest">AI LEARNING PLATFORM</span>
+                </div>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                <span class="gradient-text">Generative AI</span><br>
+                Complete Roadmap
+            </h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-10">
+                From Foundations → Systems → Production → Research → Future AI<br>
+                A premium-quality learning journey for serious professionals
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#modules" class="bg-white text-purple-900 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition glow">
+                    Explore Modules →
+                </a>
+                <a href="#evolution" class="border border-white/30 px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition">
+                    View History
+                </a>
+            </div>
+            
+            <!-- Hero Image Grid -->
+            <div class="mt-16 grid md:grid-cols-4 gap-4">
+                <img src="https://i0.wp.com/digitalwellbeing.org/wp-content/uploads/2017/08/Artificial-Intelligence-AI-Timeline-Infographic.jpeg?fit=1200%2C675&ssl=1" 
+                     alt="AI Timeline" class="rounded-2xl shadow-2xl w-full h-48 object-cover opacity-80 hover:opacity-100 transition animate-float">
+                <img src="https://miro.medium.com/v2/resize:fit:2000/1*Qel7GPqPuCcJK7SwAGwxzQ.png" 
+                     alt="AI Evolution" class="rounded-2xl shadow-2xl w-full h-48 object-cover opacity-80 hover:opacity-100 transition animate-float" style="animation-delay: 0.5s;">
+                <img src="https://miro.medium.com/1*aUw7xxxfrArnwCyFC1cMAw.png" 
+                     alt="AI Systems" class="rounded-2xl shadow-2xl w-full h-48 object-cover opacity-80 hover:opacity-100 transition animate-float" style="animation-delay: 1s;">
+                <img src="https://www.usenix.org/sites/default/files/styles/article_embedded/public/sys.png" 
+                     alt="AI Architecture" class="rounded-2xl shadow-2xl w-full h-48 object-cover opacity-80 hover:opacity-100 transition animate-float" style="animation-delay: 1.5s;">
+            </div>
+        </div>
+    </section>
+
+    <!-- Historical Evolution Section -->
+    <section id="evolution" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-indigo-400 font-semibold">PART 1</span>
+                <h2 class="text-4xl font-bold mt-2">Historical Evolution</h2>
+                <p class="text-gray-400 mt-4">Understanding context before diving deep</p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="relative">
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full timeline-line hidden md:block rounded-full"></div>
+                
+                <!-- Phase 1 -->
+                <div class="flex flex-col md:flex-row items-center gap-8 mb-12 phase-card transition">
+                    <div class="md:w-1/2 md:text-right">
+                        <div class="card-gradient p-6 rounded-2xl inline-block">
+                            <div class="text-4xl mb-2">🧠</div>
+                            <h3 class="text-xl font-bold text-indigo-300">Phase 1: Classical AI</h3>
+                            <p class="text-sm text-gray-400 mt-2">1950–2009</p>
+                            <ul class="text-sm text-gray-300 mt-3 space-y-1">
+                                <li>• Symbolic AI (rule-based systems)</li>
+                                <li>• Probability & Linear Algebra</li>
+                                <li>• Markov Models, Bayesian Networks</li>
+                                <li>• Early NLP: n-grams, TF-IDF</li>
+                            </ul>
+                            <div class="text-xs text-red-400 mt-3">⚠️ No creativity, no generalization</div>
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center font-bold shadow-lg z-10">1</div>
+                    <div class="md:w-1/2"></div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="flex flex-col md:flex-row items-center gap-8 mb-12 phase-card transition">
+                    <div class="md:w-1/2"></div>
+                    <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center font-bold shadow-lg z-10">2</div>
+                    <div class="md:w-1/2">
+                        <div class="card-gradient p-6 rounded-2xl inline-block">
+                            <div class="text-4xl mb-2">🤖</div>
+                            <h3 class="text-xl font-bold text-purple-300">Phase 2: ML & Representation</h3>
+                            <p class="text-sm text-gray-400 mt-2">2010–2014</p>
+                            <ul class="text-sm text-gray-300 mt-3 space-y-1">
+                                <li>• Logistic Regression, SVMs</li>
+                                <li>• Neural Networks revival</li>
+                                <li>• Word2Vec, GloVe embeddings</li>
+                                <li>• RNN, LSTM networks</li>
+                            </ul>
+                            <div class="text-xs text-green-400 mt-3">✓ Machines learn representations</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="flex flex-col md:flex-row items-center gap-8 mb-12 phase-card transition">
+                    <div class="md:w-1/2 md:text-right">
+                        <div class="card-gradient p-6 rounded-2xl inline-block">
+                            <div class="text-4xl mb-2">🔁</div>
+                            <h3 class="text-xl font-bold text-pink-300">Phase 3: Deep Learning Explosion</h3>
+                            <p class="text-sm text-gray-400 mt-2">2015–2017</p>
+                            <ul class="text-sm text-gray-300 mt-3 space-y-1">
+                                <li>• CNN dominance in vision</li>
+                                <li>• Seq2Seq for translation</li>
+                                <li>• Attention mechanism</li>
+                            </ul>
+                            <div class="text-xs text-green-400 mt-3">✓ Sequence modeling becomes scalable</div>
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center font-bold shadow-lg z-10">3</div>
+                    <div class="md:w-1/2"></div>
+                </div>
+
+                <!-- Phase 4 -->
+                <div class="flex flex-col md:flex-row items-center gap-8 mb-12 phase-card transition">
+                    <div class="md:w-1/2"></div>
+                    <div class="w-12 h-12 bg-cyan-500 rounded-full flex items-center justify-center font-bold shadow-lg z-10">4</div>
+                    <div class="md:w-1/2">
+                        <div class="card-gradient p-6 rounded-2xl inline-block">
+                            <div class="text-4xl mb-2">🚀</div>
+                            <h3 class="text-xl font-bold text-cyan-300">Phase 4: Transformer Era</h3>
+                            <p class="text-sm text-gray-400 mt-2">2017–2020</p>
+                            <ul class="text-sm text-gray-300 mt-3 space-y-1">
+                                <li>• "Attention Is All You Need"</li>
+                                <li>• Birth of Transformers</li>
+                                <li>• BERT, GPT-2, T5</li>
+                            </ul>
+                            <div class="text-xs text-green-400 mt-3">✓ Parallelization + scale = intelligence</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phase 5 -->
+                <div class="flex flex-col md:flex-row items-center gap-8 mb-12 phase-card transition">
+                    <div class="md:w-1/2 md:text-right">
+                        <div class="card-gradient p-6 rounded-2xl inline-block">
+                            <div class="text-4xl mb-2">🌍</div>
+                            <h3 class="text-xl font-bold text-yellow-300">Phase 5: Foundation Models</h3>
+                            <p class="text-sm text-gray-400 mt-2">2020–2023</p>
+                            <ul class="text-sm text-gray-300 mt-3 space-y-1">
+                                <li>• Large Language Models (LLMs)</li>
+                                <li>• Diffusion models for images</li>
+                                <li>• RLHF (Reinforcement Learning)</li>
+                                <li>• Multimodal AI</li>
+                            </ul>
+                            <div class="text-xs text-green-400 mt-3">✓ Systems learn to reason & generate</div>
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center font-bold shadow-lg z-10">5</div>
+                    <div class="md:w-1/2"></div>
+                </div>
+
+                <!-- Phase 6 -->
+                <div class="flex flex-col md:flex-row items-center gap-8 mb-12 phase-card transition">
+                    <div class="md:w-1/2"></div>
+                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center font-bold shadow-lg z-10">6</div>
+                    <div class="md:w-1/2">
+                        <div class="card-gradient p-6 rounded-2xl inline-block">
+                            <div class="text-4xl mb-2">🧩</div>
+                            <h3 class="text-xl font-bold text-green-300">Phase 6: Agentic AI</h3>
+                            <p class="text-sm text-gray-400 mt-2">2024–Present</p>
+                            <ul class="text-sm text-gray-300 mt-3 space-y-1">
+                                <li>• AI agents with memory & planning</li>
+                                <li>• RAG (Retrieval-Augmented Gen)</li>
+                                <li>• Function calling & tool use</li>
+                                <li>• Autonomous workflows</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Learning Modules -->
+    <section id="modules" class="py-20 px-4 bg-black/20">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-indigo-400 font-semibold">PART 2</span>
+                <h2 class="text-4xl font-bold mt-2">Core Learning Modules</h2>
+                <p class="text-gray-400 mt-4">10 comprehensive modules from basics to production</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Module 1 -->
+                <div class="module-card card-gradient rounded-2xl p-6 border border-white/10 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xl font-bold">1</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Mathematical Foundations</h3>
+                            <p class="text-xs text-gray-400">Build deep intuition</p>
+                        </div>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                        <li>• Linear Algebra for embeddings</li>
+                        <li>• Probability & Information Theory</li>
+                        <li>• Optimization & Gradient Descent</li>
+                        <li>• Loss functions for generation</li>
+                    </ul>
+                    <div class="text-xs text-indigo-400 bg-indigo-500/10 px-3 py-2 rounded-lg">
+                        🎯 Build a toy language model from scratch
+                    </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="module-card card-gradient rounded-2xl p-6 border border-white/10 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-xl font-bold">2</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Deep Learning for Gen</h3>
+                            <p class="text-xs text-gray-400">How machines generate data</p>
+                        </div>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                        <li>• Autoencoders & VAEs</li>
+                        <li>• GANs - theory & challenges</li>
+                        <li>• Diffusion models (DDPM)</li>
+                        <li>• Image & text generation</li>
+                    </ul>
+                    <div class="text-xs text-purple-400 bg-purple-500/10 px-3 py-2 rounded-lg">
+                        🎯 Image generation using diffusion
+                    </div>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="module-card card-gradient rounded-2xl p-6 border border-white/10 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-red-600 flex items-center justify-center text-xl font-bold">3</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Transformers & LLMs</h3>
+                            <p class="text-xs text-gray-400">Master the backbone</p>
+                        </div>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                        <li>• Self-attention (Q, K, V)</li>
+                        <li>• Positional encoding</li>
+                        <li>• Decoder vs Encoder-Decoder</li>
+                        <li>• Tokenization (BPE, WordPiece)</li>
+                    </ul>
+                    <div class="text-xs text-pink-400 bg-pink-500/10 px-3 py-2 rounded-lg">
+                        🎯 Understand how GPT predicts tokens
+                    </div>
+                </div>
+
+                <!-- Module 4 -->
+                <div class="module-card card-gradient rounded-2xl p-6 border border-white/10 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-xl font-bold">4</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Prompt Engineering</h3>
+                            <p class="text-xs text-gray-400">Control & steer intelligence</p>
+                        </div>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                        <li>• Zero-shot vs Few-shot</li>
+                        <li>• Chain-of-Thought reasoning</li>
+                        <li>• Self-consistency</li>
+                        <li>• Role prompting & security</li>
+                    </ul>
+                    <div class="text-xs text-cyan-400 bg-cyan-500/10 px-3 py-2 rounded-lg">
+                        🎯 Advanced prompting techniques
+                    </div>
+                </div>
+
+                <!-- Module 5 -->
+                <div class="module-card card-gradient rounded-2xl p-6 border border-white/10 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-xl font-bold">5</div>
+                        <div>
+                            <h3 class="font-bold text-lg">RAG Systems</h3>
+                            <p class="text-xs text-gray-400">Make models factual</p>
+                        </div>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                        <li>• Vector databases & embeddings</li>
+                        <li>• Chunking strategies</li>
+                        <li>• Hybrid search</li>
+                        <li>• Citations & traceability</li>
+                    </ul>
+                    <div class="text-xs text-blue-400 bg-blue-500/10 px-3 py-2 rounded-lg">
+                        🎯 Build PDF/DOC Q&A system
+                    </div>
+                </div>
+
+                <!-- Module 6 -->
+                <div class="module-card card-gradient rounded-2xl p-6 border border-white/10 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-xl font-bold">6</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Agentic AI Systems</h3>
+                            <p class="text-xs text-gray-400">Autonomous reasoning</p>
+                        </div>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                        <li>• AI agents vs chatbots</li>
+                        <li>• Planning, memory, reflection</li>
+                        <li>• Tool usage (APIs, DBs)</li>
+                        <li>• Multi-agent orchestration</li>
+                    </ul>
+                    <div class="text-xs text-green-400 bg-green-500/10 px-3 py-2 rounded-lg">
+                        🎯 Build AI interviewer/tutor
+                    </div>
+                </div>
+
+                <!-- Module 7 -->
+                <div class="module-card card-gradient rounded-2xl p-6 border border-white/10 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center text-xl font-bold">7</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Multimodal GenAI</h3>
+                            <p class="text-xs text-gray-400">Text + Vision + Audio</p>
+                        </div>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                        <li>• Vision-language models</li>
+                        <li>• Speech-to-text & TTS</li>
+                        <li>• Video understanding</li>
+                        <li>• Cross-modal alignment</li>
+                    </ul>
+                    <div class="text-xs text-yellow-400 bg-yellow-500/10 px-3 py-2 rounded-lg">
+                        🎯 Create talking AI tutor
+                    </div>
+                </div>
+
+                <!-- Module 8 -->
+                <div class="module-card card-gradient rounded-2xl p-6 border border-white/10 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-xl font-bold">8</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Fine-Tuning</h3>
+                            <p class="text-xs text-gray-400">Customize intelligence</p>
+                        </div>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                        <li>• Full fine-tuning vs LoRA/PEFT</li>
+                        <li>• Instruction tuning</li>
+                        <li>• Domain adaptation</li>
+                        <li>• Evaluation metrics</li>
+                    </ul>
+                    <div class="text-xs text-orange-400 bg-orange-500/10 px-3 py-2 rounded-lg">
+                        🎯 Fine-tune model on custom data
+                    </div>
+                </div>
+
+                <!-- Module 9 -->
+                <div class="module-card card-gradient rounded-2xl p-6 border border-white/10 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-xl font-bold">9</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Production Systems</h3>
+                            <p class="text-xs text-gray-400">Demo → Enterprise</p>
+                        </div>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                        <li>• Model routing & fallback</li>
+                        <li>• Latency & cost governance</li>
+                        <li>• Observability & guardrails</li>
+                        <li>• Multi-tenant architecture</li>
+                    </ul>
+                    <div class="text-xs text-rose-400 bg-rose-500/10 px-3 py-2 rounded-lg">
+                        🎯 Deploy production-grade system
+                    </div>
+                </div>
+
+                <!-- Module 10 -->
+                <div class="module-card card-gradient rounded-2xl p-6 border border-white/10 transition-all duration-300">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-xl font-bold">10</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Responsible AI</h3>
+                            <p class="text-xs text-gray-400">Safe & trustworthy</p>
+                        </div>
+                    </div>
+                    <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                        <li>• Bias & fairness</li>
+                        <li>• Explainability</li>
+                        <li>• Data privacy & governance</li>
+                        <li>• Regulatory compliance</li>
+                    </ul>
+                    <div class="text-xs text-violet-400 bg-violet-500/10 px-3 py-2 rounded-lg">
+                        🎯 Build responsible AI framework
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Syllabus Section -->
+    <section id="syllabus" class="py-20 px-4 bg-black/20">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-indigo-400 font-semibold">DETAILED CURRICULUM</span>
+                <h2 class="text-4xl font-bold mt-2">Module-Wise Syllabus</h2>
+                <p class="text-gray-400 mt-4">Comprehensive breakdown with objectives, topics, exercises & resources</p>
+            </div>
+
+            <!-- Module 1 Syllabus -->
+            <div class="mb-8">
+                <div class="card-gradient rounded-2xl border border-white/10 overflow-hidden">
+                    <button class="syllabus-toggle w-full p-6 flex items-center justify-between hover:bg-white/5 transition" onclick="toggleSyllabus(1)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-2xl font-bold">1</div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold">Mathematical Foundations</h3>
+                                <p class="text-sm text-gray-400">Duration: 2 weeks | Level: Beginner</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs bg-indigo-500/20 px-3 py-1 rounded-full">10 Topics</span>
+                            <svg id="icon-1" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div id="content-1" class="hidden px-6 pb-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-indigo-300 mb-3">📚 Learning Objectives</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Understand linear algebra concepts for embeddings</li>
+                                    <li>• Master probability theory and information entropy</li>
+                                    <li>• Implement gradient descent from scratch</li>
+                                    <li>• Understand loss functions used in generation</li>
+                                </ul>
+                                <h4 class="font-semibold text-indigo-300 mb-3 mt-6">📖 Topics Covered</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>1. Vectors, Matrices, and Tensor operations</li>
+                                    <li>2. Eigenvalues, Eigenvectors, and SVD</li>
+                                    <li>3. Probability distributions and Bayes' theorem</li>
+                                    <li>4. Information theory: Entropy, KL divergence</li>
+                                    <li>5. Calculus: Derivatives, Chain rule, Jacobian</li>
+                                    <li>6. Optimization: GD, SGD, Adam</li>
+                                    <li>7. Loss functions: MSE, Cross-entropy, VAE loss</li>
+                                    <li>8. Embedding spaces and similarity measures</li>
+                                    <li>9. Attention weights and softmax</li>
+                                    <li>10. Regularization techniques (L1, L2, Dropout)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-indigo-300 mb-3">🛠️ Hands-on Exercises</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Build a simple neural network from scratch (NumPy)</li>
+                                    <li>• Visualize word embeddings in 2D/3D space</li>
+                                    <li>• Implement forward and backward pass</li>
+                                    <li>• Create gradient descent visualization</li>
+                                    <li>• Build a character-level language model</li>
+                                </ul>
+                                <h4 class="font-semibold text-indigo-300 mb-3 mt-6">📚 Recommended Resources</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• "Linear Algebra for ML" - 3Blue1Brown</li>
+                                    <li>• "Pattern Recognition & ML" - Bishop</li>
+                                    <li>• Khan Academy - Linear Algebra & Calculus</li>
+                                    <li>• Stanford CS229 Lecture Notes</li>
+                                </ul>
+                                <h4 class="font-semibold text-indigo-300 mb-3 mt-6">✅ Assessment</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Quiz: Linear Algebra fundamentals</li>
+                                    <li>• Quiz: Probability & Information Theory</li>
+                                    <li>• Assignment: Implement mini neural network</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 2 Syllabus -->
+            <div class="mb-8">
+                <div class="card-gradient rounded-2xl border border-white/10 overflow-hidden">
+                    <button class="syllabus-toggle w-full p-6 flex items-center justify-between hover:bg-white/5 transition" onclick="toggleSyllabus(2)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-2xl font-bold">2</div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold">Deep Learning for Generation</h3>
+                                <p class="text-sm text-gray-400">Duration: 3 weeks | Level: Intermediate</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs bg-purple-500/20 px-3 py-1 rounded-full">10 Topics</span>
+                            <svg id="icon-2" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div id="content-2" class="hidden px-6 pb-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-purple-300 mb-3">📚 Learning Objectives</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Understand how autoencoders compress and reconstruct data</li>
+                                    <li>• Master GAN theory and training dynamics</li>
+                                    <li>• Implement diffusion models from scratch</li>
+                                    <li>• Compare generation approaches and trade-offs</li>
+                                </ul>
+                                <h4 class="font-semibold text-purple-300 mb-3 mt-6">📖 Topics Covered</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>1. Feedforward Networks architecture</li>
+                                    <li>2. Autoencoders (vanilla & variational)</li>
+                                    <li>3. Latent space representation</li>
+                                    <li>4. GANs: Generator & Discriminator</li>
+                                    <li>5. GAN training challenges (mode collapse)</li>
+                                    <li>6. Wasserstein GAN, StyleGAN</li>
+                                    <li>7. Diffusion Process: Forward & Reverse</li>
+                                    <li>8. U-Net architecture for denoising</li>
+                                    <li>9. Classifier-free guidance</li>
+                                    <li>10. Image generation evaluation (FID, IS)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-purple-300 mb-3">🛠️ Hands-on Exercises</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Build a VAE for MNIST generation</li>
+                                    <li>• Train a DCGAN on CIFAR-10</li>
+                                    <li>• Implement DDPM from scratch</li>
+                                    <li>• Fine-tune Stable Diffusion with LoRA</li>
+                                    <li>• Generate images with textual prompts</li>
+                                </ul>
+                                <h4 class="font-semibold text-purple-300 mb-3 mt-6">📚 Recommended Resources</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• "Deep Learning" - Goodfellow, Bengio, Courville</li>
+                                    <li>• Paper: "Auto-Encoding Variational Bayes"</li>
+                                    <li>• Paper: "GANs" (Goodfellow et al.)</li>
+                                    <li>• Paper: "DDPM: Denoising Diffusion Probabilistic Models"</li>
+                                </ul>
+                                <h4 class="font-semibold text-purple-300 mb-3 mt-6">✅ Assessment</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Assignment: Build VAE with PyTorch</li>
+                                    <li>• Project: Train GAN on custom dataset</li>
+                                    <li>• Quiz: Diffusion model mathematics</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 3 Syllabus -->
+            <div class="mb-8">
+                <div class="card-gradient rounded-2xl border border-white/10 overflow-hidden">
+                    <button class="syllabus-toggle w-full p-6 flex items-center justify-between hover:bg-white/5 transition" onclick="toggleSyllabus(3)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-500 to-red-600 flex items-center justify-center text-2xl font-bold">3</div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold">Transformers & Large Language Models</h3>
+                                <p class="text-sm text-gray-400">Duration: 4 weeks | Level: Intermediate-Advanced</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs bg-pink-500/20 px-3 py-1 rounded-full">12 Topics</span>
+                            <svg id="icon-3" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div id="content-3" class="hidden px-6 pb-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-pink-300 mb-3">📚 Learning Objectives</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Deeply understand self-attention mechanism</li>
+                                    <li>• Implement Transformer architecture from scratch</li>
+                                    <li>• Understand scaling laws and emergent abilities</li>
+                                    <li>• Master tokenization strategies</li>
+                                </ul>
+                                <h4 class="font-semibold text-pink-300 mb-3 mt-6">📖 Topics Covered</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>1. Self-Attention: Q, K, V matrices</li>
+                                    <li>2. Scaled dot-product attention</li>
+                                    <li>3. Multi-head attention</li>
+                                    <li>4. Positional encoding (sinusoidal, learned)</li>
+                                    <li>5. Encoder-only architecture (BERT)</li>
+                                    <li>6. Decoder-only architecture (GPT)</li>
+                                    <li>7. Encoder-Decoder architecture (T5)</li>
+                                    <li>8. Tokenization: BPE, WordPiece, SentencePiece</li>
+                                    <li>9. Vocabulary size and subword units</li>
+                                    <li>10. Context window and sparse attention</li>
+                                    <li>11. Scaling laws and compute optimal</li>
+                                    <li>12. Emergent abilities in LLMs</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-pink-300 mb-3">🛠️ Hands-on Exercises</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Implement multi-head attention from scratch</li>
+                                    <li>• Build complete Transformer encoder</li>
+                                    <li>• Train GPT-2 small on custom text</li>
+                                    <li>• Analyze attention head patterns</li>
+                                    <li>• Compare tokenization strategies</li>
+                                </ul>
+                                <h4 class="font-semibold text-pink-300 mb-3 mt-6">📚 Recommended Resources</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Paper: "Attention Is All You Need"</li>
+                                    <li>• Paper: "BERT: Pre-training of Deep Bidirectional"</li>
+                                    <li>• Paper: "Language Models are Few-Shot Learners" (GPT-3)</li>
+                                    <li>• "The Illustrated Transformer" - Jay Alammar</li>
+                                </ul>
+                                <h4 class="font-semibold text-pink-300 mb-3 mt-6">✅ Assessment</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Build mini-Transformer (code review)</li>
+                                    <li>• Analyze attention patterns visualization</li>
+                                    <li>• Quiz: Transformer architecture</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 4 Syllabus -->
+            <div class="mb-8">
+                <div class="card-gradient rounded-2xl border border-white/10 overflow-hidden">
+                    <button class="syllabus-toggle w-full p-6 flex items-center justify-between hover:bg-white/5 transition" onclick="toggleSyllabus(4)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-2xl font-bold">4</div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold">Prompt Engineering & Reasoning</h3>
+                                <p class="text-sm text-gray-400">Duration: 2 weeks | Level: All Levels</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs bg-cyan-500/20 px-3 py-1 rounded-full">8 Topics</span>
+                            <svg id="icon-4" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div id="content-4" class="hidden px-6 pb-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-cyan-300 mb-3">📚 Learning Objectives</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Master zero-shot, few-shot, and CoT prompting</li>
+                                    <li>• Design effective system prompts</li>
+                                    <li>• Understand and prevent prompt injection</li>
+                                    <li>• Optimize prompts for cost and performance</li>
+                                </ul>
+                                <h4 class="font-semibold text-cyan-300 mb-3 mt-6">📖 Topics Covered</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>1. Zero-shot prompting basics</li>
+                                    <li>2. Few-shot (in-context learning)</li>
+                                    <li>3. Chain-of-Thought (CoT) prompting</li>
+                                    <li>4. Self-consistency & ensemble reasoning</li>
+                                    <li>5. Tree of Thoughts (ToT)</li>
+                                    <li>6. System prompts & role prompting</li>
+                                    <li>7. Prompt compression techniques</li>
+                                    <li>8. Prompt injection & defense strategies</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-cyan-300 mb-3">🛠️ Hands-on Exercises</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Design prompts for various tasks</li>
+                                    <li>• Compare zero-shot vs few-shot performance</li>
+                                    <li>• Implement CoT prompting for math problems</li>
+                                    <li>• Build prompt template system</li>
+                                    <li>• Test and harden against injection</li>
+                                </ul>
+                                <h4 class="font-semibold text-cyan-300 mb-3 mt-6">📚 Recommended Resources</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Paper: "Chain of Thought Prompting Elicits Reasoning"</li>
+                                    <li>• Paper: "Self-Consistency Improves CoT"</li>
+                                    <li>• OpenAI Prompting Guide</li>
+                                    <li>• Anthropic Prompt Engineering Guide</li>
+                                </ul>
+                                <h4 class="font-semibold text-cyan-300 mb-3 mt-6">✅ Assessment</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Design prompts for 5 different tasks</li>
+                                    <li>• A/B test prompting strategies</li>
+                                    <li>• Quiz: Prompting techniques</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 5 Syllabus -->
+            <div class="mb-8">
+                <div class="card-gradient rounded-2xl border border-white/10 overflow-hidden">
+                    <button class="syllabus-toggle w-full p-6 flex items-center justify-between hover:bg-white/5 transition" onclick="toggleSyllabus(5)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-2xl font-bold">5</div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold">Retrieval-Augmented Generation (RAG)</h3>
+                                <p class="text-sm text-gray-400">Duration: 3 weeks | Level: Intermediate</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs bg-blue-500/20 px-3 py-1 rounded-full">10 Topics</span>
+                            <svg id="icon-5" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div id="content-5" class="hidden px-6 pb-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-blue-300 mb-3">📚 Learning Objectives</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Design and implement RAG architectures</li>
+                                    <li>• Choose and configure vector databases</li>
+                                    <li>• Optimize chunking and retrieval strategies</li>
+                                    <li>• Build production-ready RAG systems</li>
+                                </ul>
+                                <h4 class="font-semibold text-blue-300 mb-3 mt-6">📖 Topics Covered</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>1. RAG architecture overview</li>
+                                    <li>2. Text embeddings (OpenAI, Sentence-BERT)</li>
+                                    <li>3. Vector databases: Pinecone, Weaviate, Chroma</li>
+                                    <li>4. Document processing & parsing</li>
+                                    <li>5. Chunking strategies (fixed, semantic)</li>
+                                    <li>6. Similarity search (cosine, dot product)</li>
+                                    <li>7. Hybrid search (semantic + keyword)</li>
+                                    <li>8. Re-ranking strategies</li>
+                                    <li>9. Citation and source tracking</li>
+                                    <li>10. RAG evaluation (RAGAs)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-blue-300 mb-3">🛠️ Hands-on Exercises</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Build PDF Q&A system</li>
+                                    <li>• Implement document ingestion pipeline</li>
+                                    <li>• Compare vector DB options</li>
+                                    <li>• Optimize chunking for better retrieval</li>
+                                    <li>• Add citation and source links</li>
+                                </ul>
+                                <h4 class="font-semibold text-blue-300 mb-3 mt-6">📚 Recommended Resources</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Paper: "Retrieval-Augmented Generation for Knowledge-Intensive Tasks"</li>
+                                    <li>• LangChain & LlamaIndex documentation</li>
+                                    <li>• Pinecone Academy - RAG Course</li>
+                                    <li>• "Building RAG Pipelines" - MongoDB</li>
+                                </ul>
+                                <h4 class="font-semibold text-blue-300 mb-3 mt-6">✅ Assessment</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Build enterprise document Q&A</li>
+                                    <li>• Evaluate retrieval quality</li>
+                                    <li>• Quiz: RAG architecture</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 6 Syllabus -->
+            <div class="mb-8">
+                <div class="card-gradient rounded-2xl border border-white/10 overflow-hidden">
+                    <button class="syllabus-toggle w-full p-6 flex items-center justify-between hover:bg-white/5 transition" onclick="toggleSyllabus(6)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-2xl font-bold">6</div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold">Agentic AI Systems</h3>
+                                <p class="text-sm text-gray-400">Duration: 3 weeks | Level: Advanced</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs bg-green-500/20 px-3 py-1 rounded-full">10 Topics</span>
+                            <svg id="icon-6" class="w-6 h-6 fill="none" stroke="currentColor transform transition-transform"" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div id="content-6" class="hidden px-6 pb-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-green-300 mb-3">📚 Learning Objectives</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Design autonomous AI agents</li>
+                                    <li>• Implement planning and reasoning loops</li>
+                                    <li>• Build multi-agent orchestration systems</li>
+                                    <li>• Enable tool use and function calling</li>
+                                </ul>
+                                <h4 class="font-semibold text-green-300 mb-3 mt-6">📖 Topics Covered</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>1. AI Agents vs Chatbots: Key differences</li>
+                                    <li>2. Agent architecture components</li>
+                                    <li>3. Planning: Task decomposition</li>
+                                    <li>4. Short-term vs Long-term memory</li>
+                                    <li>5. Self-reflection & criticism</li>
+                                    <li>6. Tool use and function calling</li>
+                                    <li>7. API integration patterns</li>
+                                    <li>8. Multi-agent orchestration (LangGraph)</li>
+                                    <li>9. Agent evaluation frameworks</li>
+                                    <li>10. Safety & control mechanisms</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-green-300 mb-3">🛠️ Hands-on Exercises</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Build AI interviewer with reasoning</li>
+                                    <li>• Create agent with memory system</li>
+                                    <li>• Implement function calling pipeline</li>
+                                    <li>• Design multi-agent collaboration</li>
+                                    <li>• Build autonomous research agent</li>
+                                </ul>
+                                <h4 class="font-semibold text-green-300 mb-3 mt-6">📚 Recommended Resources</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Paper: "ReAct: Synergizing Reasoning and Acting"</li>
+                                    <li>• Paper: "Reflexion: Language Agents with Verbal Reinforcement"</li>
+                                    <li>• LangChain Agents Documentation</li>
+                                    <li>• OpenAI Function Calling Guide</li>
+                                </ul>
+                                <h4 class="font-semibold text-green-300 mb-3 mt-6">✅ Assessment</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Build autonomous agent project</li>
+                                    <li>• Implement multi-agent system</li>
+                                    <li>• Quiz: Agent architecture</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 7 Syllabus -->
+            <div class="mb-8">
+                <div class="card-gradient rounded-2xl border border-white/10 overflow-hidden">
+                    <button class="syllabus-toggle w-full p-6 flex items-center justify-between hover:bg-white/5 transition" onclick="toggleSyllabus(7)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center text-2xl font-bold">7</div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold">Multimodal Generative AI</h3>
+                                <p class="text-sm text-gray-400">Duration: 3 weeks | Level: Advanced</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs bg-yellow-500/20 px-3 py-1 rounded-full">10 Topics</span>
+                            <svg id="icon-7" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div id="content-7" class="hidden px-6 pb-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-yellow-300 mb-3">📚 Learning Objectives</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Understand vision-language models</li>
+                                    <li>• Build multimodal applications</li>
+                                    <li>• Implement speech and audio processing</li>
+                                    <li>• Design cross-modal systems</li>
+                                </ul>
+                                <h4 class="font-semibold text-yellow-300 mb-3 mt-6">📖 Topics Covered</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>1. Vision transformers (ViT)</li>
+                                    <li>2. CLIP and contrastive learning</li>
+                                    <li>3. BLIP, LLaVA architectures</li>
+                                    <li>4. Image captioning & VQA</li>
+                                    <li>5. Text-to-image generation (DALL-E, Midjourney)</li>
+                                    <li>6. Whisper: Speech-to-text</li>
+                                    <li>7. Text-to-Speech (ElevenLabs, OpenAI)</li>
+                                    <li>8. Audio generation & modification</li>
+                                    <li>9. Video understanding basics</li>
+                                    <li>10. Cross-modal alignment techniques</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-yellow-300 mb-3">🛠️ Hands-on Exercises</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Build image Q&A with LLaVA</li>
+                                    <li>• Create text-to-image generator app</li>
+                                    <li>• Implement speech-to-speech translator</li>
+                                    <li>• Build talking AI avatar</li>
+                                    <li>• Create multimodal RAG system</li>
+                                </ul>
+                                <h4 class="font-semibold text-yellow-300 mb-3 mt-6">📚 Recommended Resources</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Paper: "CLIP: Learning Transferable Visual Models"</li>
+                                    <li>• Paper: "LLaVA: Large Language and Vision Assistant"</li>
+                                    <li>• OpenAI Vision Guide</li>
+                                    <li>• Hugging Face Multimodal Course</li>
+                                </ul>
+                                <h4 class="font-semibold text-yellow-300 mb-3 mt-6">✅ Assessment</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Build multimodal tutor project</li>
+                                    <li>• Create image-to-story generator</li>
+                                    <li>• Quiz: Multimodal architectures</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 8 Syllabus -->
+            <div class="mb-8">
+                <div class="card-gradient rounded-2xl border border-white/10 overflow-hidden">
+                    <button class="syllabus-toggle w-full p-6 flex items-center justify-between hover:bg-white/5 transition" onclick="toggleSyllabus(8)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-2xl font-bold">8</div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold">Fine-Tuning & Model Adaptation</h3>
+                                <p class="text-sm text-gray-400">Duration: 3 weeks | Level: Advanced</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs bg-orange-500/20 px-3 py-1 rounded-full">10 Topics</span>
+                            <svg id="icon-8" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div id="content-8" class="hidden px-6 pb-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-orange-300 mb-3">📚 Learning Objectives</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Master fine-tuning techniques (full & parameter-efficient)</li>
+                                    <li>• Design instruction tuning datasets</li>
+                                    <li>• Evaluate GenAI models properly</li>
+                                    <li>• Apply domain adaptation strategies</li>
+                                </ul>
+                                <h4 class="font-semibold text-orange-300 mb-3 mt-6">📖 Topics Covered</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>1. Full fine-tuning fundamentals</li>
+                                    <li>2. LoRA (Low-Rank Adaptation)</li>
+                                    <li>3. QLoRA: 4-bit quantized fine-tuning</li>
+                                    <li>4. PEFT library (Hugging Face)</li>
+                                    <li>5. Instruction dataset creation</li>
+                                    <li>6. SFT (Supervised Fine-Tuning)</li>
+                                    <li>7. RLHF: Reward model training</li>
+                                    <li>8. DPO: Direct Preference Optimization</li>
+                                    <li>9. Evaluation metrics (BLEU, ROUGE, G-Eval)</li>
+                                    <li>10. Human evaluation frameworks</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-orange-300 mb-3">🛠️ Hands-on Exercises</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Fine-tune LLaMA with LoRA</li>
+                                    <li>• Create instruction dataset</li>
+                                    <li>• Train with QLoRA on consumer GPU</li>
+                                    <li>• Implement DPO preference tuning</li>
+                                    <li>• Evaluate models with humaneval</li>
+                                </ul>
+                                <h4 class="font-semibold text-orange-300 mb-3 mt-6">📚 Recommended Resources</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Paper: "LoRA: Low-Rank Adaptation"</li>
+                                    <li>• Paper: "QLoRA: Efficient Finetuning of LLMs"</li>
+                                    <li>• Paper: "Direct Preference Optimization"</li>
+                                    <li>• Hugging Face Fine-tuning Course</li>
+                                </ul>
+                                <h4 class="font-semibold text-orange-300 mb-3 mt-6">✅ Assessment</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Fine-tune model on custom data</li>
+                                    <li>• Compare LoRA vs full fine-tuning</li>
+                                    <li>• Quiz: Fine-tuning techniques</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 9 Syllabus -->
+            <div class="mb-8">
+                <div class="card-gradient rounded-2xl border border-white/10 overflow-hidden">
+                    <button class="syllabus-toggle w-full p-6 flex items-center justify-between hover:bg-white/5 transition" onclick="toggleSyllabus(9)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-2xl font-bold">9</div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold">Production-Grade GenAI Systems</h3>
+                                <p class="text-sm text-gray-400">Duration: 3 weeks | Level: Expert</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs bg-rose-500/20 px-3 py-1 rounded-full">10 Topics</span>
+                            <svg id="icon-9" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div id="content-9" class="hidden px-6 pb-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-rose-300 mb-3">📚 Learning Objectives</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Deploy LLMs at scale with proper infrastructure</li>
+                                    <li>• Implement cost and latency optimization</li>
+                                    <li>• Build observability and monitoring systems</li>
+                                    <li>• Design multi-tenant architectures</li>
+                                </ul>
+                                <h4 class="font-semibold text-rose-300 mb-3 mt-6">📖 Topics Covered</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>1. Model serving (vLLM, TensorRT)</li>
+                                    <li>2. Batching and KV cache optimization</li>
+                                    <li>3. API gateway design patterns</li>
+                                    <li>4. Rate limiting and cost governance</li>
+                                    <li>5. Streaming responses (Server-Sent Events)</li>
+                                    <li>6. Fallback and circuit breaker patterns</li>
+                                    <li>7. LangServe and model routers</li>
+                                    <li>8. Observability: LangSmith, Arize</li>
+                                    <li>9. Hallucination detection</li>
+                                    <li>10. Guardrails and content filtering</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-rose-300 mb-3">🛠️ Hands-on Exercises</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Deploy model with vLLM serving</li>
+                                    <li>• Build API with rate limiting</li>
+                                    <li>• Implement streaming response pipeline</li>
+                                    <li>• Set up LangSmith observability</li>
+                                    <li>• Design multi-tenant RAG system</li>
+                                </ul>
+                                <h4 class="font-semibold text-rose-300 mb-3 mt-6">📚 Recommended Resources</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• vLLM Documentation</li>
+                                    <li>• LangChain Production Guide</li>
+                                    <li>• "Building LLM Applications" - Full Stack Deep Learning</li>
+                                    <li>• OpenAI Best Practices Guide</li>
+                                </ul>
+                                <h4 class="font-semibold text-rose-300 mb-3 mt-6">✅ Assessment</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Deploy production API</li>
+                                    <li>• Set up complete monitoring</li>
+                                    <li>• Quiz: Production architecture</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 10 Syllabus -->
+            <div class="mb-8">
+                <div class="card-gradient rounded-2xl border border-white/10 overflow-hidden">
+                    <button class="syllabus-toggle w-full p-6 flex items-center justify-between hover:bg-white/5 transition" onclick="toggleSyllabus(10)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-2xl font-bold">10</div>
+                            <div class="text-left">
+                                <h3 class="text-xl font-bold">Responsible & Secure AI</h3>
+                                <p class="text-sm text-gray-400">Duration: 2 weeks | Level: All Levels</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs bg-violet-500/20 px-3 py-1 rounded-full">10 Topics</span>
+                            <svg id="icon-10" class="w-6 h-6 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </button>
+                    <div id="content-10" class="hidden px-6 pb-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-violet-300 mb-3">📚 Learning Objectives</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Identify and mitigate AI bias</li>
+                                    <li>• Implement explainability techniques</li>
+                                    <li>• Ensure data privacy compliance</li>
+                                    <li>• Navigate regulatory landscape</li>
+                                </ul>
+                                <h4 class="font-semibold text-violet-300 mb-3 mt-6">📖 Topics Covered</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>1. Bias sources in training data</li>
+                                    <li>2. Fairness metrics (demographic parity, equalized odds)</li>
+                                    <li>3. Bias mitigation techniques</li>
+                                    <li>4. Explainability: SHAP, LIME</li>
+                                    <li>5. Attention visualization</li>
+                                    <li>6. Data privacy: GDPR, CCPA requirements</li>
+                                    <li>7. PII detection and redaction</li>
+                                    <li>8. AI governance frameworks</li>
+                                    <li>9. EU AI Act overview</li>
+                                    <li>10. Red teaming and safety testing</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-violet-300 mb-3">🛠️ Hands-on Exercises</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Audit model for bias</li>
+                                    <li>• Implement LIME explanations</li>
+                                    <li>• Build PII detection pipeline</li>
+                                    <li>• Create AI governance policy</li>
+                                    <li>• Conduct red team testing</li>
+                                </ul>
+                                <h4 class="font-semibold text-violet-300 mb-3 mt-6">📚 Recommended Resources</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Paper: "Fairness and Calibration in ML"</li>
+                                    <li>• Google AI Principles</li>
+                                    <li>• OpenAI Safety & Alignment</li>
+                                    <li>• NIST AI Risk Management Framework</li>
+                                </ul>
+                                <h4 class="font-semibold text-violet-300 mb-3 mt-6">✅ Assessment</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>• Complete bias audit report</li>
+                                    <li>• Build explainability dashboard</li>
+                                    <li>• Quiz: Responsible AI principles</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Outlook Section -->
+    <section id="future" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-indigo-400 font-semibold">PART 3</span>
+                <h2 class="text-4xl font-bold mt-2">Future of Generative AI</h2>
+                <p class="text-gray-400 mt-4">2026–2035 and beyond</p>
+            </div>
+
+            <!-- Future Images -->
+            <div class="grid md:grid-cols-5 gap-4 mb-12">
+                <img src="https://www.ema.co/_next/image?q=75&url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fq7d1vb20%2Fproduction%2Fb71593145b4a96d616e25aacf170b12145818d24-1600x909.jpg&w=3840" 
+                     alt="Future AI" class="rounded-2xl shadow-2xl w-full h-40 object-cover opacity-80 hover:opacity-100 transition">
+                <img src="https://thumbnails.yayimages.com/1600/11/426/114261cc.jpg" 
+                     alt="AI Future" class="rounded-2xl shadow-2xl w-full h-40 object-cover opacity-80 hover:opacity-100 transition">
+                <img src="https://www.trueanthem.com/wp-content/uploads/2023/05/human-and-AI-collaboration-scaled.jpeg" 
+                     alt="Human-AI Collaboration" class="rounded-2xl shadow-2xl w-full h-40 object-cover opacity-80 hover:opacity-100 transition">
+                <img src="https://www.diamandis.com/hubfs/featured-img-4.jpg" 
+                     alt="AI Innovation" class="rounded-2xl shadow-2xl w-full h-40 object-cover opacity-80 hover:opacity-100 transition">
+                <img src="https://miro.medium.com/1*HAONw0Mhgh0ZWzEfk_NoDA.jpeg" 
+                     alt="AI Vision" class="rounded-2xl shadow-2xl w-full h-40 object-cover opacity-80 hover:opacity-100 transition">
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Near Future -->
+                <div class="card-gradient p-8 rounded-2xl border border-white/10">
+                    <div class="text-5xl mb-4">🔮</div>
+                    <h3 class="text-2xl font-bold mb-2">Near Future</h3>
+                    <p class="text-indigo-400 text-sm mb-4">1–3 Years</p>
+                    <ul class="text-gray-300 space-y-3">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            Fully autonomous AI agents
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            AI copilots in every profession
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            Personalized AI tutors replacing static courses
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Mid-Term Future -->
+                <div class="card-gradient p-8 rounded-2xl border border-white/10">
+                    <div class="text-5xl mb-4">🌌</div>
+                    <h3 class="text-2xl font-bold mb-2">Mid-Term Future</h3>
+                    <p class="text-purple-400 text-sm mb-4">3–7 Years</p>
+                    <ul class="text-gray-300 space-y-3">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            Self-improving AI systems
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            Long-term memory agents
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            AI researchers discovering new science
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            Real-time multimodal assistants
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Long-Term Vision -->
+                <div class="card-gradient p-8 rounded-2xl border border-white/10">
+                    <div class="text-5xl mb-4">🧠</div>
+                    <h3 class="text-2xl font-bold mb-2">Long-Term Vision</h3>
+                    <p class="text-pink-400 text-sm mb-4">7–15 Years</p>
+                    <ul class="text-gray-300 space-y-3">
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            Artificial General Intelligence (AGI)
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            AI-native operating systems
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            Human–AI cognitive collaboration
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-green-400">✓</span>
+                            Fully adaptive individualized education
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capstone Projects Section -->
+    <section id="projects" class="py-20 px-4 bg-black/20">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-indigo-400 font-semibold">PART 4</span>
+                <h2 class="text-4xl font-bold mt-2">Capstone Projects</h2>
+                <p class="text-gray-400 mt-4">Must-complete projects to demonstrate mastery</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card-gradient p-6 rounded-2xl border border-white/10 hover:border-indigo-500/50 transition">
+                    <div class="text-4xl mb-4">🎓</div>
+                    <h3 class="text-xl font-bold mb-2">AI Tutor with Adaptive Learning</h3>
+                    <p class="text-gray-400 text-sm">Build an intelligent tutor that adapts to student learning patterns and provides personalized content.</p>
+                </div>
+
+                <div class="card-gradient p-6 rounded-2xl border border-white/10 hover:border-purple-500/50 transition">
+                    <div class="text-4xl mb-4">💼</div>
+                    <h3 class="text-xl font-bold mb-2">AI Interviewer</h3>
+                    <p class="text-gray-400 text-sm">Create an autonomous interviewer with coding challenges and reasoning assessments.</p>
+                </div>
+
+                <div class="card-gradient p-6 rounded-2xl border border-white/10 hover:border-pink-500/50 transition">
+                    <div class="text-4xl mb-4">🏢</div>
+                    <h3 class="text-xl font-bold mb-2">Enterprise RAG System</h3>
+                    <p class="text-gray-400 text-sm">Deploy production-ready RAG with document processing, vector search, and citations.</p>
+                </div>
+
+                <div class="card-gradient p-6 rounded-2xl border border-white/10 hover:border-cyan-500/50 transition">
+                    <div class="text-4xl mb-4">🔬</div>
+                    <h3 class="text-xl font-bold mb-2">Autonomous Research Agent</h3>
+                    <p class="text-gray-400 text-sm">Build an agent that can conduct research, synthesize information, and generate reports.</p>
+                </div>
+
+                <div class="card-gradient p-6 rounded-2xl border border-white/10 hover:border-green-500/50 transition">
+                    <div class="text-4xl mb-4">🎨</div>
+                    <h3 class="text-xl font-bold mb-2">Multimodal Explainer AI</h3>
+                    <p class="text-gray-400 text-sm">Create an AI that explains concepts using voice, visuals, and interactive elements.</p>
+                </div>
+
+                <div class="card-gradient p-6 rounded-2xl border border-white/10 hover:border-yellow-500/50 transition">
+                    <div class="text-4xl mb-4">🚀</div>
+                    <h3 class="text-xl font-bold mb-2">Complete AI Product</h3>
+                    <p class="text-gray-400 text-sm">End-to-end application with RAG, agents, fine-tuning, and production deployment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certification Section -->
+    <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="card-gradient p-12 rounded-3xl border border-white/10 text-center">
+                <div class="flex items-center justify-center gap-2 mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">my</span>
+                    </div>
+                    <span class="text-xl font-bold text-blue-300">mytutor99</span>
+                </div>
+                <div class="text-6xl mb-6">🏆</div>
+                <h2 class="text-4xl font-bold mb-4">Certification & Outcomes</h2>
+                <p class="text-gray-300 text-lg mb-8">After completing this roadmap, you become:</p>
+                
+                <div class="grid md:grid-cols-2 gap-4 mb-8">
+                    <div class="bg-white/5 p-4 rounded-xl">
+                        <span class="text-2xl mr-2">✅</span>
+                        <span class="font-semibold">Generative AI Engineer</span>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-xl">
+                        <span class="text-2xl mr-2">✅</span>
+                        <span class="font-semibold">AI Architect</span>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-xl">
+                        <span class="text-2xl mr-2">✅</span>
+                        <span class="font-semibold">Agentic System Designer</span>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-xl">
+                        <span class="text-2xl mr-2">✅</span>
+                        <span class="font-semibold">AI Product Leader</span>
+                    </div>
+                </div>
+
+                <p class="text-indigo-300 font-medium">
+                    Capable of building, deploying, and governing GenAI systems at scale
+                </p>
+
+                <button class="mt-8 bg-gradient-to-r from-indigo-500 to-purple-600 px-10 py-4 rounded-full font-bold text-lg hover:opacity-90 transition glow">
+                    Start Your Journey Today
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 border-t border-white/10 bg-black/20">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <!-- mytutor99 Logo in Footer -->
+                <div class="relative">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center shadow-lg">
+                        <span class="text-white font-bold text-sm">my</span>
+                    </div>
+                    <div class="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-white flex items-center justify-center shadow-sm">
+                        <span class="text-blue-600 font-bold text-[8px]">99</span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-white">mytutor99</span>
+                    <span class="text-xs text-blue-300">AI Learning Platform</span>
+                </div>
+            </div>
+            <p class="text-gray-400 text-sm">© 2024 Comprehensive AI Learning Path. All rights reserved.</p>
+            <div class="flex gap-4">
+                <a href="#" class="text-gray-400 hover:text-white transition">GitHub</a>
+                <a href="#" class="text-gray-400 hover:text-white transition">LinkedIn</a>
+                <a href="#" class="text-gray-400 hover:text-white transition">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- RAG Architecture Diagram -->
+    <section class="py-16 px-4 bg-black/20">
+        <div class="max-w-4xl mx-auto">
+            <div class="card-gradient p-8 rounded-2xl border border-white/10">
+                <h3 class="text-xl font-bold text-center mb-6">📐 RAG Architecture</h3>
+                <div class="flex flex-col items-center gap-4">
+                    <div class="bg-indigo-500/20 px-6 py-3 rounded-full border border-indigo-500/50">
+                        👤 User → Query
+                    </div>
+                    <div class="text-2xl">↓</div>
+                    <div class="bg-purple-500/20 px-6 py-3 rounded-full border border-purple-500/50">
+                        📝 Embedding Model
+                    </div>
+                    <div class="text-2xl">↓</div>
+                    <div class="bg-pink-500/20 px-6 py-3 rounded-full border border-pink-500/50">
+                        🗄️ Vector Database
+                    </div>
+                    <div class="text-2xl">↓</div>
+                    <div class="bg-cyan-500/20 px-6 py-3 rounded-full border border-cyan-500/50">
+                        📄 Retrieved Context
+                    </div>
+                    <div class="text-2xl">↓</div>
+                    <div class="bg-green-500/20 px-6 py-3 rounded-full border border-green-500/50">
+                        🤖 LLM → Answer
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.module-card, .phase-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Syllabus toggle functionality
+        function toggleSyllabus(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Active navigation highlighting
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('text-indigo-400');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('text-indigo-400');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

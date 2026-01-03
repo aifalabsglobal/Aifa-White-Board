@@ -10,6 +10,10 @@ import { Loader2, CheckCircle2, AlertCircle, Sparkles, WifiOff } from 'lucide-re
 import { SelectionBox, FloatingToolbar } from '@/components/SelectionBox';
 import { getStrokeBounds } from '@/utils/strokeBounds';
 import { saveManager } from '@/utils/saveManager';
+import { useRealTime, StrokeOperation } from '@/components/providers/RealTimeProvider';
+import RemoteCursors from '@/components/RemoteCursors';
+import PresenceIndicator from '@/components/PresenceIndicator';
+
 
 
 type ExportFormat = 'png' | 'pdf' | 'svg';
@@ -217,8 +221,57 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
     const [isDraggingStroke, setIsDraggingStroke] = useState(false);
     const [dragStart, setDragStart] = useState<Point | null>(null);
 
+    // Real-time collaboration
+    const {
+        joinBoard,
+        leaveBoard,
+        broadcastCursor,
+        broadcastStrokeOperation,
+        setOnRemoteStrokeOperation,
+        isConnected: isRealTimeConnected
+    } = useRealTime();
+
+    // Join board room for real-time collaboration
+    useEffect(() => {
+        if (boardId && currentPageId) {
+            joinBoard(boardId, currentPageId);
+        }
+        return () => {
+            leaveBoard();
+        };
+    }, [boardId, currentPageId, joinBoard, leaveBoard]);
+
+    // Handle remote stroke operations
+    useEffect(() => {
+        setOnRemoteStrokeOperation((operation: StrokeOperation) => {
+            console.log('[RealTime] Applying remote stroke operation:', operation.type);
+
+            switch (operation.type) {
+                case 'add':
+                    if (operation.stroke) {
+                        // Add stroke from remote user
+                        useWhiteboardStore.getState().addStroke(operation.stroke);
+                    }
+                    break;
+                case 'update':
+                    if (operation.strokeId && operation.stroke) {
+                        useWhiteboardStore.getState().updateStroke(operation.strokeId, operation.stroke);
+                    }
+                    break;
+                case 'delete':
+                    if (operation.strokeId) {
+                        useWhiteboardStore.getState().deleteStroke(operation.strokeId);
+                    }
+                    break;
+                case 'clear':
+                    useWhiteboardStore.getState().replaceStrokes([]);
+                    break;
+            }
+        });
+    }, [setOnRemoteStrokeOperation]);
 
     // Load board data
+
     useEffect(() => {
         if (!boardId) return;
 
@@ -667,6 +720,12 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
     };
 
     const handleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
+        // Broadcast cursor position for real-time collaboration
+        const cursorPos = clientToScenePoint(e.evt.clientX, e.evt.clientY);
+        if (cursorPos) {
+            broadcastCursor(cursorPos.x, cursorPos.y);
+        }
+
         if (isPanning && panOrigin.current) {
             const origin = panOrigin.current;
             const dx = e.evt.clientX - origin.x;
@@ -725,6 +784,7 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         }
     };
 
+
     const handleMouseUp = (e: KonvaEventObject<MouseEvent>) => {
         if (isPanning) {
             setIsPanning(false);
@@ -741,7 +801,20 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
 
         if (isDrawing.current.has('mouse')) {
             isDrawing.current.delete('mouse');
+
+            // Get the stroke before it's moved from activeStrokes to strokes
+            const activeStroke = useWhiteboardStore.getState().activeStrokes.get('mouse');
+
             endStroke('mouse');
+
+            // Broadcast the completed stroke to other users
+            if (activeStroke && currentPageId) {
+                broadcastStrokeOperation({
+                    type: 'add',
+                    stroke: activeStroke,
+                    pageId: currentPageId
+                });
+            }
         } else if (clickStartPos && !isDragging && !showTextInput) {
             // User clicked without dragging - switch to text mode automatically
             const pos = clientToScenePoint(e.evt.clientX, e.evt.clientY);
@@ -1338,6 +1411,14 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
                     })}
                 </Layer>
             </Stage>
+
+            {/* Remote Cursors Overlay */}
+            <RemoteCursors stageTransform={stageTransform} />
+
+            {/* Presence Indicator - Top Left */}
+            <div className="absolute top-4 left-4 z-50">
+                <PresenceIndicator />
+            </div>
 
             {/* Save Status Indicator */}
             {saveStatus && (

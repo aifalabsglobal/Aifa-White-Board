@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import GlobalCameraOverlay from "@/components/GlobalCameraOverlay";
 import { ModalProvider } from "@/components/providers/ModalProvider";
+import { RealTimeProvider } from "@/components/providers/RealTimeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -178,8 +179,10 @@ export default function RootLayout({
       >
         <ClerkProvider>
           <ModalProvider>
-            {children}
-            <GlobalCameraOverlay />
+            <RealTimeProvider>
+              {children}
+              <GlobalCameraOverlay />
+            </RealTimeProvider>
           </ModalProvider>
         </ClerkProvider>
       </body>

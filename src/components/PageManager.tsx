@@ -5,6 +5,7 @@ import { useWhiteboardStore } from '@/store/whiteboardStore';
 import { Plus, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useModal } from '@/components/providers/ModalProvider';
+import { saveManager } from '@/utils/saveManager';
 
 interface PageManagerProps {
     boardId: string;
@@ -65,8 +66,18 @@ export default function PageManager({ boardId }: PageManagerProps) {
     const handleSwitchPage = async (pageId: string) => {
         if (pageId === currentPageId || isLoading) return;
 
-        // 1. Save current page state to cache before switching
+        setIsLoading(true);
+
+        // 1. CRITICAL: Flush any pending saves for the current page before switching
+        // This ensures no data is lost during rapid page switches
         if (currentPageId) {
+            try {
+                await saveManager.flushPage(currentPageId);
+            } catch (e) {
+                console.warn('Failed to flush pending saves:', e);
+            }
+
+            // Also update the local cache
             const { strokes, backgroundColor, pageStyle } = useWhiteboardStore.getState();
             useWhiteboardStore.getState().updatePageContent(currentPageId, {
                 strokes,
@@ -92,8 +103,6 @@ export default function PageManager({ boardId }: PageManagerProps) {
         }
 
         // 4. Background fetch to ensure data is fresh (stale-while-revalidate)
-        // Only set loading if we don't have cached data to show
-        if (!cachedContent) setIsLoading(true);
 
         try {
             const res = await fetch(`/api/pages/${pageId}`, { cache: 'no-store' });

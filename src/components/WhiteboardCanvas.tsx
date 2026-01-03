@@ -6,9 +6,10 @@ import { getStroke } from 'perfect-freehand';
 import { useWhiteboardStore, type Stroke, type Point } from '@/store/whiteboardStore';
 import { KonvaEventObject } from 'konva/lib/Node';
 import type { Stage as KonvaStage } from 'konva/lib/Stage';
-import { Loader2, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
+import { Loader2, CheckCircle2, AlertCircle, Sparkles, WifiOff } from 'lucide-react';
 import { SelectionBox, FloatingToolbar } from '@/components/SelectionBox';
 import { getStrokeBounds } from '@/utils/strokeBounds';
+import { saveManager } from '@/utils/saveManager';
 
 
 type ExportFormat = 'png' | 'pdf' | 'svg';
@@ -193,8 +194,8 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
     } = useWhiteboardStore();
 
     const stageRef = useRef<KonvaStage | null>(null);
-    const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'error' | null>(null);
-    const lastSavedStrokes = useRef<string>('[]');
+    const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'error' | 'offline' | null>(null);
+    const lastSyncedContent = useRef<string>('');
 
     // Pan/Zoom state
     const [stageTransform, setStageTransform] = useState({ scale: 1, x: 0, y: 0 });
@@ -247,10 +248,10 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
                         } else if (Array.isArray(firstPage.content)) {
                             replaceStrokes(firstPage.content);
                         }
-                        lastSavedStrokes.current = JSON.stringify(firstPage.content);
+                        lastSyncedContent.current = JSON.stringify(firstPage.content);
                     } else {
                         replaceStrokes([]);
-                        lastSavedStrokes.current = JSON.stringify({ strokes: [], backgroundColor: '#3b82f6' });
+                        lastSyncedContent.current = JSON.stringify({ strokes: [], backgroundColor: '#3b82f6' });
                     }
                 } else {
                     // No pages (legacy or new), create default page
@@ -286,10 +287,10 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
                                     title: 'Page 1'
                                 }),
                             });
-                            lastSavedStrokes.current = JSON.stringify({ strokes: legacyStrokes, backgroundColor: legacyBg });
+                            lastSyncedContent.current = JSON.stringify({ strokes: legacyStrokes, backgroundColor: legacyBg });
                         } else {
                             replaceStrokes([]);
-                            lastSavedStrokes.current = JSON.stringify({ strokes: [], backgroundColor: '#3b82f6' });
+                            lastSyncedContent.current = JSON.stringify({ strokes: [], backgroundColor: '#3b82f6' });
                         }
                     }
                 }
@@ -301,52 +302,53 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         loadBoard();
     }, [boardId, replaceStrokes, setBackgroundColor, setPages, setCurrentPageId, addPage]);
 
-    // Auto-save logic with thumbnail generation
-    // Auto-save logic with thumbnail generation
+    // Initialize SaveManager with status callback and stage ref
+    useEffect(() => {
+        saveManager.setStatusCallback((status) => {
+            setSaveStatus(status);
+            if (status === 'saved') {
+                // Clear status after 2 seconds
+                setTimeout(() => setSaveStatus(null), 2000);
+            }
+        });
+        saveManager.setStageRef(stageRef.current);
+
+        return () => {
+            // Flush any pending saves before unmount
+            saveManager.flushPendingSaves();
+            saveManager.cleanup();
+        };
+    }, []);
+
+    // Update stage ref in save manager when it changes
+    useEffect(() => {
+        saveManager.setStageRef(stageRef.current);
+    }, [stageRef.current]);
+
+    // Auto-save logic using SaveManager
     useEffect(() => {
         if (!boardId || !currentPageId) return;
 
         const contentToSave = { strokes, backgroundColor, pageStyle };
         const currentContentStr = JSON.stringify(contentToSave);
 
-        // Sync to client-side cache immediately
+        // Sync to client-side cache immediately (optimistic update)
         useWhiteboardStore.getState().updatePageContent(currentPageId, contentToSave);
 
-        if (currentContentStr === lastSavedStrokes.current) return;
+        // Skip if content hasn't changed since last sync
+        if (currentContentStr === lastSyncedContent.current) return;
 
-        setSaveStatus('saving');
-        const timeoutId = setTimeout(async () => {
-            try {
-                // Generate thumbnail from canvas
-                let thumbnail: string | undefined;
-                if (stageRef.current) {
-                    try {
-                        thumbnail = stageRef.current.toDataURL({ pixelRatio: 0.25 }); // Low res for thumbnail
-                    } catch (e) {
-                        console.warn('Failed to generate thumbnail:', e);
-                    }
-                }
+        // Update our local tracking
+        lastSyncedContent.current = currentContentStr;
 
-                // Save to the specific page endpoint with thumbnail
-                const res = await fetch(`/api/pages/${currentPageId}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ content: contentToSave, thumbnail }),
-                });
-
-                if (!res.ok) throw new Error('Failed to save');
-
-                lastSavedStrokes.current = currentContentStr;
-                setSaveStatus('saved');
-                setTimeout(() => setSaveStatus(null), 2000);
-            } catch (error) {
-                console.error('Error saving page:', error);
-                setSaveStatus('error');
-            }
-        }, 2000); // Debounce save by 2 seconds
-
-        return () => clearTimeout(timeoutId);
+        // Queue the save with the SaveManager (handles debouncing, retries, etc.)
+        saveManager.queueSave(currentPageId, contentToSave);
     }, [strokes, backgroundColor, pageStyle, boardId, currentPageId]);
+
+    // Reset lastSyncedContent when page changes to prevent false "already saved" detection
+    useEffect(() => {
+        lastSyncedContent.current = '';
+    }, [currentPageId]);
 
     // Handle text input completion
     const handleTextInputComplete = useCallback(() => {
@@ -365,7 +367,7 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
                 color: useWhiteboardStore.getState().currentColor,
                 width: currentFontSize, // Use font size as width for text tool
                 opacity: 1,
-                pageId: 'page1',
+                pageId: currentPageId || 'default',
                 createdAt: new Date().toISOString(),
                 text: textInputValue,
                 fontFamily: currentFontFamily,
@@ -1355,7 +1357,13 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
                     {saveStatus === 'error' && (
                         <>
                             <AlertCircle size={14} className="text-red-500" />
-                            <span className="text-red-600">Error</span>
+                            <span className="text-red-600">Save failed - will retry</span>
+                        </>
+                    )}
+                    {saveStatus === 'offline' && (
+                        <>
+                            <WifiOff size={14} className="text-orange-500" />
+                            <span className="text-orange-600">Offline - saved locally</span>
                         </>
                     )}
                     {isMagicMode && (
@@ -1366,6 +1374,7 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
                     )}
                 </div>
             )}
+
 
             {/* Zoom Controls UI... */}
             {!isSelectionMode && (

@@ -402,16 +402,17 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         }
 
         // If not connected, show offline status but don't fallback to HTTP
-        if (wsStatus !== 'connected') {
-            setSaveStatus('error'); // Or keep it as 'saving' to indicate it will try later? 
-            // Actually, the hook handles pending saves. 
-            // But let's set status to error to indicate offline, or maybe just nothing since hook queues it?
-            // Since hook handles throttle and pending, we might just want to let user know it's queued.
-            // But existing code sets 'saving'.  Let's keep saving or maybe error to be clear?
-            // Given user request "HTTP fallback not needed", getting stuck in "waiting for connection" is implied.
-            // Let's just rely on the hook's queuing but we won't see "Saved" until confirmed.
-            // We can just return here.
-        }
+        setSaveStatus('error'); // Or keep it as 'saving' to indicate it will try later? 
+        // Actually, the hook handles pending saves. 
+        // But let's set status to error to indicate offline, or maybe just nothing since hook queues it?
+        // Since hook handles throttle and pending, we might just want to let user know it's queued.
+        // But existing code sets 'saving'.  Let's keep saving or maybe error to be clear?
+        // Given user request "HTTP fallback not needed", getting stuck in "waiting for connection" is implied.
+        // Let's just rely on the hook's queuing but we won't see "Saved" until confirmed.
+        // We can just return here.
+        // Given user request "HTTP fallback not needed", getting stuck in "waiting for connection" is implied.
+        // Let's just rely on the hook's queuing but we won't see "Saved" until confirmed.
+        // We can just return here.
     }, [strokes, backgroundColor, pageStyle, boardId, currentPageId, wsStatus, wsSave]);
 
     // Reset lastSyncedContent when page changes to prevent false "already saved" detection

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { Stage, Layer, Line, Rect, Ellipse, Arrow, Text, Path, RegularPolygon, Star as KonvaStar } from 'react-konva';
@@ -6,14 +6,11 @@ import { getStroke } from 'perfect-freehand';
 import { useWhiteboardStore, type Stroke, type Point } from '@/store/whiteboardStore';
 import { KonvaEventObject } from 'konva/lib/Node';
 import type { Stage as KonvaStage } from 'konva/lib/Stage';
-import { Loader2, CheckCircle2, AlertCircle, Sparkles, WifiOff } from 'lucide-react';
+import { Loader2, CheckCircle2, AlertCircle, Sparkles, Wifi, WifiOff } from 'lucide-react';
 import { SelectionBox, FloatingToolbar } from '@/components/SelectionBox';
 import { getStrokeBounds } from '@/utils/strokeBounds';
-import { saveManager } from '@/utils/saveManager';
+import { useWebSocket } from '@/hooks/useWebSocket';
 import { useRealTime, StrokeOperation } from '@/components/providers/RealTimeProvider';
-import RemoteCursors from '@/components/RemoteCursors';
-import PresenceIndicator from '@/components/PresenceIndicator';
-
 
 
 type ExportFormat = 'png' | 'pdf' | 'svg';
@@ -201,6 +198,21 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
     const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'error' | 'offline' | null>(null);
     const lastSyncedContent = useRef<string>('');
 
+
+    // WebSocket connection for real-time saving
+    const { status: wsStatus, save: wsSave, lastSavedAt, error: wsError, connectedUsers } = useWebSocket({
+        pageId: currentPageId,
+        onSync: (content) => {
+            // Receive updates from other users
+            if (content?.strokes) {
+                replaceStrokes(content.strokes);
+            }
+            if (content?.backgroundColor) {
+                setBackgroundColor(content.backgroundColor);
+            }
+        },
+    });
+
     // Pan/Zoom state
     const [stageTransform, setStageTransform] = useState({ scale: 1, x: 0, y: 0 });
 
@@ -355,30 +367,7 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         loadBoard();
     }, [boardId, replaceStrokes, setBackgroundColor, setPages, setCurrentPageId, addPage]);
 
-    // Initialize SaveManager with status callback and stage ref
-    useEffect(() => {
-        saveManager.setStatusCallback((status) => {
-            setSaveStatus(status);
-            if (status === 'saved') {
-                // Clear status after 2 seconds
-                setTimeout(() => setSaveStatus(null), 2000);
-            }
-        });
-        saveManager.setStageRef(stageRef.current);
-
-        return () => {
-            // Flush any pending saves before unmount
-            saveManager.flushPendingSaves();
-            saveManager.cleanup();
-        };
-    }, []);
-
-    // Update stage ref in save manager when it changes
-    useEffect(() => {
-        saveManager.setStageRef(stageRef.current);
-    }, [stageRef.current]);
-
-    // Auto-save logic using SaveManager
+    // Auto-save logic with WebSocket (primary)
     useEffect(() => {
         if (!boardId || !currentPageId) return;
 
@@ -391,12 +380,39 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         // Skip if content hasn't changed since last sync
         if (currentContentStr === lastSyncedContent.current) return;
 
-        // Update our local tracking
-        lastSyncedContent.current = currentContentStr;
+        setSaveStatus('saving');
 
-        // Queue the save with the SaveManager (handles debouncing, retries, etc.)
-        saveManager.queueSave(currentPageId, contentToSave);
-    }, [strokes, backgroundColor, pageStyle, boardId, currentPageId]);
+        // Generate thumbnail
+        let thumbnail: string | undefined;
+        if (stageRef.current) {
+            try {
+                thumbnail = stageRef.current.toDataURL({ pixelRatio: 0.25 });
+            } catch (e) {
+                console.warn('Failed to generate thumbnail:', e);
+            }
+        }
+
+        // Try WebSocket first if connected
+        if (wsStatus === 'connected') {
+            wsSave(contentToSave, thumbnail);
+            lastSavedStrokes.current = currentContentStr;
+            setSaveStatus('saved');
+            setTimeout(() => setSaveStatus(null), 2000);
+            return;
+        }
+
+        // If not connected, show offline status but don't fallback to HTTP
+        if (wsStatus !== 'connected') {
+            setSaveStatus('error'); // Or keep it as 'saving' to indicate it will try later? 
+            // Actually, the hook handles pending saves. 
+            // But let's set status to error to indicate offline, or maybe just nothing since hook queues it?
+            // Since hook handles throttle and pending, we might just want to let user know it's queued.
+            // But existing code sets 'saving'.  Let's keep saving or maybe error to be clear?
+            // Given user request "HTTP fallback not needed", getting stuck in "waiting for connection" is implied.
+            // Let's just rely on the hook's queuing but we won't see "Saved" until confirmed.
+            // We can just return here.
+        }
+    }, [strokes, backgroundColor, pageStyle, boardId, currentPageId, wsStatus, wsSave]);
 
     // Reset lastSyncedContent when page changes to prevent false "already saved" detection
     useEffect(() => {
@@ -1412,129 +1428,133 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
                 </Layer>
             </Stage>
 
-            {/* Remote Cursors Overlay */}
-            <RemoteCursors stageTransform={stageTransform} />
+            {/* Connection & Save Status Indicator */}
+            <div className="absolute top-4 right-4 flex items-center gap-3">
+                {/* WebSocket Status */}
+                <div className={`flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium ${wsStatus === 'connected' ? 'bg-green-100 text-green-700' :
+                    wsStatus === 'connecting' ? 'bg-yellow-100 text-yellow-700' :
+                        'bg-red-100 text-red-700'
+                    }`}>
+                    {wsStatus === 'connected' ? (
+                        <><Wifi size={12} /><span>Live</span>{connectedUsers > 1 && <span>({connectedUsers})</span>}</>
+                    ) : wsStatus === 'connecting' ? (
+                        <><Loader2 size={12} className="animate-spin" /><span>Connecting...</span></>
+                    ) : (
+                        <><WifiOff size={12} /><span>Offline</span></>
 
-            {/* Presence Indicator - Top Left */}
-            <div className="absolute top-4 left-4 z-50">
-                <PresenceIndicator />
-            </div>
-
-            {/* Save Status Indicator */}
-            {saveStatus && (
-                <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 bg-white/90 rounded-full shadow-sm text-xs font-medium transition-all">
-                    {saveStatus === 'saving' && (
-                        <>
-                            <Loader2 size={14} className="animate-spin text-blue-500" />
-                            <span className="text-gray-600">Saving...</span>
-                        </>
                     )}
-                    {saveStatus === 'saved' && (
-                        <>
-                            <CheckCircle2 size={14} className="text-green-500" />
-                            <span className="text-gray-600">Saved</span>
-                        </>
-                    )}
-                    {saveStatus === 'error' && (
-                        <>
-                            <AlertCircle size={14} className="text-red-500" />
-                            <span className="text-red-600">Save failed - will retry</span>
-                        </>
-                    )}
-                    {saveStatus === 'offline' && (
-                        <>
-                            <WifiOff size={14} className="text-orange-500" />
-                            <span className="text-orange-600">Offline - saved locally</span>
-                        </>
-                    )}
-                    {isMagicMode && (
+                </div>
+                {/* Save Status */}
+                {
+                    saveStatus && (
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-white/90 rounded-full shadow-sm text-xs font-medium transition-all">
+                            {saveStatus === 'saving' && (
+                                <><Loader2 size={14} className="animate-spin text-blue-500" /><span className="text-gray-600">Saving...</span></>
+                            )}
+                            {saveStatus === 'saved' && (
+                                <><CheckCircle2 size={14} className="text-green-500" /><span className="text-gray-600">Saved</span></>
+                            )}
+                            {saveStatus === 'error' && (
+                                <><AlertCircle size={14} className="text-red-500" /><span className="text-red-600">Error</span></>
+                            )}
+                        </div>
+                    )
+                }
+                {
+                    isMagicMode && (
                         <>
                             <Sparkles size={14} className="text-purple-500 animate-pulse" />
                             <span className="text-purple-600">Magic Mode</span>
                         </>
-                    )}
-                </div>
-            )}
+                    )
+                }
+            </div >
 
 
             {/* Zoom Controls UI... */}
-            {!isSelectionMode && (
-                <div className="absolute bottom-4 right-4 flex flex-col gap-2 z-40">
-                    <button
-                        onClick={() => zoomByStep('in')}
-                        className="p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 transition-colors"
-                        title="Zoom In"
-                    >
-                        +
-                    </button>
-                    <button
-                        onClick={resetView}
-                        className="px-2 py-1 bg-white rounded-lg shadow-md hover:bg-gray-50 transition-colors text-xs font-medium"
-                        title="Reset Zoom"
-                    >
-                        {zoomPercentage}%
-                    </button>
-                    <button
-                        onClick={() => zoomByStep('out')}
-                        className="p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 transition-colors"
-                        title="Zoom Out"
-                    >
-                        −
-                    </button>
-                </div>
-            )}
+            {
+                !isSelectionMode && (
+                    <div className="absolute bottom-4 right-4 flex flex-col gap-2 z-40">
+                        <button
+                            onClick={() => zoomByStep('in')}
+                            className="p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 transition-colors"
+                            title="Zoom In"
+                        >
+                            +
+                        </button>
+                        <button
+                            onClick={resetView}
+                            className="px-2 py-1 bg-white rounded-lg shadow-md hover:bg-gray-50 transition-colors text-xs font-medium"
+                            title="Reset Zoom"
+                        >
+                            {zoomPercentage}%
+                        </button>
+                        <button
+                            onClick={() => zoomByStep('out')}
+                            className="p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 transition-colors"
+                            title="Zoom Out"
+                        >
+                            âˆ’
+                        </button>
+                    </div>
+                )
+            }
 
 
 
             {/* Invisible textarea for capturing keyboard input */}
-            {showTextInput && (
-                <textarea
-                    ref={textInputRef as any}
-                    value={textInputValue}
-                    onChange={(e) => setTextInputValue(e.target.value)}
-                    onKeyDown={(e) => {
-                        // Prevent space bar from triggering pan mode
-                        if (e.key === ' ') {
-                            e.stopPropagation();
-                        }
+            {
+                showTextInput && (
+                    <textarea
+                        ref={textInputRef as any}
+                        value={textInputValue}
+                        onChange={(e) => setTextInputValue(e.target.value)}
+                        onKeyDown={(e) => {
+                            // Prevent space bar from triggering pan mode
+                            if (e.key === ' ') {
+                                e.stopPropagation();
+                            }
 
-                        // Ctrl+Enter or ESC to finish - regular Enter creates new line
-                        if (e.key === 'Enter' && e.ctrlKey) {
-                            e.preventDefault();
-                            handleTextInputComplete();
-                        } else if (e.key === 'Escape') {
-                            e.preventDefault();
-                            setShowTextInput(false);
-                            setTextInputValue('');
-                        }
-                        // Regular Enter creates new line (default behavior)
-                    }}
-                    onBlur={handleTextInputComplete}
-                    className="absolute z-40"
-                    style={{
-                        left: `${textInputPosition.x}px`,
-                        top: `${textInputPosition.y}px`,
-                        width: '1px',
-                        height: '1px',
-                        opacity: 0,
-                        border: 'none',
-                        outline: 'none',
-                        resize: 'none',
-                        overflow: 'hidden',
-                        background: 'transparent',
-                    }}
-                    autoFocus
-                />
-            )}
+                            // Ctrl+Enter or ESC to finish - regular Enter creates new line
+                            if (e.key === 'Enter' && e.ctrlKey) {
+                                e.preventDefault();
+                                handleTextInputComplete();
+                            } else if (e.key === 'Escape') {
+                                e.preventDefault();
+                                setShowTextInput(false);
+                                setTextInputValue('');
+                            }
+                            // Regular Enter creates new line (default behavior)
+                        }}
+                        onBlur={handleTextInputComplete}
+                        className="absolute z-40"
+                        style={{
+                            left: `${textInputPosition.x}px`,
+                            top: `${textInputPosition.y}px`,
+                            width: '1px',
+                            height: '1px',
+                            opacity: 0,
+                            border: 'none',
+                            outline: 'none',
+                            resize: 'none',
+                            overflow: 'hidden',
+                            background: 'transparent',
+                        }}
+                        autoFocus
+                    />
+                )
+            }
 
             {/* Floating Toolbar - show for last selected stroke */}
-            {selectedStrokeIds.length > 0 && strokes.find(s => s.id === selectedStrokeIds[selectedStrokeIds.length - 1]) && (
-                <FloatingToolbar
-                    bounds={getStrokeBounds(strokes.find(s => s.id === selectedStrokeIds[selectedStrokeIds.length - 1])!)}
-                    onDelete={() => selectedStrokeIds.forEach(id => deleteStroke(id))}
-                    stageTransform={stageTransform}
-                />
-            )}
-        </div>
+            {
+                selectedStrokeIds.length > 0 && strokes.find(s => s.id === selectedStrokeIds[selectedStrokeIds.length - 1]) && (
+                    <FloatingToolbar
+                        bounds={getStrokeBounds(strokes.find(s => s.id === selectedStrokeIds[selectedStrokeIds.length - 1])!)}
+                        onDelete={() => selectedStrokeIds.forEach(id => deleteStroke(id))}
+                        stageTransform={stageTransform}
+                    />
+                )
+            }
+        </div >
     );
 }

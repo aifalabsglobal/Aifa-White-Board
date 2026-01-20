@@ -36,6 +36,29 @@ export default function RecordingButton({ boardId }: RecordingButtonProps) {
         };
     }, [isRecording]);
 
+    // Keyboard shortcut: press "r" to toggle recording (when not focused on text inputs)
+    useEffect(() => {
+        const onKey = (e: KeyboardEvent) => {
+            const target = e.target as HTMLElement | null;
+            if (!target) return;
+            const tag = target.tagName.toLowerCase();
+            // Ignore when typing into inputs or editable content
+            if (tag === 'input' || tag === 'textarea' || target.isContentEditable) return;
+
+            if (e.key.toLowerCase() === 'r') {
+                e.preventDefault();
+                if (isRecording) {
+                    handleStopRecording();
+                } else {
+                    handleStartRecording();
+                }
+            }
+        };
+
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [isRecording]);
+
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
@@ -243,6 +266,7 @@ export default function RecordingButton({ boardId }: RecordingButtonProps) {
                     onClick={handleStopRecording}
                     className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white transition-all shadow-md hover:shadow-lg"
                     title="Stop Recording"
+                    aria-pressed={true}
                 >
                     <StopCircle size={18} />
                     <span className="text-sm font-medium hidden sm:inline">Stop</span>
@@ -256,6 +280,7 @@ export default function RecordingButton({ boardId }: RecordingButtonProps) {
             onClick={handleStartRecording}
             className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 transition-all shadow-sm hover:shadow-md"
             title="Start Recording"
+            aria-pressed={false}
         >
             <Video size={18} />
             <span className="text-sm font-medium hidden sm:inline">Record</span>

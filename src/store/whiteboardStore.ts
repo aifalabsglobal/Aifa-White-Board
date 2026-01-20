@@ -320,15 +320,55 @@ export const useWhiteboardStore = create<WhiteboardState>()(
         },
 
         endStroke: (touchId = 'mouse') => {
-            const { activeStrokes } = get();
+            const { activeStrokes, isMagicMode } = get();
             const activeStroke = activeStrokes.get(touchId);
 
             if (activeStroke) {
                 const newActiveStrokes = new Map(activeStrokes);
                 newActiveStrokes.delete(touchId);
 
+                let finalStroke = activeStroke;
+
+                // Apply Magic Mode shape recognition for pen strokes
+                if (isMagicMode && activeStroke.tool === 'pen' && activeStroke.points.length >= 5) {
+                    // Dynamically import to avoid circular dependencies
+                    import('@/utils/shapeRecognition').then(({ recognizeShape, smoothStroke }) => {
+                        const recognized = recognizeShape(activeStroke.points);
+
+                        if (recognized.type !== 'none' && recognized.confidence > 0.6) {
+                            // Convert to a shape stroke
+                            const shapeStroke: typeof activeStroke = {
+                                ...activeStroke,
+                                tool: recognized.type === 'line' ? 'line' : recognized.type as any,
+                                shapeType: recognized.type === 'line' ? 'line' :
+                                    recognized.type === 'circle' ? 'circle' :
+                                        recognized.type === 'rectangle' ? 'rectangle' :
+                                            recognized.type === 'triangle' ? 'triangle' : undefined,
+                                points: recognized.points,
+                            };
+
+                            // Replace the stroke we just added
+                            set((state) => ({
+                                strokes: state.strokes.map(s =>
+                                    s.id === activeStroke.id ? shapeStroke : s
+                                ),
+                            }));
+                        } else {
+                            // Just smooth the stroke
+                            const smoothedPoints = smoothStroke(activeStroke.points, 3);
+                            if (smoothedPoints.length < activeStroke.points.length * 0.8) {
+                                set((state) => ({
+                                    strokes: state.strokes.map(s =>
+                                        s.id === activeStroke.id ? { ...s, points: smoothedPoints } : s
+                                    ),
+                                }));
+                            }
+                        }
+                    });
+                }
+
                 set((state) => ({
-                    strokes: [...state.strokes, activeStroke],
+                    strokes: [...state.strokes, finalStroke],
                     activeStrokes: newActiveStrokes,
                 }));
             }

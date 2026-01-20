@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev:socket": "node server.js",
+    "dev": "node server.js",
     "build": "prisma db push --accept-data-loss && next build",
     "start": "next start",
     "start:socket": "NODE_ENV=production node server.js",

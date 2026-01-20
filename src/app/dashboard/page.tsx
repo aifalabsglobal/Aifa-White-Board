@@ -38,6 +38,12 @@ export default function DashboardPage() {
     const [workspaceToDelete, setWorkspaceToDelete] = useState<string | null>(null);
     const [deleting, setDeleting] = useState(false);
 
+    // Create board state
+    const [showCreateBoardDialog, setShowCreateBoardDialog] = useState(false);
+    const [newBoardName, setNewBoardName] = useState('');
+    const [creatingBoard, setCreatingBoard] = useState(false);
+    const [targetWorkspaceId, setTargetWorkspaceId] = useState<string | null>(null);
+
     useEffect(() => {
         setMounted(true);
         loadWorkspaces();
@@ -112,6 +118,46 @@ export default function DashboardPage() {
     const confirmDelete = (workspaceId: string) => {
         setWorkspaceToDelete(workspaceId);
         setShowDeleteDialog(true);
+    };
+
+    const openCreateBoardDialog = (workspaceId: string) => {
+        setTargetWorkspaceId(workspaceId);
+        setNewBoardName('');
+        setShowCreateBoardDialog(true);
+    };
+
+    const handleCreateBoard = async () => {
+        if (!newBoardName.trim() || creatingBoard || !targetWorkspaceId) return;
+
+        setCreatingBoard(true);
+        try {
+            const res = await fetch('/api/workspaces', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: newBoardName, workspaceId: targetWorkspaceId }),
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                setShowCreateBoardDialog(false);
+                setNewBoardName('');
+                setTargetWorkspaceId(null);
+                // Navigate to the new board
+                if (data.board?.id) {
+                    router.push(`/board/${data.board.id}`);
+                } else {
+                    await loadWorkspaces();
+                }
+            } else {
+                const error = await res.json();
+                showAlert('Error', error.error || 'Failed to create board', 'danger');
+            }
+        } catch (error) {
+            console.error('Error creating board:', error);
+            showAlert('Error', 'Failed to create board', 'danger');
+        } finally {
+            setCreatingBoard(false);
+        }
     };
 
     const navigateToBoard = (boardId: string) => {
@@ -225,7 +271,7 @@ export default function DashboardPage() {
                                             <div className="py-8 text-center">
                                                 <Layout className="mx-auto mb-3 text-gray-300" size={48} />
                                                 <p className="text-gray-500 mb-4">No boards in this workspace yet</p>
-                                                <button onClick={() => {/* TODO: Create board */ }} className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
+                                                <button onClick={() => openCreateBoardDialog(workspace.id)} className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
                                                     <Plus size={16} />
                                                     Create First Board
                                                 </button>
@@ -330,6 +376,51 @@ export default function DashboardPage() {
                                     </>
                                 ) : (
                                     'Delete Workspace'
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Create Board Dialog */}
+            {showCreateBoardDialog && targetWorkspaceId && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => !creatingBoard && setShowCreateBoardDialog(false)}>
+                    <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-4">Create New Board</h2>
+                        <p className="text-gray-600 mb-6">Enter a name for your new board.</p>
+
+                        <input
+                            type="text"
+                            value={newBoardName}
+                            onChange={(e) => setNewBoardName(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleCreateBoard()}
+                            placeholder="e.g., Project Planning"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-6"
+                            autoFocus
+                            disabled={creatingBoard}
+                        />
+
+                        <div className="flex gap-3 justify-end">
+                            <button
+                                onClick={() => setShowCreateBoardDialog(false)}
+                                className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                                disabled={creatingBoard}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleCreateBoard}
+                                disabled={!newBoardName.trim() || creatingBoard}
+                                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                            >
+                                {creatingBoard ? (
+                                    <>
+                                        <Loader className="animate-spin" size={16} />
+                                        Creating...
+                                    </>
+                                ) : (
+                                    'Create Board'
                                 )}
                             </button>
                         </div>

@@ -313,12 +313,14 @@ export default function TopBar({
 
                 {/* Center Section: Toolbar */}
                 {showToolbar && (
-                    <div ref={toolbarRef} className="flex items-center gap-0.5 bg-gray-50 rounded-xl px-1 sm:px-1.5 py-1 border border-gray-200">
+                    <div ref={toolbarRef} role="toolbar" aria-label="Whiteboard tools" className="flex items-center gap-0.5 bg-gray-50 rounded-xl px-1 sm:px-1.5 py-1 border border-gray-200">
                         {/* Pointer */}
                         <button
                             onClick={() => setTool('select')}
                             className={`p-1.5 rounded-lg transition-all flex-shrink-0 ${currentTool === 'select' ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`}
                             title="Pointer"
+                            aria-pressed={currentTool === 'select'}
+                            aria-label="Pointer tool"
                         >
                             <MousePointer2 size={18} />
                         </button>
@@ -329,6 +331,8 @@ export default function TopBar({
                                 onClick={() => toggleSection('draw')}
                                 className={`flex items-center gap-0.5 p-1.5 rounded-lg transition-all ${['pen', 'highlighter', 'eraser', 'text'].includes(currentTool) ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`}
                                 title="Draw Tools"
+                                aria-pressed={['pen', 'highlighter', 'eraser', 'text'].includes(currentTool)}
+                                aria-label="Open draw tools"
                             >
                                 <Pencil size={18} />
                                 <ChevronDown size={12} className="hidden sm:block" />
@@ -358,6 +362,8 @@ export default function TopBar({
                                 onClick={() => toggleSection('shapes')}
                                 className={`flex items-center gap-0.5 p-1.5 rounded-lg transition-all ${['rectangle', 'circle', 'triangle', 'pentagon', 'hexagon', 'star', 'line', 'arrow'].includes(currentTool) ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'}`}
                                 title="Shapes"
+                                aria-pressed={['rectangle', 'circle', 'triangle', 'pentagon', 'hexagon', 'star', 'line', 'arrow'].includes(currentTool)}
+                                aria-label="Open shapes tools"
                             >
                                 <Square size={18} />
                                 <ChevronDown size={12} className="hidden sm:block" />

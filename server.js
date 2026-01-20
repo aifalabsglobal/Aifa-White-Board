@@ -1,12 +1,9 @@
-/**
- * Custom Next.js server with Socket.io support
- * Run with: node server.js
- */
 
 const { createServer } = require('http');
 const { parse } = require('url');
 const next = require('next');
 const { Server } = require('socket.io');
+const { PrismaClient } = require('@prisma/client');
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -15,164 +12,163 @@ const port = parseInt(process.env.PORT || '3000', 10);
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
-// Store for active rooms and users
-const rooms = new Map();
+const prisma = new PrismaClient();
 
-// Generate a random color for user cursor
-function generateUserColor() {
-    const colors = [
-        '#EF4444', '#F59E0B', '#10B981', '#3B82F6', '#8B5CF6',
-        '#EC4899', '#06B6D4', '#84CC16', '#F97316', '#6366F1'
-    ];
-    return colors[Math.floor(Math.random() * colors.length)];
-}
+// Store active connections per page
+const pageConnections = new Map();
 
 app.prepare().then(() => {
-    const httpServer = createServer((req, res) => {
-        const parsedUrl = parse(req.url, true);
-        handle(req, res, parsedUrl);
+    const server = createServer(async (req, res) => {
+        try {
+            const parsedUrl = parse(req.url, true);
+            await handle(req, res, parsedUrl);
+        } catch (err) {
+            console.error('Error occurred handling', req.url, err);
+            res.statusCode = 500;
+            res.end('internal server error');
+        }
     });
 
-    // Initialize Socket.io
-    const io = new Server(httpServer, {
-        path: '/api/socket',
-        addTrailingSlash: false,
+    const io = new Server(server, {
         cors: {
-            origin: dev
-                ? ['http://localhost:3000', 'http://127.0.0.1:3000']
-                : process.env.NEXT_PUBLIC_APP_URL,
+            origin: dev ? ['http://localhost:3000'] : process.env.ALLOWED_ORIGINS?.split(',') || [],
             methods: ['GET', 'POST'],
-            credentials: true
+            credentials: true,
         },
         transports: ['websocket', 'polling'],
     });
 
     io.on('connection', (socket) => {
-        console.log(`[Socket] Client connected: ${socket.id}`);
+        console.log('Client connected:', socket.id);
+        let currentPageId = null;
+        let userId = null;
 
-        let currentRoom = null;
-        let currentUser = null;
+        // Join a page room for collaborative editing
+        socket.on('join-page', async (data) => {
+            try {
+                const { pageId, authToken } = data;
 
-        // Join a board room
-        socket.on('join-board', (data) => {
-            const roomId = `${data.boardId}:${data.pageId}`;
+                // For now, we'll trust the client's auth token
+                // In production, verify the token with Clerk
+                userId = data.userId;
+                currentPageId = pageId;
 
-            // Leave previous room if any
-            if (currentRoom) {
-                socket.leave(currentRoom);
-                const roomUsers = rooms.get(currentRoom);
-                if (roomUsers) {
-                    roomUsers.delete(socket.id);
-                    io.to(currentRoom).emit('presence-update', Array.from(roomUsers.values()));
+                // Leave any previous room
+                if (socket.rooms.size > 1) {
+                    socket.rooms.forEach((room) => {
+                        if (room !== socket.id) {
+                            socket.leave(room);
+                        }
+                    });
                 }
+
+                // Join the new page room
+                socket.join(`page:${pageId}`);
+
+                // Track connection
+                if (!pageConnections.has(pageId)) {
+                    pageConnections.set(pageId, new Set());
+                }
+                pageConnections.get(pageId).add(socket.id);
+
+                console.log(`User ${userId} joined page ${pageId}`);
+
+                // Notify client of successful join
+                socket.emit('joined', {
+                    pageId,
+                    connectedUsers: pageConnections.get(pageId).size
+                });
+
+                // Notify others in the room
+                socket.to(`page:${pageId}`).emit('user-joined', {
+                    userId,
+                    connectedUsers: pageConnections.get(pageId).size
+                });
+            } catch (error) {
+                console.error('Error joining page:', error);
+                socket.emit('error', { message: 'Failed to join page' });
             }
-
-            // Join new room
-            socket.join(roomId);
-            currentRoom = roomId;
-
-            // Create user presence
-            currentUser = {
-                socketId: socket.id,
-                userId: data.userId,
-                userName: data.userName || 'Anonymous',
-                userColor: generateUserColor(),
-                lastSeen: Date.now()
-            };
-
-            // Add user to room
-            if (!rooms.has(roomId)) {
-                rooms.set(roomId, new Map());
-            }
-            rooms.get(roomId).set(socket.id, currentUser);
-
-            // Notify others of new user
-            const roomUsers = Array.from(rooms.get(roomId).values());
-            io.to(roomId).emit('presence-update', roomUsers);
-
-            // Send current user their socket id and color
-            socket.emit('joined', {
-                socketId: socket.id,
-                userColor: currentUser.userColor,
-                users: roomUsers
-            });
-
-            console.log(`[Socket] User ${data.userName} joined room ${roomId} (${roomUsers.length} users)`);
         });
 
-        // Handle cursor movement (throttled on client)
+        // Handle save events
+        socket.on('save', async (data) => {
+            try {
+                const { pageId, content, thumbnail } = data;
+
+                if (!pageId) {
+                    socket.emit('save-error', { message: 'No page ID provided' });
+                    return;
+                }
+
+                // Save to database
+                const contentToSave = {
+                    ...content,
+                    thumbnail: thumbnail || content?.thumbnail,
+                };
+
+                await prisma.page.update({
+                    where: { id: pageId },
+                    data: { content: contentToSave },
+                });
+
+                // Confirm save to sender
+                socket.emit('saved', {
+                    pageId,
+                    timestamp: new Date().toISOString()
+                });
+
+                // Broadcast to other clients in the same room
+                socket.to(`page:${pageId}`).emit('sync', {
+                    pageId,
+                    content: contentToSave,
+                    userId,
+                    timestamp: new Date().toISOString()
+                });
+
+                console.log(`Page ${pageId} saved by user ${userId}`);
+            } catch (error) {
+                console.error('Error saving page:', error);
+                socket.emit('save-error', {
+                    message: 'Failed to save',
+                    error: error.message
+                });
+            }
+        });
+
+        // Handle cursor position updates (for real-time collaboration)
         socket.on('cursor-move', (data) => {
-            if (!currentRoom || !currentUser) return;
-
-            currentUser.cursor = data;
-            currentUser.lastSeen = Date.now();
-
-            // Broadcast cursor position to others in the room
-            socket.to(currentRoom).emit('cursor-update', {
-                socketId: socket.id,
-                cursor: data,
-                userColor: currentUser.userColor,
-                userName: currentUser.userName
-            });
-        });
-
-        // Handle stroke operations
-        socket.on('stroke-operation', (operation) => {
-            if (!currentRoom) return;
-
-            // Broadcast the stroke operation to all others in the room
-            socket.to(currentRoom).emit('stroke-operation', {
-                ...operation,
-                senderId: socket.id
-            });
-        });
-
-        // Handle disconnect
-        socket.on('disconnect', () => {
-            console.log(`[Socket] Client disconnected: ${socket.id}`);
-
-            if (currentRoom) {
-                const roomUsers = rooms.get(currentRoom);
-                if (roomUsers) {
-                    roomUsers.delete(socket.id);
-                    io.to(currentRoom).emit('presence-update', Array.from(roomUsers.values()));
-
-                    // Clean up empty rooms
-                    if (roomUsers.size === 0) {
-                        rooms.delete(currentRoom);
-                    }
-                }
+            if (currentPageId) {
+                socket.to(`page:${currentPageId}`).emit('cursor-update', {
+                    userId,
+                    position: data.position,
+                    socketId: socket.id
+                });
             }
         });
 
-        // Ping for presence heartbeat
-        socket.on('ping-presence', () => {
-            if (currentUser) {
-                currentUser.lastSeen = Date.now();
+        // Handle disconnection
+        socket.on('disconnect', () => {
+            console.log('Client disconnected:', socket.id);
+
+            if (currentPageId && pageConnections.has(currentPageId)) {
+                pageConnections.get(currentPageId).delete(socket.id);
+
+                // Notify others
+                socket.to(`page:${currentPageId}`).emit('user-left', {
+                    userId,
+                    connectedUsers: pageConnections.get(currentPageId).size
+                });
+
+                // Clean up empty rooms
+                if (pageConnections.get(currentPageId).size === 0) {
+                    pageConnections.delete(currentPageId);
+                }
             }
         });
     });
 
-    // Cleanup stale users every 30 seconds
-    setInterval(() => {
-        const now = Date.now();
-        const STALE_THRESHOLD = 60000; // 60 seconds
-
-        for (const [roomId, users] of rooms) {
-            for (const [socketId, user] of users) {
-                if (now - user.lastSeen > STALE_THRESHOLD) {
-                    users.delete(socketId);
-                    io.to(roomId).emit('presence-update', Array.from(users.values()));
-                }
-            }
-            if (users.size === 0) {
-                rooms.delete(roomId);
-            }
-        }
-    }, 30000);
-
-    httpServer.listen(port, () => {
+    server.listen(port, () => {
         console.log(`> Ready on http://${hostname}:${port}`);
-        console.log(`> Socket.io server running on /api/socket`);
+        console.log(`> WebSocket server running`);
     });
 });

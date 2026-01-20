@@ -35,6 +35,7 @@ import {
     GripVertical,
 } from 'lucide-react';
 import { exportAllPagesAsPDF } from '@/utils/exportPDF';
+import OcrButton from '@/components/OcrButton';
 
 const COLORS = [
     '#000000', // Black
@@ -396,6 +397,8 @@ export default function Toolbar({ boardId }: ToolbarProps) {
                         onMouseDown={handleMouseDown}
                         className="cursor-move p-2 text-gray-400 hover:text-gray-600 flex items-center justify-center"
                         title="Drag Toolbar"
+                        role="button"
+                        aria-label="Drag toolbar"
                     >
                         <GripVertical size={20} />
                     </div>
@@ -820,6 +823,9 @@ export default function Toolbar({ boardId }: ToolbarProps) {
                     >
                         <Trash2 size={20} />
                     </button>
+
+                    {/* OCR - Text Recognition */}
+                    <OcrButton />
 
                     {/* Magic Mode Toggle */}
                     <button

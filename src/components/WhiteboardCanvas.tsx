@@ -395,7 +395,7 @@ export default function WhiteboardCanvas({ boardId }: WhiteboardCanvasProps) {
         // Try WebSocket first if connected
         if (wsStatus === 'connected') {
             wsSave(contentToSave, thumbnail);
-            lastSavedStrokes.current = currentContentStr;
+            lastSyncedContent.current = currentContentStr;
             setSaveStatus('saved');
             setTimeout(() => setSaveStatus(null), 2000);
             return;

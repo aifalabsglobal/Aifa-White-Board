@@ -22,7 +22,7 @@ interface WorkspaceWithBoards {
 
 export default function DashboardPage() {
     const router = useRouter();
-    const { showAlert, showConfirm } = useModal();
+    const { showAlert } = useModal();
     const [workspaces, setWorkspaces] = useState<WorkspaceWithBoards[]>([]);
     const [loading, setLoading] = useState(true);
     const [expandedWorkspace, setExpandedWorkspace] = useState<string | null>(null);

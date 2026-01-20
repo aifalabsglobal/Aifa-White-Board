@@ -20,24 +20,23 @@ export default function BoardPage() {
     const params = useParams();
     const boardId = params.boardId as string;
     const [mounted, setMounted] = useState(false);
-    const [boardData, setBoardData] = useState<any>(null);
-
-    const fetchBoardData = async () => {
-        try {
-            const res = await fetch(`/api/boards/${boardId}`);
-            if (res.ok) {
-                const data = await res.json();
-                setBoardData(data);
-            }
-        } catch (error) {
-            console.error('Error fetching board:', error);
-        }
-    };
+    const [boardData, setBoardData] = useState<{ workspaceId?: string; workspace?: { name?: string }; title?: string } | null>(null);
 
     useEffect(() => {
         setMounted(true);
         // Fetch board with workspace info
-        fetchBoardData();
+        const fetchData = async () => {
+            try {
+                const res = await fetch(`/api/boards/${boardId}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setBoardData(data);
+                }
+            } catch (error) {
+                console.error('Error fetching board:', error);
+            }
+        };
+        fetchData();
     }, [boardId]);
 
     if (!mounted) return null;

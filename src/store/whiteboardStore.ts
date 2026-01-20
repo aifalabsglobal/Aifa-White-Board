@@ -2,8 +2,8 @@ import { create } from 'zustand'
 import { temporal } from 'zundo'
 import type { Stage } from 'konva/lib/Stage'
 
-export type ToolType = "select" | "lasso" | "pen" | "highlighter" | "eraser" | "rectangle" | "circle" | "line" | "arrow" | "triangle" | "pentagon" | "hexagon" | "star" | "text" | "calligraphy";
-export type ShapeType = "rectangle" | "circle" | "line" | "arrow" | "triangle" | "pentagon" | "hexagon" | "star";
+export type ToolType = "select" | "lasso" | "pen" | "highlighter" | "eraser" | "rectangle" | "circle" | "ellipse" | "line" | "arrow" | "triangle" | "pentagon" | "hexagon" | "star" | "text" | "calligraphy";
+export type ShapeType = "rectangle" | "circle" | "ellipse" | "line" | "arrow" | "triangle" | "pentagon" | "hexagon" | "star";
 export type PageStyleType = "ruled" | "wide-ruled" | "graph" | "dotted" | "music" | "plain";
 
 export interface Point {
@@ -335,15 +335,25 @@ export const useWhiteboardStore = create<WhiteboardState>()(
                     import('@/utils/shapeRecognition').then(({ recognizeShape, smoothStroke }) => {
                         const recognized = recognizeShape(activeStroke.points);
 
-                        if (recognized.type !== 'none' && recognized.confidence > 0.6) {
+                        if (recognized.type !== 'none' && recognized.confidence > 0.55) {
+                            // Map recognized type to tool and shapeType
+                            const shapeTypeMap: Record<string, ShapeType | undefined> = {
+                                'circle': 'circle',
+                                'ellipse': 'ellipse',
+                                'rectangle': 'rectangle',
+                                'triangle': 'triangle',
+                                'pentagon': 'pentagon',
+                                'hexagon': 'hexagon',
+                                'star': 'star',
+                                'line': 'line',
+                                'arrow': 'arrow',
+                            };
+
                             // Convert to a shape stroke
                             const shapeStroke: typeof activeStroke = {
                                 ...activeStroke,
-                                tool: recognized.type === 'line' ? 'line' : recognized.type as any,
-                                shapeType: recognized.type === 'line' ? 'line' :
-                                    recognized.type === 'circle' ? 'circle' :
-                                        recognized.type === 'rectangle' ? 'rectangle' :
-                                            recognized.type === 'triangle' ? 'triangle' : undefined,
+                                tool: recognized.type as ToolType,
+                                shapeType: shapeTypeMap[recognized.type],
                                 points: recognized.points,
                             };
 
